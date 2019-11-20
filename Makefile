@@ -7,6 +7,12 @@ INC_PATH = ./includes/
 FLAGS = -Wall -Werror -Wextra
 TEST_FLAGS = -Wall -Werror -Wextra -g
 
+RED  = "\033[0;31m"
+GREEN  = "\033[0;32m"
+BLUE = "\033[0;34m"
+CYAN = "\033[0;36m"
+CLEAR = "\033[0m"
+
 INC = $(addprefix -I, $(INC_PATH))
 
 CKR_SRC_NAME = checker.c
@@ -85,7 +91,10 @@ LFT_SRC_NAME =	ft_atoi.c\
 				ft_lltoa_base.c\
 				ft_strup.c\
 				ft_stradd.c\
-				ft_strtrimc.c
+				ft_strtrimc.c\
+				get_next_line.c\
+				stack.c\
+				queue.c
 LFT_OBJ_NAME = $(LFT_SRC_NAME:.c=.o)
 LFT_SRC = $(addprefix $(LFT_PATH), $(LFT_SRC_NAME))
 LFT_OBJ = $(addprefix $(LFT_PATH), $(LFT_OBJ_NAME))
@@ -96,18 +105,18 @@ all: $(CKR_NAME) $(PS_NAME)
 
 $(CKR_NAME):
 	@gcc $(FLAGS) $(INC) -o $(CKR_NAME) $(CKR_SRC) $(LFT_SRC)
-	@echo "Checkers executable compiled"
+	@echo $(GREEN)"Checkers executable compiled" $(CLEAR)
 
 $(PS_NAME):
 	@gcc $(FLAGS) $(INC) -o $(PS_NAME) $(PS_SRC) $(LFT_SRC)
-	@echo "Push_Swap executable compiled"
+	@echo $(GREEN)"Push_Swap executable compiled" $(CLEAR)
 
 clean:
 	@/bin/rm -f $(LFT_OBJ) $(CKR_OBJ) $(PS_OBJ)
-	@echo "Cleaned all object files"
+	@echo $(RED)"Cleaned all object files" $(CLEAR)
 
 fclean: clean
 	@/bin/rm -f $(CKR_NAME) $(PS_NAME)
-	@echo "Deleted executable files"
+	@echo $(RED)"Deleted executable files" $(CLEAR)
 
 re: fclean all

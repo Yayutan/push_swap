@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.c                                          :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchuang <mchuang@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 19:21:28 by mchuang           #+#    #+#             */
-/*   Updated: 2019/11/18 19:21:31 by mchuang          ###   ########.fr       */
+/*   Created: 2019/09/21 10:16:55 by mchuang           #+#    #+#             */
+/*   Updated: 2019/09/21 10:16:57 by mchuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <unistd.h>
+# include <stdlib.h>
+# include "libft/libft.h"
+# define BUFF_SIZE 10
+# define FD_LIMIT 4864
 
-//void		check_input(char **argv)
-//{
-//	ft_err_exit("Error");
-//}
-
-//int		main(int argc, char **argv)
-//{
-//	// check input ##
-//	check_input(argv);
-//	// read numbers
-//	return (0);
-//}
-
-int		main(int argc, char **argv)
-{
-	argc++;
-	ft_putendl(argv[0]);
-	return (0);
-}
+int get_next_line(const int fd, char **line);
+#endif
