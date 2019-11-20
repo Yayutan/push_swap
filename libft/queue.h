@@ -14,11 +14,11 @@
 # define QUEUE_H
 # include "libft.h"
 
-typedef struct		s_str_node
+typedef struct			s_str_node
 {
 	char				*data;
 	struct s_str_node	*next;
-}					t_str_node;
+}						t_str_node;
 
 typedef struct			s_queue
 {
@@ -27,11 +27,10 @@ typedef struct			s_queue
 	int					size;
 }						t_queue;
 
-t_str_node			*q_new_element(char *n);
-t_queue				*enqueue(t_queue *q, t_str_node *p);
-char				*dequeue(t_queue *q);
-char				*front(t_queue *q);
-int					q_len(t_queue *q);
-
+t_queue					*q_init(void);
+t_queue					*enqueue(t_queue *q, char *str);
+char					*dequeue(t_queue *q);
+char					*front(t_queue *q);
+void					free_queue(t_queue *q);
 
 #endif

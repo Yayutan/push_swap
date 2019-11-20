@@ -12,42 +12,56 @@
 
 #include "stack.h"
 
-t_int_node			*st_new_element(int n)
+t_stack				*st_init(void)
 {
-	t_int_node	*to_ret;
+	t_stack	*to_ret;
 
-	to_ret = ft_memalloc(sizeof(t_int_node*));
-	to_ret->data = n;
-	to_ret->next = NULL;
+	to_ret = ft_memalloc(sizeof(t_stack*));
+	if (!to_ret)
+		return (NULL);
+	to_ret->head = NULL;
+	to_ret->size = 0;
 	return (to_ret);
 }
 
-t_stack				*push(t_stack *st, t_int_node *p)
+t_stack				*push(t_stack *st, int n)
 {
-	if (!st || !p)
-		return (st);
-	if (!(st->head))
+	t_int_node	*p;
+
+	p = st->head;
+	while (p)
 	{
-		st->head = p;
-		st->size = 1;
+		if (p->data == n)
+			return (NULL);
+		p = p->next;
 	}
+	p = ft_memalloc(sizeof(t_int_node*));
+	if (!p)
+		return (NULL);
+	p->data = n;
+	p->next = NULL;
+	if (!(st->head))
+		st->head = p;
 	else
 	{
 		p->next = st->head;
 		st->head = p;
-		(st->size)++;	
 	}
+	(st->size)++;
 	return (st);
 }
 
 int					pop(t_stack *st)
 {
-	int		to_ret;
+	int			to_ret;
+	t_int_node	*hd;
 
 	if (!st || !(st->head))
 		return (-42);
 	to_ret = st->head->data;
+	hd = st->head;
 	st->head = st->head->next;
+	free(hd);
 	(st->size)--;
 	return (to_ret);
 }
@@ -59,19 +73,19 @@ int					peak(t_stack *st)
 	return (st->head->data);
 }
 
-int					st_len(t_stack *st)
+void				free_stack(t_stack *st)
 {
 	t_int_node	*cur;
-	int			len;
+	t_int_node	*tmp;
 
 	if (!st)
-		return (0);
-	len = 0;
+		return ;
 	cur = st->head;
 	while (cur)
 	{
-		len++;
+		tmp = cur;
 		cur = cur->next;
+		free(tmp);
 	}
-	return (len);
+	free(st);
 }

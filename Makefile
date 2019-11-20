@@ -15,7 +15,7 @@ CLEAR = "\033[0m"
 
 INC = $(addprefix -I, $(INC_PATH))
 
-CKR_SRC_NAME = checker.c
+CKR_SRC_NAME = checker.c checker_util.c checker_struct.c
 CKR_SRC = $(addprefix $(SRC_PATH), $(CKR_SRC_NAME))
 CKR_OBJ = $(CKR_SRC_NAME:.c=.o)
 
@@ -117,6 +117,11 @@ clean:
 
 fclean: clean
 	@/bin/rm -f $(CKR_NAME) $(PS_NAME)
+	@/bin/rm -rf a.out a.out.dSYM
 	@echo $(RED)"Deleted executable files" $(CLEAR)
 
 re: fclean all
+
+test_ckr:
+	@gcc $(TEST_FLAGS) $(INC) $(CKR_SRC) $(LFT_SRC)
+	@echo $(GREEN)"Checkers test compiled" $(CLEAR)

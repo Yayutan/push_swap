@@ -26,10 +26,10 @@ typedef struct			s_stack
 	int					size;
 }						t_stack;
 
-t_int_node			*st_new_element(int n, t_int_node *nxt);
-t_stack				*push(t_stack *st, t_int_node *p);
-int					pop(t_stack *st);
-int					peak(t_stack *st);
-int					len(t_stack *st);
+t_stack					*st_init(void);
+t_stack					*push(t_stack *st, int n);
+int						pop(t_stack *st);
+int						peak(t_stack *st);
+void					free_stack(t_stack *st);
 
 #endif

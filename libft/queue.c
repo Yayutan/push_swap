@@ -12,43 +12,58 @@
 
 #include "queue.h"
 
-t_str_node			*q_new_element(char *n)
+t_queue				*q_init(void)
 {
-	t_str_node	*to_ret;
+	t_queue	*to_ret;
 
-	to_ret = ft_memalloc(sizeof(t_str_node*));
-	to_ret->data = n;
-	to_ret->next = NULL;
+	to_ret = ft_memalloc(sizeof(t_queue*));
+	if (!to_ret)
+		ft_err_exit("Failed to alllocate queue");
+	to_ret->head = NULL;
+	to_ret->tail = NULL;
+	to_ret->size = 0;
 	return (to_ret);
 }
 
-t_queue				*enqueue(t_queue *q, t_str_node *p)
+t_queue				*enqueue(t_queue *q, char *str)
 {
-	if (!q || !p)
-		return (q);
+	t_str_node	*p;
+
+	p = ft_memalloc(sizeof(t_str_node*));
+	if (!p)
+		return (NULL);
+	p->data = ft_strdup(str);
+	p->next = NULL;
 	if (!(q->head))
 	{
 		q->head = p;
 		q->tail = p;
-		q->size = 1;
 	}
 	else
 	{
 		q->tail->next = p;
 		q->tail = p;
-		(q->size)++;	
 	}
+	(q->size)++;
 	return (q);
 }
 
 char				*dequeue(t_queue *q)
 {
-	char	*to_ret;
+	char		*to_ret;
+	t_str_node	*hd;
 
 	if (!q || !(q->head))
 		return ("-42");
 	to_ret = q->head->data;
+	hd = q->head;
+	if (q->size == 1)
+	{
+		q->head = NULL;
+		q->tail = NULL;
+	}
 	q->head = q->head->next;
+	free(hd);
 	(q->size)--;
 	return (to_ret);
 }
@@ -60,19 +75,21 @@ char				*front(t_queue *q)
 	return (q->head->data);
 }
 
-int					q_len(t_queue *q)
+void				free_queue(t_queue *q)
 {
 	t_str_node	*cur;
-	int			len;
+	t_str_node	*tmp;
 
 	if (!q)
-		return (0);
-	len = 0;
+		return ;
 	cur = q->head;
 	while (cur)
 	{
-		len++;
+		tmp = cur;
 		cur = cur->next;
+		if (tmp->data)
+			free(tmp->data);
+		free(tmp);
 	}
-	return (len);
+	free(q);
 }
