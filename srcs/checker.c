@@ -12,6 +12,23 @@
 
 #include "checker.h"
 
+int                 execute_instruction(t_stack *a, t_stack *b, t_queue *ins)
+{
+    t_str_node  *cur;
+
+	/////// remove
+	print_stack("Init a and b", a, b);
+    cur = ins->head;
+    while (cur)
+    {
+        if (match_instruction(a, b, cur->data) < 0)
+            return (0);
+		print_stack(cur->data, a, b);
+        cur = cur->next;
+    }
+    return (1);
+}
+
 static t_queue		*get_instructions(t_queue *ins)
 {
 	char		*line;
@@ -66,11 +83,12 @@ int		main(int argc, char **argv)
 		clean_up_structs(a, b, ins);
 		ft_err_exit("Error");
 	}
-//	execute_instruction(a, b, ins);
+	if (!execute_instruction(a, b, ins))
+    {
+		clean_up_structs(a, b, ins);
+		ft_err_exit("Error");
+	}
 //	check_final_result(a, b);
-	
-	print_stack(a, b);
-//	print_queue("INS", ins);
 	clean_up_structs(a, b, ins);
 	return (0);
 }

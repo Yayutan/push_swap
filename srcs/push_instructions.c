@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.h                                          :+:      :+:    :+:   */
+/*   push_instructions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchuang <mchuang@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 19:21:05 by mchuang           #+#    #+#             */
-/*   Updated: 2019/11/18 19:21:13 by mchuang          ###   ########.fr       */
+/*   Created: 2019/11/20 21:15:28 by mchuang           #+#    #+#             */
+/*   Updated: 2019/11/20 21:15:31 by mchuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHECKER_H
-# define CHECKER_H
-# include "libft.h"
-# include "get_next_line.h"
-# include "stack.h"
-# include "queue.h"
-# include "instructions.h"
-# include <limits.h>
+#include "instructions.h"
 
-int		*valid_int(char *str);
-void	print_queue(char *name, t_queue *q);
-void	setup_structs(t_stack **a, t_stack **b, t_queue **ins);
-void	clean_up_structs(t_stack *a, t_stack *b, t_queue *ins);
+void		pa(t_stack *a, t_stack *b)
+{
+	if (b->size > 0)
+    {
+        push(a, pop(b));
+    }
+}
 
-#endif
+void		pb(t_stack *a, t_stack *b)
+{
+	if (a->size > 0)
+    {
+        push(b, pop(a));
+    }
+}

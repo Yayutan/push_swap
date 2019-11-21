@@ -12,28 +12,6 @@
 
 #include "checker.h"
 
-
-//ft_printf("%*s%d%*s%d%*s\n", 5, " ", num_a, 10, " ", num_b, 15, " ")
-void			print_stack(t_stack *st_a, t_stack *st_b)
-{
-	t_int_node	*cur_a;
-	t_int_node	*cur_b;
-
-	cur_a = (st_a) ? st_a->head : NULL;
-	cur_b = (st_b) ? st_b->head : NULL;
-	while (cur_a || cur_b)
-	{
-		(cur_a) ? ft_putnbr(cur_a->data) : ft_putchar(' ');
-		ft_putchar(' ');
-		(cur_b) ? ft_putnbr(cur_b->data) : ft_putchar(' ');
-		ft_putchar('\n');
-		cur_a = (cur_a) ? cur_a->next : cur_a;
-		cur_b = (cur_b) ? cur_b->next : cur_b;
-	}
-	ft_putendl("- -");
-	ft_putendl("a b");
-}
-
 void			print_queue(char *name, t_queue *q)
 {
 	t_str_node	*cur;

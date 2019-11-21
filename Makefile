@@ -15,7 +15,15 @@ CLEAR = "\033[0m"
 
 INC = $(addprefix -I, $(INC_PATH))
 
-CKR_SRC_NAME = checker.c checker_util.c checker_struct.c
+CKR_SRC_NAME =	checker.c\
+				checker_util.c\
+				checker_struct.c\
+				instructions.c\
+				swap_instructions.c\
+				push_instructions.c\
+				rotate_instructions.c\
+				r_rotate_instructions.c
+				
 CKR_SRC = $(addprefix $(SRC_PATH), $(CKR_SRC_NAME))
 CKR_OBJ = $(CKR_SRC_NAME:.c=.o)
 
