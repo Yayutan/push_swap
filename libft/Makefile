@@ -1,8 +1,9 @@
 NAME = libft.a
 FLAGS = -Wall -Wextra -Werror
+LIB_PATH = ../lib/
 
-RED  = "\033[0;31m"
-GREEN  = "\033[0;32m"
+RED = "\033[0;31m"
+GREEN = "\033[0;32m"
 BLUE = "\033[0;34m"
 CYAN = "\033[0;36m"
 CLEAR = "\033[0m"
@@ -92,6 +93,8 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
+	@mkdir -p $(LIB_PATH)
+	@mv $(NAME) $(LIB_PATH)
 	@echo $(GREEN)"libft.a created"$(CLEAR)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
@@ -100,10 +103,10 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 clean:
 	@/bin/rm -rf $(OBJ_PATH)
-	@echo $(RED)"Removed object files"$(CLEAR)
+	@echo $(RED)"Removed libft object files"$(CLEAR)
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	@/bin/rm -rf $(LIB_PATH)
 	@echo $(RED)"Removed libft.a"$(CLEAR)
 
 re: fclean all
