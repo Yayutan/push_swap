@@ -48,7 +48,7 @@ $(LFT):
 
 $(CKR_NAME):
 	@gcc $(FLAGS) $(INC) -o $(CKR_NAME) $(CKR_SRC) -L $(LIB_PATH) $(LIBS)
-	@echo $(GREEN)"Checkers executable compiled" $(CLEAR)
+	@echo $(GREEN)"Checker executable compiled" $(CLEAR)
 
 $(PS_NAME):
 	@gcc $(FLAGS) $(INC) -o $(PS_NAME) $(PS_SRC) -L $(LIB_PATH) $(LIBS)
@@ -64,7 +64,7 @@ fclean: clean
 	@make -C $(LFT_PATH) fclean
 	@make -C $(PFT_PATH) fclean
 	@/bin/rm -f $(CKR_NAME) $(PS_NAME)
-	@/bin/rm -rf a.out a.out.dSYM
+	@/bin/rm -rf a.out a.out.dSYM $(CKR_NAME).dSYM $(PS_NAME).dSYM
 	@echo $(RED)"Deleted executable files" $(CLEAR)
 
 re: fclean all

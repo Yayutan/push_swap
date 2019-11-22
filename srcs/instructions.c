@@ -14,10 +14,9 @@
 
 static char		**instruction_table(void)
 {
-	static char	**ins_table;
+	char	**ins_table;
 
-	if (!ins_table)
-		ins_table = ft_memalloc(sizeof(*ins_table) * 11);
+	ins_table = ft_memalloc(sizeof(*ins_table) * 11);
 	ins_table[0] = "sa";
 	ins_table[1] = "sb";
 	ins_table[2] = "ss";
@@ -32,12 +31,11 @@ static char		**instruction_table(void)
 	return (ins_table);
 }
 
-static ins_f	*dispatch_table(int i)
+static ins_f	**dispatch_table(void)
 {
-	static ins_f	**f;
+	ins_f	**f;
 
-	if (!f)
-		f = ft_memalloc(sizeof(*f) * 11);
+	f = ft_memalloc(sizeof(*f) * 11);
 	f[0] = &sa;
 	f[1] = &sb;
 	f[2] = &ss;
@@ -49,7 +47,7 @@ static ins_f	*dispatch_table(int i)
 	f[8] = &rra;
 	f[9] = &rrb;
 	f[10] = &rrr;
-	return (f[i]);
+	return (f);
 }
 
 static int		find_index(char *ins)
@@ -65,42 +63,43 @@ static int		find_index(char *ins)
 			return (i);
 		i++;
 	}
+	free(ins_table);
 	return (-1);
 }
 
 int				match_instruction(t_stack *a, t_stack *b, char *ins)
 {
 	int		i;
-	ins_f	*f;
+	ins_f	**f;
 
 	i = find_index(ins);
 	if (i < 0)
 		return (-1);
-	f = dispatch_table(i);
-	f(a, b);
+	f = dispatch_table();
+	f[i](a, b);
+	free(f);
 	return (1);
 }
-
-// change to use printf
-//ft_printf("%*s%d%*s%d%*s\n", 5, " ", num_a, 10, " ", num_b, 15, " ")
 
 void			print_stack(char *ins, t_stack *st_a, t_stack *st_b)
 {
 	t_int_node	*cur_a;
 	t_int_node	*cur_b;
+	char		*a;
+	char		*b;
 
-	ft_printf("%s\n", ins);
+	ft_printf("Now executing ---> %s\n", ins);
 	cur_a = (st_a) ? st_a->head : NULL;
 	cur_b = (st_b) ? st_b->head : NULL;
 	while (cur_a || cur_b)
 	{
-		(cur_a) ? ft_putnbr(cur_a->data) : ft_putchar(' ');
-		ft_putchar(' ');
-		(cur_b) ? ft_putnbr(cur_b->data) : ft_putchar(' ');
-		ft_putchar('\n');
+		a = (cur_a) ? ft_itoa(cur_a->data) : ft_strdup(" ");
+		b = (cur_b) ? ft_itoa(cur_b->data) : ft_strdup(" ");
+		ft_printf("%-14s%-11s\n", a, b);
+		free(a);
+		free(b);
 		cur_a = (cur_a) ? cur_a->next : cur_a;
 		cur_b = (cur_b) ? cur_b->next : cur_b;
 	}
-	ft_putendl("- -");
-	ft_putendl("a b");
+	ft_printf("-----------   -----------\n%6s%14s\n\n", "a", "b");
 }

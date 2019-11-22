@@ -131,8 +131,8 @@ clean:
 	@/bin/rm -rf $(OBJ_PATH)
 	@echo $(RED)"Removed ft_printf object files"$(CLEAR)
 
-fclean: clean
+fclean:
 	@/bin/rm -f ../$(NAME)
 	@echo $(RED)"Removed ft_printf.a"$(CLEAR)
 
-re: fclean all
+re: clean fclean all

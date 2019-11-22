@@ -102,8 +102,8 @@ clean:
 	@/bin/rm -rf $(OBJ_PATH)
 	@echo $(RED)"Removed libft object files"$(CLEAR)
 
-fclean: clean
+fclean:
 	@/bin/rm -rf $(NAME)
 	@echo $(RED)"Removed libft.a"$(CLEAR)
 
-re: fclean all
+re: clean fclean all

@@ -12,11 +12,28 @@
 
 #include "checker.h"
 
-int                 execute_instruction(t_stack *a, t_stack *b, t_queue *ins)
+static int			check_final_result(t_stack *a, t_stack *b)
+{
+	t_int_node	*cur;
+
+	if (b->size != 0)
+		return (0);
+	if (a->size == 1)
+		return (1);
+	cur = a->head;
+	while (cur->next)
+	{
+		if (cur->data > cur->next->data)
+			return (0);
+		cur = cur->next;
+	}
+	return (1);
+}
+
+static int			exe_ins(t_stack *a, t_stack *b, t_queue *ins)
 {
     t_str_node  *cur;
 
-	/////// remove
 	print_stack("Init a and b", a, b);
     cur = ins->head;
     while (cur)
@@ -29,7 +46,7 @@ int                 execute_instruction(t_stack *a, t_stack *b, t_queue *ins)
     return (1);
 }
 
-static t_queue		*get_instructions(t_queue *ins)
+static t_queue		*get_ins(t_queue *ins)
 {
 	char		*line;
 	int			ck;
@@ -51,7 +68,7 @@ static t_queue		*get_instructions(t_queue *ins)
 	return (ins);
 }
 
-static t_stack		*check_num_input(t_stack *a, int n_c, char **n_v)
+static t_stack		*check_num(t_stack *a, int n_c, char **n_v)
 {
 	int		i;
 	int		*nxt;
@@ -71,24 +88,22 @@ static t_stack		*check_num_input(t_stack *a, int n_c, char **n_v)
 	return (a);
 }
 
-int		main(int argc, char **argv)
+int					main(int ac, char **av)
 {
 	t_stack	*a;
 	t_stack	*b;
 	t_queue	*ins;
 
 	setup_structs(&a, &b, &ins);
-	if(!check_num_input(a, argc - 1, argv + 1) || !get_instructions(ins))
+	if(!check_num(a, ac - 1, av + 1) || !get_ins(ins) || !exe_ins(a, b, ins))
 	{
 		clean_up_structs(a, b, ins);
 		ft_err_exit("Error");
 	}
-	if (!execute_instruction(a, b, ins))
-    {
-		clean_up_structs(a, b, ins);
-		ft_err_exit("Error");
-	}
-//	check_final_result(a, b);
+	if (check_final_result(a, b))
+		ft_printf("OK\n");
+	else
+		ft_printf("KO\n");
 	clean_up_structs(a, b, ins);
 	return (0);
 }
