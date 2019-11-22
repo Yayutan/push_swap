@@ -21,6 +21,7 @@ void		ra(t_stack *a, t_stack *b)
 	{
 		cur = a->head;
 		tail = a->head;
+		tail->red = 1;
 		while (cur->next)
 			cur = cur->next;
 		a->head = a->head->next;
@@ -39,6 +40,7 @@ void		rb(t_stack *a, t_stack *b)
 	{
 		cur = b->head;
 		tail = b->head;
+		tail->red = 1;
 		while (cur->next)
 			cur = cur->next;
 		b->head = b->head->next;

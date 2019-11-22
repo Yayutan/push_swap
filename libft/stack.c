@@ -40,6 +40,7 @@ t_stack				*push(t_stack *st, int n)
 		return (NULL);
 	p->data = n;
 	p->next = NULL;
+	p->red = 0;
 	if (!(st->head))
 		st->head = p;
 	else

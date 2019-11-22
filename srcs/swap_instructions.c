@@ -23,6 +23,8 @@ void		sa(t_stack *a, t_stack *b)
         tmp = cur->data;
         cur->data = cur->next->data;
         cur->next->data = tmp;
+		cur->red = 1;
+		cur->next->red = 1;
     }
 	cur = b->head;
 }
@@ -38,6 +40,8 @@ void		sb(t_stack *a, t_stack *b)
         tmp = cur->data;
         cur->data = cur->next->data;
         cur->next->data = tmp;
+		cur->red = 1;
+		cur->next->red = 1;
     }
 	cur = a->head;
 }

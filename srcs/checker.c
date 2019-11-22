@@ -35,14 +35,14 @@ static int			exe_ins(t_ckr *ckr)
     t_str_node  *cur;
 
 	if (ckr->v)
-		print_stack("Init a and b", ckr->a, ckr->b);
+		print_stack("Init a and b", 0, ckr->a, ckr->b);
     cur = ckr->ins->head;
     while (cur)
     {
         if (match_instruction(ckr->a, ckr->b, cur->data) < 0)
             return (0);
 		if (ckr->v)
-			print_stack(cur->data, ckr->a, ckr->b);
+			print_stack(cur->data, ckr->c, ckr->a, ckr->b);
         cur = cur->next;
     }
     return (1);

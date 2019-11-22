@@ -17,6 +17,8 @@ void		pa(t_stack *a, t_stack *b)
 	if (b->size > 0)
     {
         push(a, pop(b));
+		if (a->head)
+			a->head->red = 1;
     }
 }
 
@@ -25,5 +27,7 @@ void		pb(t_stack *a, t_stack *b)
 	if (a->size > 0)
     {
         push(b, pop(a));
+		if (b->head)
+			b->head->red = 1;
     }
 }

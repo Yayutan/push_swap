@@ -28,6 +28,7 @@ void		rra(t_stack *a, t_stack *b)
 		}
 		pre->next = NULL;
 		cur->next = a->head;
+		cur->red = 1;
 		a->head = cur;
 	}
 	cur = b->head;
@@ -49,6 +50,7 @@ void		rrb(t_stack *a, t_stack *b)
 		}
 		pre->next = NULL;
 		cur->next = b->head;
+		cur->red = 1;
 		b->head = cur;
 	}
 	cur = a->head;

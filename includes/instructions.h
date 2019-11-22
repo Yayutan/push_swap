@@ -30,6 +30,6 @@ void		rra(t_stack *a, t_stack *b);
 void		rrb(t_stack *a, t_stack *b);
 void		rrr(t_stack *a, t_stack *b);
 int			match_instruction(t_stack *a, t_stack *b, char *ins);
-void		print_stack(char *info, t_stack *st_a, t_stack *st_b);
+void		print_stack(char *info, int c, t_stack *st_a, t_stack *st_b);
 
 #endif

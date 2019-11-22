@@ -81,24 +81,38 @@ int				match_instruction(t_stack *a, t_stack *b, char *ins)
 	return (1);
 }
 
-void			print_stack(char *ins, t_stack *st_a, t_stack *st_b)
+void			print_stack(char *ins, int c, t_stack *st_a, t_stack *st_b)
 {
 	t_int_node	*cur_a;
 	t_int_node	*cur_b;
 	char		*a;
 	char		*b;
-	int			width[2];
+	int			w[2];
 
 	ft_printf("Now executing ---> %s\n", ins);
 	cur_a = (st_a) ? st_a->head : NULL;
 	cur_b = (st_b) ? st_b->head : NULL;
 	while (cur_a || cur_b)
 	{
-		a = (cur_a) ? ft_itoa(cur_a->data) : ft_strdup(" ");
-		b = (cur_b) ? ft_itoa(cur_b->data) : ft_strdup(" ");
-		width[0] = (11 - ft_strlen(a)) / 2;
-		width[1] = (14 - width[0] - ft_strlen(a)) + ((11 - ft_strlen(b)) / 2);
-		ft_printf("%*s%s%*s%s\n", width[0], "", a, width[1], "", b);
+		a = (cur_a) ? ft_itoa(cur_a->data) : ft_strnew(0);
+		b = (cur_b) ? ft_itoa(cur_b->data) : ft_strnew(0);
+		w[0] = (11 - ft_strlen(a)) / 2;
+		w[1] = (14 - w[0] - ft_strlen(a)) + ((11 - ft_strlen(b)) / 2);
+		if (c && *a && cur_a->red)
+		{
+			ft_printf("%*s{RED}%s{CLEAR}", w[0], "", a);
+			cur_a->red = 0;
+		}
+		else
+			ft_printf("%*s%s", w[0], "", a);
+		if (c && *b && cur_b->red)
+		{
+			ft_printf("%*s{RED}%s{CLEAR}\n", w[1], "", b);
+			cur_b->red = 0;
+		}
+		else
+			ft_printf("%*s%s\n", w[1], "", b);
+//		ft_printf("%*s%s%*s%s\n", width[0], "", a, width[1], "", b);
 		free(a);
 		free(b);
 		cur_a = (cur_a) ? cur_a->next : cur_a;
