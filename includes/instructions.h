@@ -12,6 +12,7 @@
 
 #ifndef INSTRUCTIONS_H
 # define INSTRUCTIONS_H
+# include "ft_printf.h"
 # include "stack.h"
 # include "queue.h"
 

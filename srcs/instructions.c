@@ -89,7 +89,7 @@ void			print_stack(char *ins, t_stack *st_a, t_stack *st_b)
 	t_int_node	*cur_a;
 	t_int_node	*cur_b;
 
-	ft_putendl(ins);
+	ft_printf("%s\n", ins);
 	cur_a = (st_a) ? st_a->head : NULL;
 	cur_b = (st_b) ? st_b->head : NULL;
 	while (cur_a || cur_b)

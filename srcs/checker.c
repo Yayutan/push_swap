@@ -92,10 +92,3 @@ int		main(int argc, char **argv)
 	clean_up_structs(a, b, ins);
 	return (0);
 }
-
-//int		main(int argc, char **argv)
-//{
-//	argc++;
-//	ft_putendl(argv[0]);
-//	return (0);
-//}

@@ -2,8 +2,8 @@ PS_NAME = push_swap
 CKR_NAME = checker
 SRC_PATH = ./srcs/
 LFT_PATH = ./libft/
-PFT_PATH = ./ft_printf/
-LIB_PATH = ./lib/
+PFT_PATH = ./libft/ft_printf/
+LIB_PATH = ./libft/
 INC_PATH = ./includes/
 FLAGS = -Wall -Werror -Wextra
 TEST_FLAGS = -Wall -Werror -Wextra -g
@@ -16,10 +16,10 @@ CLEAR = "\033[0m"
 
 INC = $(addprefix -I, $(INC_PATH))
 
-LIBS = -lft
+LIBS = -lft -lftprintf
 
 LFT = libft.a
-PFT = libft.a
+PFT = libftprintf.a
 
 CKR_SRC_NAME =	checker.c\
 				checker_util.c\
@@ -43,6 +43,8 @@ all: $(LFT) $(CKR_NAME) $(PS_NAME)
 
 $(LFT):
 	@make -C $(LFT_PATH)
+	@make -C $(PFT_PATH)
+
 
 $(CKR_NAME):
 	@gcc $(FLAGS) $(INC) -o $(CKR_NAME) $(CKR_SRC) -L $(LIB_PATH) $(LIBS)
@@ -54,11 +56,13 @@ $(PS_NAME):
 
 clean:
 	@make -C $(LFT_PATH) clean
+	@make -C $(PFT_PATH) clean
 	@/bin/rm -f $(CKR_OBJ) $(PS_OBJ)
 	@echo $(RED)"Removed all object files" $(CLEAR)
 
 fclean: clean
 	@make -C $(LFT_PATH) fclean
+	@make -C $(PFT_PATH) fclean
 	@/bin/rm -f $(CKR_NAME) $(PS_NAME)
 	@/bin/rm -rf a.out a.out.dSYM
 	@echo $(RED)"Deleted executable files" $(CLEAR)
