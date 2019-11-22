@@ -34,13 +34,15 @@ static int			exe_ins(t_ckr *ckr)
 {
     t_str_node  *cur;
 
-	print_stack("Init a and b", ckr->a, ckr->b);
+	if (ckr->v)
+		print_stack("Init a and b", ckr->a, ckr->b);
     cur = ckr->ins->head;
     while (cur)
     {
         if (match_instruction(ckr->a, ckr->b, cur->data) < 0)
             return (0);
-		print_stack(cur->data, ckr->a, ckr->b);
+		if (ckr->v)
+			print_stack(cur->data, ckr->a, ckr->b);
         cur = cur->next;
     }
     return (1);
@@ -68,7 +70,7 @@ static t_queue		*get_ins(t_queue *ins)
 	return (ins);
 }
 
-static t_stack		*check_num(t_stack *a, int n_c, char **n_v)
+static t_stack		*check_num(t_ckr *ckr, int n_c, char **n_v)
 {
 	int		i;
 	int		*nxt;
@@ -76,16 +78,22 @@ static t_stack		*check_num(t_stack *a, int n_c, char **n_v)
 	i = n_c - 1;
 	while (i >= 0)
 	{
-		if (!(nxt = valid_int(n_v[i])) || !(push(a, *nxt)))
+		nxt = NULL;
+		if (!ft_strcmp("-v", n_v[i]))
+			ckr->v = 1;
+		else if (!ft_strcmp("-c", n_v[i]))
+			ckr->c = 1;
+		else if (!(nxt = valid_int(n_v[i])) || !(push(ckr->a, *nxt)))
 		{
 			if (nxt)
 				free(nxt);
 			return (NULL);		
 		}
-		free(nxt);
+		if (nxt)
+			free(nxt);
 		i--;
 	}
-	return (a);
+	return (ckr->a);
 }
 
 int					main(int ac, char **av)
@@ -93,7 +101,7 @@ int					main(int ac, char **av)
 	t_ckr	*ckr;
 
 	ckr = setup_structs();
-	if(!check_num(ckr->a, ac - 1, av + 1) || !get_ins(ckr->ins) || !exe_ins(ckr))
+	if(!check_num(ckr, ac - 1, av + 1) || !get_ins(ckr->ins) || !exe_ins(ckr))
 	{
 		clean_up_structs(ckr);
 		ft_err_exit("Error");
