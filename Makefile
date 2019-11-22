@@ -23,7 +23,6 @@ PFT = libftprintf.a
 
 CKR_SRC_NAME =	checker.c\
 				checker_util.c\
-				checker_struct.c\
 				instructions.c\
 				swap_instructions.c\
 				push_instructions.c\
@@ -46,11 +45,11 @@ $(LFT):
 	@make -C $(PFT_PATH)
 
 
-$(CKR_NAME):
+$(CKR_NAME): $(CKR_SRC)
 	@gcc $(FLAGS) $(INC) -o $(CKR_NAME) $(CKR_SRC) -L $(LIB_PATH) $(LIBS)
 	@echo $(GREEN)"Checker executable compiled" $(CLEAR)
 
-$(PS_NAME):
+$(PS_NAME): $(PS_SRC)
 	@gcc $(FLAGS) $(INC) -o $(PS_NAME) $(PS_SRC) -L $(LIB_PATH) $(LIBS)
 	@echo $(GREEN)"Push_Swap executable compiled" $(CLEAR)
 

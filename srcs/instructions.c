@@ -87,6 +87,7 @@ void			print_stack(char *ins, t_stack *st_a, t_stack *st_b)
 	t_int_node	*cur_b;
 	char		*a;
 	char		*b;
+	int			width[2];
 
 	ft_printf("Now executing ---> %s\n", ins);
 	cur_a = (st_a) ? st_a->head : NULL;
@@ -95,7 +96,9 @@ void			print_stack(char *ins, t_stack *st_a, t_stack *st_b)
 	{
 		a = (cur_a) ? ft_itoa(cur_a->data) : ft_strdup(" ");
 		b = (cur_b) ? ft_itoa(cur_b->data) : ft_strdup(" ");
-		ft_printf("%-14s%-11s\n", a, b);
+		width[0] = (11 - ft_strlen(a)) / 2;
+		width[1] = (14 - width[0] - ft_strlen(a)) + ((11 - ft_strlen(b)) / 2);
+		ft_printf("%*s%s%*s%s\n", width[0], "", a, width[1], "", b);
 		free(a);
 		free(b);
 		cur_a = (cur_a) ? cur_a->next : cur_a;

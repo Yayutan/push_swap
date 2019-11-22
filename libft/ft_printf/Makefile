@@ -1,4 +1,5 @@
 NAME = libftprintf.a
+F_NAME = ../libftprintf.a
 SRC_PATH = ./srcs/
 OBJ_PATH = ./objs/
 LFT_SRC_PATH = ../
@@ -111,13 +112,11 @@ LFT_OBJ = $(addprefix $(LFT_OBJ_PATH), $(LFT_OBJ_NAME))
 
 .PHONY = all clean fclean re
 
-all: $(NAME)
+all: $(F_NAME)
 
-$(NAME):
-	@make $(OBJ)
-	@ar rc $(NAME) $(OBJ) $(LFT_OBJ)
-	@ranlib $(NAME)
-	@mv $(NAME) ..
+$(F_NAME): $(OBJ)
+	@ar rc $(F_NAME) $(OBJ) $(LFT_OBJ)
+	@ranlib $(F_NAME)
 	@echo $(GREEN)"ft_printf.a created"$(CLEAR)
 
 $(LFT_OBJ_PATH)%.o: $(LFT_SRC_PATH)%.c
@@ -132,7 +131,7 @@ clean:
 	@echo $(RED)"Removed ft_printf object files"$(CLEAR)
 
 fclean:
-	@/bin/rm -f ../$(NAME)
+	@/bin/rm -f $(F_NAME)
 	@echo $(RED)"Removed ft_printf.a"$(CLEAR)
 
 re: clean fclean all

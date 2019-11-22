@@ -19,9 +19,17 @@
 # include "instructions.h"
 # include <limits.h>
 
+typedef struct	s_ckr
+{
+	t_stack		*a;
+	t_stack		*b;
+	t_queue		*ins;
+	int			v;
+	int			c;
+}				t_ckr;
+
 int		*valid_int(char *str);
-void	print_queue(char *name, t_queue *q);
-void	setup_structs(t_stack **a, t_stack **b, t_queue **ins);
-void	clean_up_structs(t_stack *a, t_stack *b, t_queue *ins);
+t_ckr	*setup_structs(void);
+void	clean_up_structs(t_ckr *ckr);
 
 #endif
