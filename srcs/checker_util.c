@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "checker.h"
+#include "checker.h"
 
 static long long int	atolli(char *s)
 {
@@ -71,8 +71,7 @@ t_ckr					*setup_structs(void)
 {
 	t_ckr	*to_ret;
 
-	to_ret = ft_memalloc(sizeof(t_ckr));
-	if (!to_ret)
+	if (!to_ret = ft_memalloc(sizeof(t_ckr)))
 		ft_err_exit("Failed to alllocate checker struct");
 	if (!(to_ret->a = st_init()))
 	{

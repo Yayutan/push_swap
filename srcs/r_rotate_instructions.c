@@ -15,7 +15,7 @@
 void		rra(t_stack *a, t_stack *b)
 {
 	t_int_node	*cur;
-    t_int_node	*pre;
+	t_int_node	*pre;
 
 	if (a->size > 1)
 	{
@@ -24,7 +24,7 @@ void		rra(t_stack *a, t_stack *b)
 		while (cur->next)
 		{
 			pre = cur;
-			cur = cur->next;            
+			cur = cur->next;
 		}
 		pre->next = NULL;
 		cur->next = a->head;
@@ -37,7 +37,7 @@ void		rra(t_stack *a, t_stack *b)
 void		rrb(t_stack *a, t_stack *b)
 {
 	t_int_node	*cur;
-    t_int_node	*pre;
+	t_int_node	*pre;
 
 	if (b->size > 1)
 	{
@@ -46,7 +46,7 @@ void		rrb(t_stack *a, t_stack *b)
 		while (cur->next)
 		{
 			pre = cur;
-			cur = cur->next;            
+			cur = cur->next;
 		}
 		pre->next = NULL;
 		cur->next = b->head;

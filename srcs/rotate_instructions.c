@@ -12,10 +12,10 @@
 
 #include "instructions.h"
 
-void		ra(t_stack *a, t_stack *b)
+void	ra(t_stack *a, t_stack *b)
 {
 	t_int_node	*cur;
-    t_int_node	*tail;
+	t_int_node	*tail;
 
 	if (a->size > 1)
 	{
@@ -31,10 +31,10 @@ void		ra(t_stack *a, t_stack *b)
 	cur = b->head;
 }
 
-void		rb(t_stack *a, t_stack *b)
+void	rb(t_stack *a, t_stack *b)
 {
 	t_int_node	*cur;
-    t_int_node	*tail;
+	t_int_node	*tail;
 
 	if (b->size > 1)
 	{

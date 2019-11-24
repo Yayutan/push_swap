@@ -14,35 +14,35 @@
 
 void		sa(t_stack *a, t_stack *b)
 {
-	int         tmp;
-    t_int_node  *cur;
+	int			tmp;
+	t_int_node	*cur;
 
-    if (a->size >= 2)
-    {
-        cur = a->head;
-        tmp = cur->data;
-        cur->data = cur->next->data;
-        cur->next->data = tmp;
+	if (a->size >= 2)
+	{
+		cur = a->head;
+		tmp = cur->data;
+		cur->data = cur->next->data;
+		cur->next->data = tmp;
 		cur->red = 1;
 		cur->next->red = 1;
-    }
+	}
 	cur = b->head;
 }
 
 void		sb(t_stack *a, t_stack *b)
 {
-	int         tmp;
-    t_int_node  *cur;
+	int			tmp;
+	t_int_node	*cur;
 
-    if (b->size >= 2)
-    {
-        cur = b->head;
-        tmp = cur->data;
-        cur->data = cur->next->data;
-        cur->next->data = tmp;
+	if (b->size >= 2)
+	{
+		cur = b->head;
+		tmp = cur->data;
+		cur->data = cur->next->data;
+		cur->next->data = tmp;
 		cur->red = 1;
 		cur->next->red = 1;
-    }
+	}
 	cur = a->head;
 }
 

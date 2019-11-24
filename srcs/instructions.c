@@ -81,40 +81,42 @@ int				match_instruction(t_stack *a, t_stack *b, char *ins)
 	return (1);
 }
 
+static void		print_helper(t_int_node *a, t_int_node *b, int c)
+{
+	char	*sa;
+	char	*sb;
+	int		wa;
+	int		wb;
+
+	sa = (a) ? ft_itoa(a->data) : ft_strnew(0);
+	sb = (b) ? ft_itoa(b->data) : ft_strnew(0);
+	wa = (11 - ft_strlen(sa)) / 2;
+	wb = (14 - wa - ft_strlen(sa)) + ((11 - ft_strlen(sb)) / 2);
+	if (c && a && a->red)
+		ft_printf("%*s{RED}%s{CLEAR}", wa, "", sa);
+	else
+		ft_printf("%*s%s", wa, "", sa);
+	if (c && b && b->red)
+		ft_printf("%*s{RED}%s{CLEAR}\n", wb, "", sb);
+	else
+		ft_printf("%*s%s\n", wb, "", sb);
+	if (a)
+		a->red = 0;
+	if (b)
+		b->red = 0;
+}
+
 void			print_stack(char *ins, int c, t_stack *st_a, t_stack *st_b)
 {
 	t_int_node	*cur_a;
 	t_int_node	*cur_b;
-	char		*a;
-	char		*b;
-	int			w[2];
 
 	ft_printf("Now executing ---> %s\n", ins);
 	cur_a = (st_a) ? st_a->head : NULL;
 	cur_b = (st_b) ? st_b->head : NULL;
 	while (cur_a || cur_b)
 	{
-		a = (cur_a) ? ft_itoa(cur_a->data) : ft_strnew(0);
-		b = (cur_b) ? ft_itoa(cur_b->data) : ft_strnew(0);
-		w[0] = (11 - ft_strlen(a)) / 2;
-		w[1] = (14 - w[0] - ft_strlen(a)) + ((11 - ft_strlen(b)) / 2);
-		if (c && *a && cur_a->red)
-		{
-			ft_printf("%*s{RED}%s{CLEAR}", w[0], "", a);
-			cur_a->red = 0;
-		}
-		else
-			ft_printf("%*s%s", w[0], "", a);
-		if (c && *b && cur_b->red)
-		{
-			ft_printf("%*s{RED}%s{CLEAR}\n", w[1], "", b);
-			cur_b->red = 0;
-		}
-		else
-			ft_printf("%*s%s\n", w[1], "", b);
-//		ft_printf("%*s%s%*s%s\n", width[0], "", a, width[1], "", b);
-		free(a);
-		free(b);
+		print_helper(cur_a, cur_b, c);
 		cur_a = (cur_a) ? cur_a->next : cur_a;
 		cur_b = (cur_b) ? cur_b->next : cur_b;
 	}
