@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ps_util.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchuang <mchuang@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 19:21:16 by mchuang           #+#    #+#             */
-/*   Updated: 2019/11/18 19:21:18 by mchuang          ###   ########.fr       */
+/*   Created: 2019/11/24 20:30:24 by mchuang           #+#    #+#             */
+/*   Updated: 2019/11/24 20:30:41 by mchuang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-# include "libft.h"
-# include "stack.h"
-# include "queue.h"
-# include "instructions.h"
-# include <limits.h>
+#include "push_swap.h"
 
-typedef struct	s_ps
+void					clean_up_structs(t_ps *ps)
 {
-	t_stack		*st;
-}				t_ps;
+	free_stack(ps->st);
+	free(ps);
+}
 
-t_ps	*setup_structs(void);
-void	clean_up_structs(t_ps *ps);
+t_ps					*setup_structs(void)
+{
+	t_ps	*to_ret;
 
-#endif
+	if (!(to_ret = ft_memalloc(sizeof(t_ps))))
+		ft_err_exit("Failed to alllocate checker struct");
+	if (!(to_ret->st = st_init()))
+	{
+		free(to_ret);
+		ft_err_exit("Failed to alllocate stack A");
+	}
+	return (to_ret);
+}

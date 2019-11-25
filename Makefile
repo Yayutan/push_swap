@@ -34,6 +34,7 @@ CKR_SRC = $(addprefix $(SRC_PATH), $(CKR_SRC_NAME))
 CKR_OBJ = $(CKR_SRC_NAME:.c=.o)
 
 PS_SRC_NAME =	push_swap.c\
+				ps_util.c\
 				general_util.c\
 				instructions.c\
 				swap_instructions.c\

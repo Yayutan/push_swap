@@ -12,9 +12,40 @@
 
 #include "push_swap.h"
 
-int		main(int argc, char **argv)
+static t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
 {
-	argc++;
-	ft_putendl(argv[0]);
+	int		i;
+	int		*nxt;
+
+	i = n_c - 1;
+	while (i >= 0)
+	{
+		nxt = NULL;
+		if (!(nxt = valid_int(n_v[i])) || !(push(ps->st, *nxt)))
+		{
+			if (nxt)
+				free(nxt);
+			return (NULL);
+		}
+		if (nxt)
+			free(nxt);
+		i--;
+	}
+	return (ps->st);
+}
+
+int		main(int ac, char **av)
+{
+	t_ps	*ps;
+
+	ps = setup_structs();
+	if (!check_num(ps, ac - 1, av + 1))
+	{
+		clean_up_structs(ps);
+		ft_err_exit("Error");
+	}
+	print_stack("Init a", 0, ps->st, NULL);
+	clean_up_structs(ps);
 	return (0);
+
 }
