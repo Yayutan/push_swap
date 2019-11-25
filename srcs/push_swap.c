@@ -12,6 +12,33 @@
 
 #include "push_swap.h"
 
+static void			clean_up_structs(t_ps *ps)
+{
+	free_stack(ps->a);
+	free_stack(ps->b);
+	free(ps);
+}
+
+static t_ps			*setup_structs(void)
+{
+	t_ps	*to_ret;
+
+	if (!(to_ret = ft_memalloc(sizeof(t_ps))))
+		ft_err_exit("Failed to alllocate checker struct");
+	if (!(to_ret->a = st_init()))
+	{
+		free(to_ret);
+		ft_err_exit("Failed to alllocate stack A");
+	}
+	if (!(to_ret->b = st_init()))
+	{
+		free_stack(to_ret->a);
+		free(to_ret);
+		ft_err_exit("Failed to alllocate stack A");
+	}
+	return (to_ret);
+}
+
 static t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
 {
 	int		i;
@@ -21,7 +48,7 @@ static t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
 	while (i >= 0)
 	{
 		nxt = NULL;
-		if (!(nxt = valid_int(n_v[i])) || !(push(ps->st, *nxt)))
+		if (!(nxt = valid_int(n_v[i])) || !(push(ps->a, *nxt)))
 		{
 			if (nxt)
 				free(nxt);
@@ -31,7 +58,7 @@ static t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
 			free(nxt);
 		i--;
 	}
-	return (ps->st);
+	return (ps->a);
 }
 
 int		main(int ac, char **av)
@@ -44,8 +71,8 @@ int		main(int ac, char **av)
 		clean_up_structs(ps);
 		ft_err_exit("Error");
 	}
-	print_stack("Init a", 0, ps->st, NULL);
+	print_stack("Init a, b", 0, ps->a, ps->b);
+	merge_sort(ps, 1, ac - 1);
 	clean_up_structs(ps);
 	return (0);
-
 }

@@ -12,22 +12,42 @@
 
 #include "push_swap.h"
 
-void					clean_up_structs(t_ps *ps)
+static void		merge(t_ps *ps, int is_a, int p1, int p2)
 {
-	free_stack(ps->st);
-	free(ps);
+	int		i_a;
+	int		i_b;
+
+//	i_1 = p1;
+//	i_1 = p1;
+	while (i > 0)
+	{
+		if ()
+		i--;
+	}
 }
 
-t_ps					*setup_structs(void)
+void		merge_sort(t_ps *ps, int is_a, int size)
 {
-	t_ps	*to_ret;
+	int		mid;
+	int		i;
 
-	if (!(to_ret = ft_memalloc(sizeof(t_ps))))
-		ft_err_exit("Failed to alllocate checker struct");
-	if (!(to_ret->st = st_init()))
+	if (is_a)
+		print_stack("Looking at a", 0, ps->a, NULL);
+	else
+		print_stack("Looking at b", 0, NULL, ps->b);
+	if (size == 1)
+		return ;
+	mid = size / 2;
+	i = 0;
+	while (i < mid)
 	{
-		free(to_ret);
-		ft_err_exit("Failed to alllocate stack A");
+		if (is_a)
+			do_instruction(ps->a, ps->b, "pb")
+		else
+			do_instruction(ps->a, ps->b, "pa")
+		i++;
 	}
-	return (to_ret);
+	merge_sort(ps, !is_a, mid);
+	merge_sort(ps, is_a, size - mid);
+	merge(ps, is_a, mid, size - mid);
 }

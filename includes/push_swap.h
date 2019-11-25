@@ -20,10 +20,10 @@
 
 typedef struct	s_ps
 {
-	t_stack		*st;
+	t_stack		*a;
+	t_stack		*b;
 }				t_ps;
 
-t_ps	*setup_structs(void);
-void	clean_up_structs(t_ps *ps);
+void		merge_sort(t_ps *ps, int is_a, int size);
 
 #endif

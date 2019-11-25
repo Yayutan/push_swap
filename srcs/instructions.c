@@ -67,6 +67,18 @@ static int		find_index(char *ins)
 	return (-1);
 }
 
+void			do_instruction(t_stack *a, t_stack *b, char *ins)
+{
+	int		i;
+	ins_f	**f;
+
+	ft_printf("%s\n", ins);
+	i = find_index(ins);
+	f = dispatch_table();
+	f[i](a, b);
+	free(f);
+}
+
 int				match_instruction(t_stack *a, t_stack *b, char *ins)
 {
 	int		i;
