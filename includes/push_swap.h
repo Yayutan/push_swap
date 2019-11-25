@@ -13,5 +13,9 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include "libft.h"
+# include "stack.h"
+# include "queue.h"
+# include "instructions.h"
+# include <limits.h>
 
 #endif

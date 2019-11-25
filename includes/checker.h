@@ -28,7 +28,7 @@ typedef struct	s_ckr
 	int			c;
 }				t_ckr;
 
-int		*valid_int(char *str);
+//int		*valid_int(char *str);
 t_ckr	*setup_structs(void);
 void	clean_up_structs(t_ckr *ckr);
 

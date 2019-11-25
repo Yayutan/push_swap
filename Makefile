@@ -23,6 +23,7 @@ PFT = libftprintf.a
 
 CKR_SRC_NAME =	checker.c\
 				checker_util.c\
+				general_util.c\
 				instructions.c\
 				swap_instructions.c\
 				push_instructions.c\
@@ -32,7 +33,13 @@ CKR_SRC_NAME =	checker.c\
 CKR_SRC = $(addprefix $(SRC_PATH), $(CKR_SRC_NAME))
 CKR_OBJ = $(CKR_SRC_NAME:.c=.o)
 
-PS_SRC_NAME = push_swap.c
+PS_SRC_NAME =	push_swap.c\
+				general_util.c\
+				instructions.c\
+				swap_instructions.c\
+				push_instructions.c\
+				rotate_instructions.c\
+				r_rotate_instructions.c
 PS_SRC = $(addprefix $(SRC_PATH), $(PS_SRC_NAME))
 PS_OBJ = $(PS_SRC_NAME:.c=.o)
 
