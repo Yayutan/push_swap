@@ -12,6 +12,16 @@
 
 #include "push_swap.h"
 
+static void		merge_in_p(t_ps *ps, int is_a, int p1, int p2)
+{
+	int		i_a;
+	int		i_b;
+
+	i_a = (is_a) ? p2 : p1;
+	i_b = (is_a) ? p1 : p2;
+	
+}
+
 static void		merge(t_ps *ps, int is_a, int p1, int p2)
 {
 	int		i_a;
@@ -65,10 +75,6 @@ void		merge_sort(t_ps *ps, int is_a, int size)
 {
 	int		mid;
 	int		i;
-//	if (is_a)
-//		print_stack("Looking at a", 0, ps->a, ps->b);
-//	else
-//		print_stack("Looking at b", 0, ps->a, ps->b);
 	if (size == 1)
 		return ;
 	mid = size / 2;
@@ -84,5 +90,4 @@ void		merge_sort(t_ps *ps, int is_a, int size)
 	merge_sort(ps, !is_a, mid);
 	merge_sort(ps, is_a, size - mid);
 	merge(ps, is_a, mid, size - mid);
-//	print_stack("After merge", 0, ps->a, ps->b);
 }

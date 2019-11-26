@@ -71,7 +71,6 @@ int		main(int ac, char **av)
 		clean_up_structs(ps);
 		ft_err_exit("Error");
 	}
-//	print_stack("init a, b", 0, ps->a, ps->b);
 	merge_sort(ps, 1, ac - 1);
 	print_stack("after Sort", 0, ps->a, ps->b);
 	clean_up_structs(ps);
