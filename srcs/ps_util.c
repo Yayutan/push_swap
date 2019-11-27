@@ -16,10 +16,47 @@ static void		merge_in_p(t_ps *ps, int is_a, int p1, int p2)
 {
 	int		i_a;
 	int		i_b;
+    int     i;
 
 	i_a = (is_a) ? p2 : p1;
 	i_b = (is_a) ? p1 : p2;
-	
+    i = (is_a) ? i_b : i_a;
+    while (i > 0)
+    {
+        if (is_a)
+           do_instruction(ps->a, ps->b, "rb");
+        else
+            do_instruction(ps->a, ps->b, "ra");
+        i--;
+    }
+    while (i_a > 0 || i_b > 0)
+	{
+//		if (i_a > 0 && i_b > 0)
+//		{
+//			if (peak(ps->a) < peak(ps->b))
+//			{
+//				do_instruction(ps->a, ps->b, "ra");
+//				i_a--;
+//			}
+//			else
+//			{
+//				do_instruction(ps->a, ps->b, "pa");
+//				do_instruction(ps->a, ps->b, "ra");
+//				i_b--;
+//			}
+//		}
+//		else if (i_a <= 0)
+//		{
+//			do_instruction(ps->a, ps->b, "pa");
+//			do_instruction(ps->a, ps->b, "ra");
+//			i_b--;
+//		}
+//		else if (i_b <= 0)
+//		{
+//			do_instruction(ps->a, ps->b, "ra");
+//			i_a--;
+//		}
+	}
 }
 
 static void		merge(t_ps *ps, int is_a, int p1, int p2)
