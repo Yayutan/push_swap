@@ -22,6 +22,7 @@ typedef struct	s_ps
 {
 	t_stack		*a;
 	t_stack		*b;
+    int         n_ins;
 }				t_ps;
 
 void		merge_sort(t_ps *ps, int is_a, int size);

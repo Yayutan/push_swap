@@ -36,6 +36,7 @@ static t_ps			*setup_structs(void)
 		free(to_ret);
 		ft_err_exit("Failed to alllocate stack A");
 	}
+    to_ret->n_ins = 0;
 	return (to_ret);
 }
 
@@ -73,6 +74,7 @@ int		main(int ac, char **av)
 	}
 	merge_sort(ps, 1, ac - 1);
 	print_stack("after Sort", 0, ps->a, ps->b);
+    ft_printf("Total number of instructions: %d\n", ps->n_ins);
 	clean_up_structs(ps);
 	return (0);
 }
