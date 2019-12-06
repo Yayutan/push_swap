@@ -39,9 +39,6 @@ static int			exe_ins(t_ckr *ckr)
 	cur = ckr->ins->head;
 	while (cur)
 	{
-		///
-//		print_stack("B4 match function call", 0, ckr->a, ckr->b);
-		///
 		if (match_instruction(ckr->a, ckr->b, cur->data) < 0)
 			return (0);
 		if (ckr->v)
@@ -51,8 +48,7 @@ static int			exe_ins(t_ckr *ckr)
 	return (1);
 }
 
-//static t_queue		*get_ins(t_queue *ins)
-static t_queue		*get_ins(t_ckr *ckr)
+static t_queue		*get_ins(t_queue *ins)
 {
 	char		*line;
 	int			ck;
@@ -60,13 +56,7 @@ static t_queue		*get_ins(t_ckr *ckr)
 	ck = 0;
 	while ((ck = get_next_line(0, &line)) > 0)
 	{
-		
-		///
-//		print_stack("Before enqueue", 0, ckr->a, ckr->b);
-		///
-		
-		if (!enqueue(ckr->ins, line))
-//		if (!enqueue(ins, line))
+		if (!enqueue(ins, line))
 		{
 			if (line)
 				free(line);
@@ -74,16 +64,10 @@ static t_queue		*get_ins(t_ckr *ckr)
 		}
 		if (line)
 			free(line);
-				
-		///
-//		print_stack("After enqueue", 0, ckr->a, ckr->b);
-		///
-		
 	}
 	if (ck < 0)
 		return (NULL);
-	return (ckr->ins);
-//	return (ins);
+	return (ins);
 }
 
 static t_stack		*check_num(t_ckr *ckr, int n_c, char **n_v)
@@ -125,24 +109,13 @@ int					main(int ac, char **av)
 		clean_up_structs(ckr);
 		ft_err_exit("Error");
 	}
-	
-	///
-//	print_stack("Initial a and b", 0, ckr->a, ckr->b);
-	///
-	
 	if (ckr->a->size > 0)
 	{
-		if (!get_ins(ckr) || !exe_ins(ckr))
-//		if (!get_ins(ckr->ins) || !exe_ins(ckr))
+		if (!get_ins(ckr->ins) || !exe_ins(ckr))
 		{
 			clean_up_structs(ckr);
 			ft_err_exit("Error");
 		}
-		
-		///
-//		print_stack("Final a and b", 0, ckr->a, ckr->b);
-		///
-		
 		if (check_final_result(ckr->a, ckr->b))
 			ft_printf("OK\n");
 		else

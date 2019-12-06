@@ -60,7 +60,10 @@ static int		find_index(char *ins)
 	while (i < 11)
 	{
 		if (!ft_strcmp(ins_table[i], ins))
+		{
+			free(ins_table);
 			return (i);
+		}
 		i++;
 	}
 	free(ins_table);

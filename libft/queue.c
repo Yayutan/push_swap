@@ -12,10 +12,6 @@
 
 #include "queue.h"
 
-////
-//#include <stdio.h>
-////
-
 t_queue				*q_init(void)
 {
 	t_queue	*to_ret;
@@ -49,8 +45,6 @@ t_queue				*enqueue(t_queue *q, char *str)
 		q->tail = p;
 	}
 	(q->size)++;
-//	printf("Q ADDED: |%s|\n", p->data);
-//	fflush(stdout);
 	return (q);
 }
 
@@ -83,27 +77,18 @@ char				*front(t_queue *q)
 	return (q->head->data);
 }
 
-////
-//#include <stdio.h>
-////
-
-
 void				free_queue(t_queue *q)
 {
 	t_str_node	*cur;
 	t_str_node	*tmp;
 
-//	printf("Freeing Q\n");
-//	fflush(stdout);
-	if (!q || !(q->head))
+	if (!q)
 		return ;
 	cur = q->head;
 	while (cur)
 	{
 		tmp = cur;
 		cur = cur->next;
-//		printf("\tfreeing: |%s|\n", tmp->data);
-//		fflush(stdout);
 		if (tmp->data)
 			free(tmp->data);
 		free(tmp);

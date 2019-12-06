@@ -15,11 +15,8 @@
 void					clean_up_structs(t_ckr *ckr)
 {
 	free_stack(ckr->a);
-//	ft_printf("finished cleaning a\n");
 	free_stack(ckr->b);
-//	ft_printf("finished cleaning b\n");
 	free_queue(ckr->ins);
-//	ft_printf("finished cleaning ins\n");
 	free(ckr);
 }
 
