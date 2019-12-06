@@ -6,7 +6,7 @@ PFT_PATH = ./libft/ft_printf/
 LIB_PATH = ./libft/
 INC_PATH = ./includes/
 FLAGS = -Wall -Werror -Wextra
-TEST_FLAGS = -Wall -Werror -Wextra -g
+TEST_FLAGS = -g
 
 RED  = "\033[0;31m"
 GREEN  = "\033[0;32m"

@@ -67,14 +67,18 @@ static int		find_index(char *ins)
 	return (-1);
 }
 
+////
+//#include <stdio.h>
+////
+
 void			do_instruction(t_stack *a, t_stack *b, char *ins)
 {
 	int		i;
 	ins_f	**f;
 
-	ft_printf("%s\n", ins);
 	i = find_index(ins);
 	f = dispatch_table();
+	ft_printf("%s\n", ins);
 	f[i](a, b);
 	free(f);
 }
@@ -84,11 +88,24 @@ int				match_instruction(t_stack *a, t_stack *b, char *ins)
 	int		i;
 	ins_f	**f;
 
+	///
+//	print_stack("B4 match", 0, a, b);
+	///
+	
 	i = find_index(ins);
 	if (i < 0)
 		return (-1);
 	f = dispatch_table();
+	
+	///
+//	print_stack("B4 ins", 0, a, b);
+	///
+	
 	f[i](a, b);
+	
+	///
+//	print_stack(ins, 0, a, b);
+	///
 	free(f);
 	return (1);
 }

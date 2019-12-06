@@ -34,7 +34,7 @@ static t_ps			*setup_structs(void)
 	{
 		free_stack(to_ret->a);
 		free(to_ret);
-		ft_err_exit("Failed to alllocate stack A");
+		ft_err_exit("Failed to alllocate stack B");
 	}
     to_ret->n_ins = 0;
 	return (to_ret);
@@ -43,20 +43,20 @@ static t_ps			*setup_structs(void)
 static t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
 {
 	int		i;
-	int		*nxt;
+	char	**n;
 
 	i = n_c - 1;
 	while (i >= 0)
 	{
-		nxt = NULL;
-		if (!(nxt = valid_int(n_v[i])) || !(push(ps->a, *nxt)))
+		n = ft_strsplit(n_v[i], ' ');
+		if (!n)
+			return (NULL);
+		if (!*n || !(add_string_n(ps, n)))
 		{
-			if (nxt)
-				free(nxt);
+			clean_str_arr(n);
 			return (NULL);
 		}
-		if (nxt)
-			free(nxt);
+		clean_str_arr(n);
 		i--;
 	}
 	return (ps->a);
@@ -72,9 +72,13 @@ int		main(int ac, char **av)
 		clean_up_structs(ps);
 		ft_err_exit("Error");
 	}
-	merge_sort(ps, 1, ac - 1);
-	print_stack("after Sort", 0, ps->a, ps->b);
-    ft_printf("Total number of instructions: %d\n", ps->n_ins);
+//	print_stack("B4 Sort", 0, ps->a, ps->b);
+	if (ps->a->size > 0)
+	{
+		merge_sort(ps, 1, ps->a->size); // going for radix sort
+//		print_stack("After Sort", 0, ps->a, ps->b);
+		//    ft_printf("Total number of instructions: %d\n", ps->n_ins);
+	}
 	clean_up_structs(ps);
 	return (0);
 }

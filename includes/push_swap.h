@@ -25,6 +25,7 @@ typedef struct	s_ps
     int         n_ins;
 }				t_ps;
 
-void		merge_sort(t_ps *ps, int is_a, int size);
+int				add_string_n(t_ps *ps, char **n);
+void			merge_sort(t_ps *ps, int is_a, int size);
 
 #endif

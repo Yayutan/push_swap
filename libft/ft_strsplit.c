@@ -60,5 +60,7 @@ char		**ft_strsplit(char const *s, char c)
 		cur++;
 	}
 	to_ret[cur] = NULL;
+	free(st);
+	free(ed);
 	return (to_ret);
 }

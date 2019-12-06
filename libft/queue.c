@@ -12,11 +12,15 @@
 
 #include "queue.h"
 
+////
+//#include <stdio.h>
+////
+
 t_queue				*q_init(void)
 {
 	t_queue	*to_ret;
 
-	to_ret = ft_memalloc(sizeof(t_queue*));
+	to_ret = ft_memalloc(sizeof(t_queue));
 	if (!to_ret)
 		ft_err_exit("Failed to alllocate queue");
 	to_ret->head = NULL;
@@ -29,7 +33,7 @@ t_queue				*enqueue(t_queue *q, char *str)
 {
 	t_str_node	*p;
 
-	p = ft_memalloc(sizeof(t_str_node*));
+	p = ft_memalloc(sizeof(t_str_node));
 	if (!p)
 		return (NULL);
 	p->data = ft_strdup(str);
@@ -45,6 +49,8 @@ t_queue				*enqueue(t_queue *q, char *str)
 		q->tail = p;
 	}
 	(q->size)++;
+//	printf("Q ADDED: |%s|\n", p->data);
+//	fflush(stdout);
 	return (q);
 }
 
@@ -63,6 +69,8 @@ char				*dequeue(t_queue *q)
 		q->tail = NULL;
 	}
 	q->head = q->head->next;
+	if (hd->data)
+		free(hd->data);
 	free(hd);
 	(q->size)--;
 	return (to_ret);
@@ -75,18 +83,27 @@ char				*front(t_queue *q)
 	return (q->head->data);
 }
 
+////
+//#include <stdio.h>
+////
+
+
 void				free_queue(t_queue *q)
 {
 	t_str_node	*cur;
 	t_str_node	*tmp;
 
-	if (!q)
+//	printf("Freeing Q\n");
+//	fflush(stdout);
+	if (!q || !(q->head))
 		return ;
 	cur = q->head;
 	while (cur)
 	{
 		tmp = cur;
 		cur = cur->next;
+//		printf("\tfreeing: |%s|\n", tmp->data);
+//		fflush(stdout);
 		if (tmp->data)
 			free(tmp->data);
 		free(tmp);

@@ -16,7 +16,7 @@ t_stack				*st_init(void)
 {
 	t_stack	*to_ret;
 
-	to_ret = ft_memalloc(sizeof(t_stack*));
+	to_ret = ft_memalloc(sizeof(t_stack));
 	if (!to_ret)
 		return (NULL);
 	to_ret->head = NULL;
@@ -35,7 +35,7 @@ t_stack				*push(t_stack *st, int n)
 			return (NULL);
 		p = p->next;
 	}
-	p = ft_memalloc(sizeof(t_int_node*));
+	p = ft_memalloc(sizeof(t_int_node));
 	if (!p)
 		return (NULL);
 	p->data = n;
@@ -79,7 +79,7 @@ void				free_stack(t_stack *st)
 	t_int_node	*cur;
 	t_int_node	*tmp;
 
-	if (!st)
+	if (!st || !(st->head))
 		return ;
 	cur = st->head;
 	while (cur)

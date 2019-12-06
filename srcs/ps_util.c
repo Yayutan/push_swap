@@ -12,6 +12,13 @@
 
 #include "push_swap.h"
 
+//void	five_case(t0_ps *ps)
+//{
+//	// assuming there is only 1 2 3 4 5
+//	  
+//}
+
+
 //static void		merge_in_p(t_ps *ps, int is_a, int p1, int p2)
 //{
 //	int		i_a;
@@ -33,11 +40,11 @@
 //	{
 //		if (is_a)
 //		{
-//			
+//			// put everything in order in A
 //		}
 //		else
 //		{
-//			
+//			// put everything in reverse order in B
 //		}
 //		
 //		
@@ -143,6 +150,7 @@ void		merge_sort(t_ps *ps, int is_a, int size)
         ps->n_ins++;
         return ;
     }
+	// add another base case: if sorted, do nothing
 	mid = size / 2;
 	i = 0;
 	while (i < mid)
@@ -157,4 +165,28 @@ void		merge_sort(t_ps *ps, int is_a, int size)
 	merge_sort(ps, !is_a, mid);
 	merge_sort(ps, is_a, size - mid);
 	merge(ps, is_a, mid, size - mid);
+}
+
+int				add_string_n(t_ps *ps, char **n)
+{
+	int		i;
+	int		*nxt;
+
+	i = 0;
+	while (n[i + 1])
+		i++;
+	while (i >= 0)
+	{
+		nxt = NULL;
+		if (!(nxt = valid_int(n[i])) || !(push(ps->a, *nxt)))
+		{
+			if (nxt)
+				free(nxt);
+			return (0);
+		}
+		if (nxt)
+			free(nxt);
+		i--;
+	}
+	return (1);
 }

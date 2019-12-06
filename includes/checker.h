@@ -30,5 +30,6 @@ typedef struct	s_ckr
 
 t_ckr	*setup_structs(void);
 void	clean_up_structs(t_ckr *ckr);
+int		add_string_n(t_ckr *ckr, char **n);
 
 #endif
