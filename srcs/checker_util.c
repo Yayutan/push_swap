@@ -12,7 +12,7 @@
 
 #include "checker.h"
 
-void					clean_up_structs(t_ckr *ckr)
+void		clean_ckr_structs(t_ckr *ckr)
 {
 	free_stack(ckr->a);
 	free_stack(ckr->b);
@@ -20,7 +20,7 @@ void					clean_up_structs(t_ckr *ckr)
 	free(ckr);
 }
 
-t_ckr					*setup_structs(void)
+t_ckr		*set_ckr_structs(void)
 {
 	t_ckr	*to_ret;
 
@@ -49,7 +49,7 @@ t_ckr					*setup_structs(void)
 	return (to_ret);
 }
 
-int				add_string_n(t_ckr *ckr, char **n)
+int			parse_input_arg(t_ckr *ckr, char **n)
 {
 	int		i;
 	int		*nxt;

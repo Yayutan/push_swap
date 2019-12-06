@@ -17,6 +17,7 @@
 # include "stack.h"
 # include "queue.h"
 # include "instructions.h"
+# include "general_util.h"
 # include <limits.h>
 
 typedef struct	s_ckr
@@ -28,8 +29,8 @@ typedef struct	s_ckr
 	int			c;
 }				t_ckr;
 
-t_ckr	*setup_structs(void);
-void	clean_up_structs(t_ckr *ckr);
-int		add_string_n(t_ckr *ckr, char **n);
+t_ckr			*set_ckr_structs(void);
+void			clean_ckr_structs(t_ckr *ckr);
+int				parse_input_arg(t_ckr *ckr, char **n);
 
 #endif

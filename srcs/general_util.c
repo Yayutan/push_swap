@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "instructions.h"
+#include "general_util.h"
 
 static long long int	atolli(char *s)
 {
@@ -30,7 +30,7 @@ static long long int	atolli(char *s)
 	return (to_ret);
 }
 
-int		*valid_int(char *str)
+int						*valid_int(char *str)
 {
 	int				*to_ret;
 	long long int	content;
@@ -59,7 +59,7 @@ int		*valid_int(char *str)
 	return (to_ret);
 }
 
-static void		print_helper(t_int_node *a, t_int_node *b, int c)
+static void				print_helper(t_int_node *a, t_int_node *b, int c)
 {
 	char	*sa;
 	char	*sb;
@@ -84,14 +84,14 @@ static void		print_helper(t_int_node *a, t_int_node *b, int c)
 		b->red = 0;
 }
 
-void			print_stack(char *ins, int c, t_stack *st_a, t_stack *st_b)
+void					print_stack(char *ins, int c, t_stack *a, t_stack *b)
 {
 	t_int_node	*cur_a;
 	t_int_node	*cur_b;
 
 	ft_printf("Now executing ---> %s\n", ins);
-	cur_a = (st_a) ? st_a->head : NULL;
-	cur_b = (st_b) ? st_b->head : NULL;
+	cur_a = (a) ? a->head : NULL;
+	cur_b = (b) ? b->head : NULL;
 	while (cur_a || cur_b)
 	{
 		print_helper(cur_a, cur_b, c);
@@ -101,7 +101,7 @@ void			print_stack(char *ins, int c, t_stack *st_a, t_stack *st_b)
 	ft_printf("-----------   -----------\n%6s%14s\n\n", "a", "b");
 }
 
-void			clean_str_arr(char **a)
+void					clean_str_arr(char **a)
 {
 	int		i;
 

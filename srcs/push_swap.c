@@ -62,7 +62,7 @@ static t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
 	return (ps->a);
 }
 
-int		main(int ac, char **av)
+int					main(int ac, char **av)
 {
 	t_ps	*ps;
 
@@ -72,12 +72,9 @@ int		main(int ac, char **av)
 		clean_up_structs(ps);
 		ft_err_exit("Error");
 	}
-//	print_stack("B4 Sort", 0, ps->a, ps->b);
 	if (ps->a->size > 0)
 	{
 		merge_sort(ps, 1, ps->a->size); // going for radix sort
-//		print_stack("After Sort", 0, ps->a, ps->b);
-		//    ft_printf("Total number of instructions: %d\n", ps->n_ins);
 	}
 	clean_up_structs(ps);
 	return (0);

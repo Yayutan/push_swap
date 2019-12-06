@@ -24,7 +24,6 @@ typedef struct			s_int_node
 typedef struct			s_stack
 {
 	t_int_node			*head;
-//	t_int_node			*tail;
 	int					size;
 }						t_stack;
 

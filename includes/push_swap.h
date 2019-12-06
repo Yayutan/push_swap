@@ -16,13 +16,14 @@
 # include "stack.h"
 # include "queue.h"
 # include "instructions.h"
+# include "general_util.h"
 # include <limits.h>
 
 typedef struct	s_ps
 {
 	t_stack		*a;
 	t_stack		*b;
-    int         n_ins;
+	int			n_ins;
 }				t_ps;
 
 int				add_string_n(t_ps *ps, char **n);

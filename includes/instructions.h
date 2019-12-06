@@ -16,7 +16,7 @@
 # include "stack.h"
 # include "queue.h"
 
-typedef void	(ins_f)(t_stack *st1, t_stack *st2);
+typedef void	(t_ins_f)(t_stack *st1, t_stack *st2);
 
 void		sa(t_stack *a, t_stack *b);
 void		sb(t_stack *a, t_stack *b);
@@ -30,8 +30,5 @@ void		rra(t_stack *a, t_stack *b);
 void		rrb(t_stack *a, t_stack *b);
 void		rrr(t_stack *a, t_stack *b);
 void		do_instruction(t_stack *a, t_stack *b, char *ins);
-int			match_instruction(t_stack *a, t_stack *b, char *ins);
-void		print_stack(char *info, int c, t_stack *st_a, t_stack *st_b);
-int			*valid_int(char *str);
-void		clean_str_arr(char **a);
+int			ex_instruction(t_stack *a, t_stack *b, char *ins);
 #endif

@@ -39,7 +39,7 @@ static int			exe_ins(t_ckr *ckr)
 	cur = ckr->ins->head;
 	while (cur)
 	{
-		if (match_instruction(ckr->a, ckr->b, cur->data) < 0)
+		if (ex_instruction(ckr->a, ckr->b, cur->data) < 0)
 			return (0);
 		if (ckr->v)
 			print_stack(cur->data, ckr->c, ckr->a, ckr->b);
@@ -70,7 +70,7 @@ static t_queue		*get_ins(t_queue *ins)
 	return (ins);
 }
 
-static t_stack		*check_num(t_ckr *ckr, int n_c, char **n_v)
+static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)
 {
 	int		i;
 	char	**n;
@@ -87,7 +87,7 @@ static t_stack		*check_num(t_ckr *ckr, int n_c, char **n_v)
 			n = ft_strsplit(n_v[i], ' ');
 			if (!n)
 				return (NULL);
-			if (!*n || !(add_string_n(ckr, n)))
+			if (!*n || !(parse_input_arg(ckr, n)))
 			{
 				clean_str_arr(n);
 				return (NULL);
@@ -103,17 +103,17 @@ int					main(int ac, char **av)
 {
 	t_ckr	*ckr;
 
-	ckr = setup_structs();
-	if (!check_num(ckr, ac - 1, av + 1))
+	ckr = set_ckr_structs();
+	if (!setup_init_st(ckr, ac - 1, av + 1))
 	{
-		clean_up_structs(ckr);
+		clean_ckr_structs(ckr);
 		ft_err_exit("Error");
 	}
 	if (ckr->a->size > 0)
 	{
 		if (!get_ins(ckr->ins) || !exe_ins(ckr))
 		{
-			clean_up_structs(ckr);
+			clean_ckr_structs(ckr);
 			ft_err_exit("Error");
 		}
 		if (check_final_result(ckr->a, ckr->b))
@@ -121,6 +121,6 @@ int					main(int ac, char **av)
 		else
 			ft_printf("KO\n");
 	}
-	clean_up_structs(ckr);
+	clean_ckr_structs(ckr);
 	return (0);
 }

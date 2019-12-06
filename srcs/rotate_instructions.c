@@ -50,7 +50,7 @@ void	rb(t_stack *a, t_stack *b)
 	cur = a->head;
 }
 
-void		rr(t_stack *a, t_stack *b)
+void	rr(t_stack *a, t_stack *b)
 {
 	ra(a, b);
 	rb(a, b);
