@@ -35,12 +35,13 @@ t_stack				*push(t_stack *st, int n)
 			return (NULL);
 		p = p->next;
 	}
-	p = ft_memalloc(sizeof(t_int_node));
-	if (!p)
+	if (!(p = ft_memalloc(sizeof(t_int_node))))
 		return (NULL);
 	p->data = n;
 	p->next = NULL;
 	p->red = 0;
+	p->index = -1;
+	p->group = -1;
 	if (!(st->head))
 		st->head = p;
 	else

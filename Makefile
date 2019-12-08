@@ -35,12 +35,14 @@ CKR_OBJ = $(CKR_SRC_NAME:.c=.o)
 
 PS_SRC_NAME =	push_swap.c\
 				ps_util.c\
+				selection_sort.c\
 				general_util.c\
 				instructions.c\
 				swap_instructions.c\
 				push_instructions.c\
 				rotate_instructions.c\
 				r_rotate_instructions.c
+
 PS_SRC = $(addprefix $(SRC_PATH), $(PS_SRC_NAME))
 PS_OBJ = $(PS_SRC_NAME:.c=.o)
 

@@ -73,7 +73,8 @@ static void				print_helper(t_int_node *a, t_int_node *b, int c)
 	if (c && a && a->red)
 		ft_printf("%*s{RED}%s{CLEAR}", wa, "", sa);
 	else
-		ft_printf("%*s%s", wa, "", sa);
+		ft_printf("%*s%s(%d)", wa, "", sa, a->index);
+		// ft_printf("%*s%s", wa, "", sa);
 	if (c && b && b->red)
 		ft_printf("%*s{RED}%s{CLEAR}\n", wb, "", sb);
 	else

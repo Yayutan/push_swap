@@ -24,9 +24,12 @@ typedef struct	s_ps
 	t_stack		*a;
 	t_stack		*b;
 	int			n_ins;
+	int			n_group;
 }				t_ps;
 
 int				add_string_n(t_ps *ps, char **n);
 void			merge_sort(t_ps *ps, int is_a, int size);
+void			selection_sort(t_stack *a);
+
 
 #endif

@@ -37,6 +37,7 @@ static t_ps			*setup_structs(void)
 		ft_err_exit("Failed to alllocate stack B");
 	}
     to_ret->n_ins = 0;
+    to_ret->n_group = 0;
 	return (to_ret);
 }
 
@@ -74,7 +75,9 @@ int					main(int ac, char **av)
 	}
 	if (ps->a->size > 0)
 	{
-		merge_sort(ps, 1, ps->a->size); // going for radix sort
+		selection_sort(ps->a);
+		print_stack("After Selection_sort", 0, ps->a, ps->b);
+		// merge_sort(ps, 1, ps->a->size); // going for radix sort
 	}
 	clean_up_structs(ps);
 	return (0);
