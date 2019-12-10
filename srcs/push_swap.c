@@ -19,26 +19,28 @@ static void			clean_up_structs(t_ps *ps)
 	free(ps);
 }
 
-static t_ps			*setup_structs(void)
+static int			add_string_n(t_ps *ps, char **n)
 {
-	t_ps	*to_ret;
+	int		i;
+	int		*nxt;
 
-	if (!(to_ret = ft_memalloc(sizeof(t_ps))))
-		ft_err_exit("Failed to alllocate checker struct");
-	if (!(to_ret->a = st_init()))
+	i = 0;
+	while (n[i + 1])
+		i++;
+	while (i >= 0)
 	{
-		free(to_ret);
-		ft_err_exit("Failed to alllocate stack A");
+		nxt = NULL;
+		if (!(nxt = valid_int(n[i])) || !(push(ps->a, *nxt)))
+		{
+			if (nxt)
+				free(nxt);
+			return (0);
+		}
+		if (nxt)
+			free(nxt);
+		i--;
 	}
-	if (!(to_ret->b = st_init()))
-	{
-		free_stack(to_ret->a);
-		free(to_ret);
-		ft_err_exit("Failed to alllocate stack B");
-	}
-    to_ret->n_ins = 0;
-    to_ret->n_group = 0;
-	return (to_ret);
+	return (1);
 }
 
 static t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
@@ -63,6 +65,26 @@ static t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
 	return (ps->a);
 }
 
+static t_ps			*setup_structs(void)
+{
+	t_ps	*to_ret;
+
+	if (!(to_ret = ft_memalloc(sizeof(t_ps))))
+		ft_err_exit("Failed to alllocate checker struct");
+	if (!(to_ret->a = st_init()))
+	{
+		free(to_ret);
+		ft_err_exit("Failed to alllocate stack A");
+	}
+	if (!(to_ret->b = st_init()))
+	{
+		free_stack(to_ret->a);
+		free(to_ret);
+		ft_err_exit("Failed to alllocate stack B");
+	}
+	return (to_ret);
+}
+
 int					main(int ac, char **av)
 {
 	t_ps	*ps;
@@ -76,8 +98,8 @@ int					main(int ac, char **av)
 	if (ps->a->size > 0)
 	{
 		selection_sort(ps->a);
-		print_stack("After Selection_sort", 0, ps->a, ps->b);
-		// merge_sort(ps, 1, ps->a->size); // going for radix sort
+		calc_m_and_sort(ps);
+		print_stack("After Sort", 0, ps->a, ps->b);
 	}
 	clean_up_structs(ps);
 	return (0);

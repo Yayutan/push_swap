@@ -19,7 +19,7 @@ typedef struct			s_int_node
 	int					data;
 	int					red;
 	int					index;
-	int					group;
+	// int					group;
 	struct s_int_node	*next;
 }						t_int_node;
 

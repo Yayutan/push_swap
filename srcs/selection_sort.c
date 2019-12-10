@@ -53,7 +53,6 @@ static int			find_smallest(t_int_node **list, int unsorted, int size)
 
 void				selection_sort(t_stack *a)
 {
-	// t_int_node	*list[a->size];
 	t_int_node	**list;
 	t_int_node	*tmp;
 	int			nxt_sort;

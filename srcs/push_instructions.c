@@ -14,20 +14,32 @@
 
 void		pa(t_stack *a, t_stack *b)
 {
+	t_int_node		*tmp;
+
 	if (b->size > 0)
 	{
-		push(a, pop(b));
-		if (a->head)
-			a->head->red = 1;
+		tmp = b->head;
+		b->head = b->head->next;
+		tmp->next = a->head;
+		a->head = tmp;
+		a->head->red = 1;
+		b->size--;
+		a->size++;
 	}
 }
 
 void		pb(t_stack *a, t_stack *b)
 {
+	t_int_node		*tmp;
+
 	if (a->size > 0)
 	{
-		push(b, pop(a));
-		if (b->head)
-			b->head->red = 1;
+		tmp = a->head;
+		a->head = a->head->next;
+		tmp->next = b->head;
+		b->head = tmp;
+		b->head->red = 1;
+		a->size--;
+		b->size++;
 	}
 }
