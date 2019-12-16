@@ -27,11 +27,36 @@ static int		log_m_ceil(int n, int m)
 	return (log);
 }
 
+static void		update_index(t_ps *ps, int a_to_b)
+{
+	t_int_node	*cur;
+	int			index;
+	int			base;
+	int			len;
+
+	cur = (a_to_b) ? ps->a->head : ps->b->head;
+	base = ps->base;
+	len = (a_to_b) ? ps->a->size : ps->b->size;
+	while (cur)
+	{
+		index = len - cur->index;
+		if ((index / (base * ps->n_group)) <= ((len / (base * ps->n_group)) / 2))
+			cur->group = ((ps->n_group - 1) - ((index / base) % ps->n_group));
+		else
+			cur->group = ((index / base) % ps->n_group);
+		///
+		// ft_printf("i:%d, base:%d, len:%d, res:%d\n", index, base, len, cur->group);
+		///
+		cur = cur->next;
+	}
+}
+
 static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 {
 	t_stack		*from;
-	int			num_left;
+	int			len;
 	int			m;
+	int			i;
 
 	// /////
 	// ft_printf("Putting %d and %d:\n", top_layer, bot_layer);
@@ -39,17 +64,18 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 
 	m = ps->n_group;
 	from = (a_to_b) ? ps->a : ps->b;
-	num_left = from->size;
-	while (num_left > 0)
+	len = from->size;
+	i = 0;
+	while (i < len)
 	{
+		/////
+		// ft_printf("Looking at %d (%d)\n", from->head->data, from->head->group);
+		////
 
-		// /////
-		// ft_printf("Looking at %d (%d)\n", from->head->data, from->head->index);
-		// ////
-
-		if (from->head->index % m == top_layer)
+		if (from->head->group == top_layer)
+		// if (from->head->index % m == top_layer)
 		{
-			from->head->index /= m;
+			// from->head->index /= m;
 
 			// /////
 			// ft_printf("Modified index to (%d)\n", from->head->index);
@@ -60,9 +86,10 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 			else
 				do_instruction(ps->a, ps->b, "pa");
 		}
-		else if (from->head->index % m == bot_layer)
+		else if (from->head->group == bot_layer)
+		// else if (from->head->index % m == bot_layer)
 		{
-			from->head->index /= m;
+			// from->head->index /= m;
 
 			// /////
 			// ft_printf("Modified index to (%d)\n", from->head->index);
@@ -86,7 +113,7 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 			else
 				do_instruction(ps->a, ps->b, "rb");
 		}
-		num_left--;
+		i++;
 	}
 }
 
@@ -102,12 +129,16 @@ static void		radix_sort(t_ps *ps)
 	out_iter = 1;
 	while (out_iter <= num_iter)
 	{
-		////////
-		// print_stack("After 1 outer loops", 0, ps->a, ps->b);
-		////////
-		
-		top = (out_iter % 2) ? ps->n_group / 2 : (ps->n_group - 1) / 2;
-		bot = (out_iter % 2) ? top - 1 : top + 1;
+		//////
+		// print_stack("After outer loop", 0, ps->a, ps->b);
+		//////
+
+		// update index
+		update_index(ps, (out_iter % 2));
+		// top = (out_iter % 2) ? ps->n_group / 2 : (ps->n_group - 1) / 2;
+		// bot = (out_iter % 2) ? top - 1 : top + 1;
+		top = (ps->n_group - 1) / 2;
+		bot = top + 1;
 		in_iter = (ps->n_group + 1) / 2;
 		while (in_iter > 0) // inner loop
 		{
@@ -117,11 +148,14 @@ static void		radix_sort(t_ps *ps)
 			// print_stack("After putting two groups", 0, ps->a, ps->b);
 			// ////////
 
-			top += (out_iter % 2) ? 1 : -1;
-			bot += (out_iter % 2) ? -1 : 1;
+			// top += (out_iter % 2) ? 1 : -1;
+			// bot += (out_iter % 2) ? -1 : 1;
+			top--;
+			bot++;
 			in_iter--;
 		}
 		out_iter++;
+		ps->base *= ps->n_group;
 	}
 	if (ps->a->size == 0)
 	{
@@ -148,10 +182,12 @@ void			calc_m_and_sort(t_ps *ps)
 		ps->n_group = 4;
 	else
 		ps->n_group = 5;
+	ps->base = 1;
 
 	/////
-	// ft_printf("Group Size = %d\n", ps->n_group);
+	ft_printf("Group Size = %d\n", ps->n_group);
 	////
+
 	radix_sort(ps);
 }
 

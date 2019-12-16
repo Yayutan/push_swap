@@ -41,7 +41,7 @@ t_stack				*push(t_stack *st, int n)
 	p->next = NULL;
 	p->red = 0;
 	p->index = -1;
-	// p->group = -1;
+	p->group = -1;
 	if (!(st->head))
 		st->head = p;
 	else

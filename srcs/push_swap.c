@@ -82,6 +82,7 @@ static t_ps			*setup_structs(void)
 		free(to_ret);
 		ft_err_exit("Failed to alllocate stack B");
 	}
+	to_ret->base = 0;
 	return (to_ret);
 }
 
