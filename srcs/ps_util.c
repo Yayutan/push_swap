@@ -33,23 +33,102 @@ static void		update_index(t_ps *ps, int a_to_b)
 	int			index;
 	int			base;
 	int			len;
+	int			num_groups;
 
 	cur = (a_to_b) ? ps->a->head : ps->b->head;
 	base = ps->base;
 	len = (a_to_b) ? ps->a->size : ps->b->size;
-	while (cur)
+	num_groups = len / (base * ps->n_group);
+	// while (cur)
+	while (len >= base * 2 && cur)
 	{
-		index = len - cur->index;
-		if ((index / (base * ps->n_group)) <= ((len / (base * ps->n_group)) / 2))
+		index = cur->index;
+		if ((index / (base * ps->n_group)) <= (num_groups / 2))
 			cur->group = ((ps->n_group - 1) - ((index / base) % ps->n_group));
 		else
 			cur->group = ((index / base) % ps->n_group);
 		///
-		// ft_printf("i:%d, base:%d, len:%d, res:%d\n", index, base, len, cur->group);
+		ft_printf("i:%d, base:%d, len:%d, res:%d\n", cur->index, base, len, cur->group);
+		///
+		cur = cur->next;
+	}
+	while (len < base * 2 && cur)
+	{
+		index = cur->index;
+		if (index < base)
+			cur->group = 0;
+		else
+			cur->group = (ps->n_group - 1);
+		///
+		ft_printf("i:%d, base:%d, len:%d, res:%d\n", cur->index, base, len, cur->group);
 		///
 		cur = cur->next;
 	}
 }
+
+static void		update_index_reverse(t_ps *ps, int a_to_b)
+{
+	t_int_node	*cur;
+	int			index;
+	int			base;
+	int			len;
+	int			num_groups;
+
+	cur = (a_to_b) ? ps->a->head : ps->b->head;
+	base = ps->base;
+	len = (a_to_b) ? ps->a->size : ps->b->size;
+	num_groups = len / (base * ps->n_group);
+	while (len >= base * 2 && cur)
+	{
+		index = cur->index;
+		if ((index / (base * ps->n_group)) > (num_groups / 2))
+			cur->group = ((ps->n_group - 1) - ((index / base) % ps->n_group));
+		else
+			cur->group = ((index / base) % ps->n_group);
+		///
+		ft_printf("i:%d, base:%d, len:%d, res:%d\n", cur->index, base, len, cur->group);
+		///
+		cur = cur->next;
+	}
+	while (len < base * 2 && cur)
+	{
+		index = cur->index;
+		if (index < base)
+			cur->group = 0;
+		else
+			cur->group = (ps->n_group - 1);
+		///
+		ft_printf("i:%d, base:%d, len:%d, res:%d\n", cur->index, base, len, cur->group);
+		///
+		cur = cur->next;
+	}
+}
+
+// static void		update_index_order(t_ps *ps) // a to b
+// {
+// 	t_int_node	*cur;
+// 	int			index;
+// 	int			base;
+// 	int			len;
+// 	int			num_groups;
+
+// 	cur = ps->a->head;
+// 	base = ps->base;
+// 	len = ps->a->size;
+// 	num_groups = len / (base * ps->n_group);
+// 	while (cur)
+// 	{
+// 		index = cur->index;
+// 		if ((index / (base * ps->n_group)) <= (num_groups / 2))
+// 			cur->group = ((ps->n_group - 1) - ((index / base) % ps->n_group));
+// 		else
+// 			cur->group = ((index / base) % ps->n_group);
+// 		///
+// 		// ft_printf("i:%d, base:%d, len:%d, res:%d\n", cur->index, base, len, cur->group);
+// 		///
+// 		cur = cur->next;
+// 	}
+// }
 
 static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 {
@@ -130,11 +209,16 @@ static void		radix_sort(t_ps *ps)
 	while (out_iter <= num_iter)
 	{
 		//////
-		// print_stack("After outer loop", 0, ps->a, ps->b);
+		print_stack("After outer loop", 0, ps->a, ps->b);
 		//////
 
-		// update index
-		update_index(ps, (out_iter % 2));
+		// update_index_reverse_order(ps, (out_iter % 2));
+		// update_index(ps, (out_iter % 2));
+		if (out_iter % 2)
+			update_index(ps, (out_iter % 2));
+		else
+			update_index_reverse(ps, (out_iter % 2));
+
 		// top = (out_iter % 2) ? ps->n_group / 2 : (ps->n_group - 1) / 2;
 		// bot = (out_iter % 2) ? top - 1 : top + 1;
 		top = (ps->n_group - 1) / 2;
@@ -190,153 +274,3 @@ void			calc_m_and_sort(t_ps *ps)
 
 	radix_sort(ps);
 }
-
-
-
-//static void		merge_in_p(t_ps *ps, int is_a, int p1, int p2)
-//{
-//	int		i_a;
-//	int		i_b;
-//    int     i;
-//
-//	i_a = (is_a) ? p2 : p1;
-//	i_b = (is_a) ? p1 : p2;
-//    i = (is_a) ? i_b : i_a;
-//    while (i > 0)
-//    {
-//        if (is_a)
-//			do_instruction(ps->a, ps->b, "rb");
-//        else
-//			do_instruction(ps->a, ps->b, "ra");
-//		i--;
-//    }
-//    while (i_a > 0 || i_b > 0)
-//	{
-//		if (is_a)
-//		{
-//			// put everything in order in A
-//		}
-//		else
-//		{
-//			// put everything in reverse order in B
-//		}
-//		
-//		
-//		
-//		
-//		if (i_a > 0 && i_b > 0)
-//		{
-//			if (peak(ps->a) < peak(ps->b))
-//			{
-//				do_instruction(ps->a, ps->b, "ra");
-//				i_a--;
-//			}
-//			else
-//			{
-//				do_instruction(ps->a, ps->b, "pa");
-//				do_instruction(ps->a, ps->b, "ra");
-//				i_b--;
-//			}
-//		}
-//		else if (i_a <= 0)
-//		{
-//			do_instruction(ps->a, ps->b, "pa");
-//			do_instruction(ps->a, ps->b, "ra");
-//			i_b--;
-//		}
-//		else if (i_b <= 0)
-//		{
-//			do_instruction(ps->a, ps->b, "ra");
-//			i_a--;
-//		}
-//	}
-//}
-
-// static void		merge(t_ps *ps, int is_a, int p1, int p2)
-// {
-// 	int		i_a;
-// 	int		i_b;
-
-// 	i_a = (is_a) ? p2 : p1;
-// 	i_b = (is_a) ? p1 : p2;
-// 	while (i_a > 0 || i_b > 0)
-// 	{
-// 		if (i_a > 0 && i_b > 0)
-// 		{
-// 			if (peak(ps->a) < peak(ps->b))
-// 			{
-// 				do_instruction(ps->a, ps->b, "ra");
-//                 ps->n_ins++;
-// 				i_a--;
-// 			}
-// 			else
-// 			{
-// 				do_instruction(ps->a, ps->b, "pa");
-// 				do_instruction(ps->a, ps->b, "ra");
-//                 ps->n_ins += 2;
-// 				i_b--;
-// 			}
-// 		}
-// 		else if (i_a <= 0)
-// 		{
-// 			do_instruction(ps->a, ps->b, "pa");
-// 			do_instruction(ps->a, ps->b, "ra");
-//             ps->n_ins += 2;
-// 			i_b--;
-// 		}
-// 		else if (i_b <= 0)
-// 		{
-// 			do_instruction(ps->a, ps->b, "ra");
-//             ps->n_ins++;
-// 			i_a--;
-// 		}
-// 	}
-// 	i_a = p1 + p2;
-// 	while (i_a > 0)
-// 	{
-// 		if (is_a)
-//         {
-//             do_instruction(ps->a, ps->b, "rra");
-//             ps->n_ins++;
-//         }
-// 		else
-// 		{
-// 			do_instruction(ps->a, ps->b, "rra");
-// 			do_instruction(ps->a, ps->b, "pb");
-//             ps->n_ins += 2;
-// 		}
-// 		i_a--;
-// 	}
-// }
-
-// void		merge_sort(t_ps *ps, int is_a, int size)
-// {
-// 	int		mid;
-// 	int		i;
-// 	if (size == 1)
-// 		return ;
-//     else if (size == 2)
-//     {
-//         if (is_a && ps->a->head->data > ps->a->head->next->data)
-//             do_instruction(ps->a, ps->b, "sa");
-//         else if (!is_a && ps->b->head->data > ps->b->head->next->data)
-//             do_instruction(ps->a, ps->b, "sb");
-//         ps->n_ins++;
-//         return ;
-//     }
-// 	// add another base case: if sorted, do nothing
-// 	mid = size / 2;
-// 	i = 0;
-// 	while (i < mid)
-// 	{
-// 		if (is_a)
-// 			do_instruction(ps->a, ps->b, "pb");
-// 		else
-// 			do_instruction(ps->a, ps->b, "pa");
-// 		i++;
-//         ps->n_ins++;
-// 	}
-// 	merge_sort(ps, !is_a, mid);
-// 	merge_sort(ps, is_a, size - mid);
-// 	merge(ps, is_a, mid, size - mid);
-// }
