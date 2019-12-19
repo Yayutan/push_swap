@@ -112,10 +112,6 @@ ARG=`ruby -e "puts (0..50).to_a.shuffle.join(' ')"`
 echo "ARGUMENTS: 50" >> test_result
 ./push_swap $ARG | ./checker $ARG >> test_result
 
-ARG=`ruby -e "puts (0..50).to_a.shuffle.join(' ')"`
-echo "ARGUMENTS: 50" >> test_result
-./push_swap $ARG | ./checker $ARG >> test_result
-
 ARG=`ruby -e "puts (0..100).to_a.shuffle.join(' ')"`
 echo "ARGUMENTS: 100" >> test_result
 ./push_swap $ARG | ./checker $ARG >> test_result
