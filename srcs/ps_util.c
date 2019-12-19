@@ -36,17 +36,17 @@ static void		update_index(t_ps *ps, int a_to_b)
 	cur = (a_to_b) ? ps->a->head : ps->b->head;
 	ps->n_symbols = (ps->len < ps->sym_p_pt * ps->max_symbols) ? (ps->len / ps->sym_p_pt) + ((ps->len % ps->sym_p_pt) != 0) : ps->max_symbols;
 	ps->n_parts = ps->len / (ps->sym_p_pt * ps->max_symbols) + (ps->len % (ps->sym_p_pt * ps->max_symbols) != 0);
-	ft_printf("n_parts: %d, n_symbols: %d\n", ps->n_parts, ps->n_symbols);
+	// ft_printf("<R> n_parts: %d, n_symbols: %d\n", ps->n_parts, ps->n_symbols);
 	while (cur)
 	{
 		cur_i = cur->index;
 		cur_pt = cur_i / (ps->sym_p_pt * ps->max_symbols);
 		if (ps->n_parts == 1 || (cur_pt % ps->max_symbols) <= (ps->max_symbols - 1) / 2)
-			cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;
-		else
 			cur->group = (ps->max_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);
-		ft_printf("CMP %d : %d ", cur_pt % ps->max_symbols, (ps->n_parts - 1) / 2);
-		ft_printf("i: %d, pt: %d, gp: %d\n", cur->index, cur_pt, cur->group);
+		else
+			cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;
+		// ft_printf("CMP %d < %d ", cur_pt % ps->max_symbols, (ps->n_parts - 1) / 2);
+		// ft_printf("i: %d, pt: %d, gp: %d\n", cur->index, cur_pt, cur->group);
 		cur = cur->next;
 	}
 }
@@ -60,17 +60,12 @@ static void		update_rev_index(t_ps *ps, int a_to_b)
 	cur = (a_to_b) ? ps->a->head : ps->b->head;
 	ps->n_symbols = (ps->len < ps->sym_p_pt * ps->max_symbols) ? (ps->len / ps->sym_p_pt) + ((ps->len % ps->sym_p_pt) != 0) : ps->max_symbols;
 	ps->n_parts = ps->len / (ps->sym_p_pt * ps->max_symbols) + (ps->len % (ps->sym_p_pt * ps->max_symbols) != 0);
-	ft_printf("<R> n_parts: %d, n_symbols: %d\n", ps->n_parts, ps->n_symbols);
 	while (cur)
 	{
 		cur_i = cur->index;
 		cur_pt = cur_i / (ps->sym_p_pt * ps->max_symbols);
-		if (ps->n_parts == 1 || (cur_pt % ps->max_symbols) <= (ps->max_symbols - 1) / 2)
-			cur->group = (ps->max_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);
-		else
-			cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;
-		ft_printf("CMP %d < %d ", cur_pt % ps->max_symbols, (ps->n_parts - 1) / 2);
-		ft_printf("i: %d, pt: %d, gp: %d\n", cur->index, cur_pt, cur->group);
+		cur->group = ((cur_i / ps->sym_p_pt) % ps->max_symbols);
+		// cur->group = (ps->n_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);
 		cur = cur->next;
 	}
 }
@@ -134,20 +129,10 @@ static void		radix_sort(t_ps *ps)
 
 	while (out_iter <= num_iter)
 	{
-		if (num_iter % 2)
-		{
-			if (out_iter % 2) // should be num_iter
-				update_rev_index(ps, (out_iter % 2));
-			else
-				update_index(ps, (out_iter % 2));	
-		}
+		if (out_iter == num_iter && num_iter % 2 == 0)
+			update_rev_index(ps, (out_iter % 2));
 		else
-		{
-			if (out_iter % 2) // should be num_iter
-				update_rev_index(ps, (out_iter % 2));
-			else
-				update_index(ps, (out_iter % 2));
-		}
+			update_index(ps, (out_iter % 2));
 		in_iter = (ps->max_symbols + 1) / 2;
 		top = (ps->max_symbols - 1) / 2;
 		bot = top + 1;
@@ -161,8 +146,9 @@ static void		radix_sort(t_ps *ps)
 		}
 		out_iter++;
 		ps->sym_p_pt *= ps->max_symbols;
+
 		//////
-		print_stack("After outer loop", 0, ps->a, ps->b);
+		// print_stack("After outer loop", 0, ps->a, ps->b);
 		//////
 	}
 	if (ps->a->size == 0)

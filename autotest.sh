@@ -1,7 +1,5 @@
 make re
 
-echo "START TEST" > test_result
-
 ARG=`ruby -e "puts (0..4).to_a.shuffle.join(' ')"`
 echo "ARGUMENTS:" $ARG >> test_result
 ./push_swap $ARG | ./checker $ARG >> test_result
@@ -108,4 +106,28 @@ echo "ARGUMENTS:" $ARG >> test_result
 
 ARG=`ruby -e "puts (0..30).to_a.shuffle.join(' ')"`
 echo "ARGUMENTS:" $ARG >> test_result
+./push_swap $ARG | ./checker $ARG >> test_result
+
+ARG=`ruby -e "puts (0..50).to_a.shuffle.join(' ')"`
+echo "ARGUMENTS: 50" >> test_result
+./push_swap $ARG | ./checker $ARG >> test_result
+
+ARG=`ruby -e "puts (0..50).to_a.shuffle.join(' ')"`
+echo "ARGUMENTS: 50" >> test_result
+./push_swap $ARG | ./checker $ARG >> test_result
+
+ARG=`ruby -e "puts (0..100).to_a.shuffle.join(' ')"`
+echo "ARGUMENTS: 100" >> test_result
+./push_swap $ARG | ./checker $ARG >> test_result
+
+ARG=`ruby -e "puts (0..200).to_a.shuffle.join(' ')"`
+echo "ARGUMENTS: 200" >> test_result
+./push_swap $ARG | ./checker $ARG >> test_result
+
+ARG=`ruby -e "puts (0..500).to_a.shuffle.join(' ')"`
+echo "ARGUMENTS: 500" >> test_result
+./push_swap $ARG | ./checker $ARG >> test_result
+
+ARG=`ruby -e "puts (0..1000).to_a.shuffle.join(' ')"`
+echo "ARGUMENTS: 1000" >> test_result
 ./push_swap $ARG | ./checker $ARG >> test_result
