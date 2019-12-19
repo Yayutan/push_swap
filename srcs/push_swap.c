@@ -82,7 +82,11 @@ static t_ps			*setup_structs(void)
 		free(to_ret);
 		ft_err_exit("Failed to alllocate stack B");
 	}
-	to_ret->base = 0;
+	to_ret->n_parts = 0;
+	to_ret->sym_p_pt = 0;
+	to_ret->n_symbols = 0;
+	to_ret->len = 0;
+	to_ret->max_symbols = 0;
 	return (to_ret);
 }
 
@@ -100,7 +104,6 @@ int					main(int ac, char **av)
 	{
 		selection_sort(ps->a);
 		calc_m_and_sort(ps);
-		print_stack("After Sort", 0, ps->a, ps->b);
 	}
 	clean_up_structs(ps);
 	return (0);

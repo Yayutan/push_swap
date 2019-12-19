@@ -23,8 +23,12 @@ typedef struct	s_ps
 {
 	t_stack		*a;
 	t_stack		*b;
-	int			n_group;
-	int			base;
+	int			len;
+	int			n_parts;
+	int			sym_p_pt;
+	int			n_symbols;
+	int			max_symbols;
+
 }				t_ps;
 
 void			selection_sort(t_stack *a);
