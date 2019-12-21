@@ -78,24 +78,39 @@ static void		update_index_ad(t_ps *ps, int a_to_b)
 	int			cur_pt;
 
 	cur = (a_to_b) ? ps->a->head : ps->b->head;
-	ps->n_symbols = (ps->len < ps->sym_p_pt * ps->max_symbols) ? (ps->len / ps->sym_p_pt) + ((ps->len % ps->sym_p_pt) != 0) : ps->max_symbols;
+	// ps->n_parts = ps->len / (ps->sym_p_pt * ps->max_symbols) + (ps->len % (ps->sym_p_pt * ps->max_symbols) != 0);
+	// ps->n_symbols = (ps->len < ps->sym_p_pt * ps->max_symbols) ? (ps->len / ps->sym_p_pt) + ((ps->len % ps->sym_p_pt) != 0) : ps->max_symbols;
 	while (cur)
 	{
-		cur_i = cur->index;
-		cur_pt = cur_i / (ps->sym_p_pt * ps->max_symbols);
 		if (a_to_b)
 		{
-			if ((cur_pt % ps->max_symbols) <= (ps->max_symbols - 1) / 2) // 5: <= 2, // 4: <= 1 
-				cur->group = (ps->n_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);
+			cur_i = cur->index;
+			cur_pt = cur_i / ps->max_symbols;
+			if ((cur_pt / ps->max_symbols) <= (ps->n_parts + 1) / 2)
+			{
+				// oorrr (oorr)
+				cur->group = (ps->max_symbols - 1) - ((cur_i / ps->sym_p_p t) % ps->max_symbols);
+			}
 			else
-				cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols; // rev
+			{
+				// rrroo(rroo)
+				cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;
+			}
 		}
 		else
 		{
-			if ((cur_pt % ps->max_symbols) <= (ps->max_symbols - 1) / 2)
-				cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols; // orig	
+			cur_i = cur->len - 1 - cur->index;
+			cur_pt = cur_i / (ps->sym_p_pt * ps->max_symbols);
+			if ((cur_pt / ps->max_symbols) <= (ps->n_parts + 1) / 2)
+			{
+				//rrroo (rroo)
+				cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;
+			}
 			else
-				cur->group = (ps->n_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);	
+			{
+				//oorrr (oorr)
+				cur->group = (ps->max_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);	
+			}
 		}
 		cur = cur->next;
 	}	
@@ -226,6 +241,7 @@ void			calc_m_and_sort(t_ps *ps)
 	// ps->max_symbols = 4;
 	ps->max_symbols = 5;
 
+	ps->n_parts = ps->len / ps->max_symbols + (ps->len % ps->max_symbols != 0);
 	// ft_printf("Group Size = %d\n", ps->max_symbols);
 	////
 
