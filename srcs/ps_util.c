@@ -59,7 +59,7 @@ static int		fill_to_a(t_ps *ps, int i, int layer, int ord)
 		fill_to_a(ps, i, layer - 1, 1);
 		fill_to_a(ps, i, layer - 1, 1);
 	}
-	else if (ord == 1)
+	else if (ord == -1)
 	{
 		fill_to_a(ps, i, layer - 1, -1);
 		fill_to_a(ps, i, layer - 1, -1);
@@ -102,7 +102,7 @@ static int		fill_to_b(t_ps *ps, int i, int layer, int ord)
 		fill_to_b(ps, i, layer - 1, -1);
 		fill_to_b(ps, i, layer - 1, -1);
 	}
-	else if (ord == 1)
+	else if (ord == -1)
 	{
 		fill_to_b(ps, i, layer - 1, 1);
 		fill_to_b(ps, i, layer - 1, 1);
@@ -113,7 +113,7 @@ static int		fill_to_b(t_ps *ps, int i, int layer, int ord)
 	return (i);
 }
 
-static void		update_index(t_ps *ps, int a_to_b, int end_b)
+static void		update_index(t_ps *ps, int end_b)
 {
 	int		i;
 	int		pt;
@@ -130,10 +130,7 @@ static void		update_index(t_ps *ps, int a_to_b, int end_b)
 		}
 		else
 		{
-			if (a_to_b)
-				i = fill_to_a(ps, i, ps->layer, -1);
-			else
-				i = fill_to_a(ps, i, ps->layer, 1);
+			i = fill_to_a(ps, i, ps->layer, -1);
 		}
 		pt++;
 	}
@@ -145,10 +142,7 @@ static void		update_index(t_ps *ps, int a_to_b, int end_b)
 		}
 		else
 		{
-			if (a_to_b)
-				i = fill_to_a(ps, i, ps->layer, 1);
-			else
-				i = fill_to_a(ps, i, ps->layer, -1);
+			i = fill_to_a(ps, i, ps->layer, 1);
 		}
 		pt++;
 	}
@@ -223,7 +217,7 @@ static void		radix_sort(t_ps *ps)
 		// 		update_rev_index(ps, (out_iter % 2));
 		// }
 			
-		update_index(ps, (out_iter % 2), (num_iter % 2));
+		update_index(ps, (num_iter % 2));
 		// top = (ps->max_symbols - 1) / 2 - ((ps->max_symbols % 2) && (out_iter % 2) && (num_iter % 2));
 		top = (ps->max_symbols - 1) / 2;
 		bot = top + 1;
