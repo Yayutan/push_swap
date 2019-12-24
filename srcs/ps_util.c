@@ -27,95 +27,132 @@ static int		log_m_ceil(int n, int m)
 	return (log);
 }
 
-// static void		update_index(t_ps *ps, int a_to_b)
-// {
-// 	t_int_node	*cur;
-// 	int			cur_i;
-// 	int			cur_pt;
-
-// 	cur = (a_to_b) ? ps->a->head : ps->b->head;
-// 	ps->n_symbols = (ps->len < ps->sym_p_pt * ps->max_symbols) ? (ps->len / ps->sym_p_pt) + ((ps->len % ps->sym_p_pt) != 0) : ps->max_symbols;
-// 	ps->n_parts = ps->len / (ps->sym_p_pt * ps->max_symbols) + (ps->len % (ps->sym_p_pt * ps->max_symbols) != 0);
-// 	while (cur)
-// 	{
-// 		cur_i = cur->index;
-// 		cur_pt = cur_i / (ps->sym_p_pt * ps->max_symbols);
-// 		if (ps->n_parts == 1 || (cur_pt % ps->max_symbols) <= ps->max_symbols / 2 - 1)
-// 			cur->group = (ps->max_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);
-// 		else
-// 			cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;
-// 		cur = cur->next;
-// 	}
-// }
-
-// static void		update_rev_index(t_ps *ps, int a_to_b)
-// {
-// 	t_int_node	*cur;
-// 	int			cur_i;
-// 	int			cur_pt;
-
-// 	cur = (a_to_b) ? ps->a->head : ps->b->head;
-// 	ps->n_symbols = (ps->len < ps->sym_p_pt * ps->max_symbols) ? (ps->len / ps->sym_p_pt) + ((ps->len % ps->sym_p_pt) != 0) : ps->max_symbols;
-// 	ps->n_parts = ps->len / (ps->sym_p_pt * ps->max_symbols) + (ps->len % (ps->sym_p_pt * ps->max_symbols) != 0);
-// 	while (cur)
-// 	{
-// 		cur_i = cur->index;
-// 		cur_pt = cur_i / (ps->sym_p_pt * ps->max_symbols);
-// 		if (ps->n_parts == 1 || (cur_pt % ps->max_symbols) <= ps->max_symbols / 2 - 1)
-// 			cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;			
-// 		else
-// 			cur->group = (ps->max_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);
-			
-// 		// cur->group = ((cur_i / ps->sym_p_pt) % ps->max_symbols);
-// 		cur = cur->next;
-// 	}
-// }
-
-static void		update_index_ad(t_ps *ps, int a_to_b)
+static int		set_one_group_a(t_ps *ps, int i, int ord)
 {
-	t_int_node	*cur;
-	int			cur_i;
-	int			cur_pt;
+	int		gp;
+	int		sym_put;
 
-	cur = (a_to_b) ? ps->a->head : ps->b->head;
-	// ps->n_parts = ps->len / (ps->sym_p_pt * ps->max_symbols) + (ps->len % (ps->sym_p_pt * ps->max_symbols) != 0);
-	// ps->n_symbols = (ps->len < ps->sym_p_pt * ps->max_symbols) ? (ps->len / ps->sym_p_pt) + ((ps->len % ps->sym_p_pt) != 0) : ps->max_symbols;
-	while (cur)
+	gp = 0;
+	while (gp < ps->max_symbols)
 	{
-		if (a_to_b)
+		sym_put = 0;
+		while (sym_put < ps->sym_p_pt && i >= 0 && i < ps->len)
 		{
-			cur_i = cur->index;
-			cur_pt = cur_i / ps->max_symbols;
-			if ((cur_pt / ps->max_symbols) <= (ps->n_parts + 1) / 2)
-			{
-				// oorrr (oorr)
-				cur->group = (ps->max_symbols - 1) - ((cur_i / ps->sym_p_p t) % ps->max_symbols);
-			}
-			else
-			{
-				// rrroo(rroo)
-				cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;
-			}
+			ps->sorted[i]->group = (ord == 1) ? gp : (ps->max_symbols - 1 - gp);
+			sym_put++;
+			i++;
+		}
+		gp++;
+	}
+	return (i);
+}
+
+static int		fill_to_a(t_ps *ps, int i, int layer, int ord)
+{
+	if (layer <= 1)
+		i = set_one_group_a(ps, i, ord);
+	else if (ord == 1)
+	{
+		fill_to_a(ps, i, layer - 1, -1);
+		fill_to_a(ps, i, layer - 1, -1);
+		fill_to_a(ps, i, layer - 1, -1);
+		fill_to_a(ps, i, layer - 1, 1);
+		fill_to_a(ps, i, layer - 1, 1);
+	}
+	else if (ord == 1)
+	{
+		fill_to_a(ps, i, layer - 1, -1);
+		fill_to_a(ps, i, layer - 1, -1);
+		fill_to_a(ps, i, layer - 1, 1);
+		fill_to_a(ps, i, layer - 1, 1);
+		fill_to_a(ps, i, layer - 1, 1);
+	}
+	return (i);
+}
+
+static int		set_one_group_b(t_ps *ps, int i, int ord)
+{
+	int		gp;
+	int		sym_put;
+
+	gp = 0;
+	while (gp < ps->max_symbols)
+	{
+		sym_put = 0;
+		while (sym_put < ps->sym_p_pt && i >= 0 && i < ps->len)
+		{
+			ps->sorted[i]->group = (ord == 1) ? gp : (ps->max_symbols - 1 - gp);
+			sym_put++;
+			i--;
+		}
+		gp++;
+	}
+	return (i);
+}
+
+static int		fill_to_b(t_ps *ps, int i, int layer, int ord)
+{
+	if (layer <= 1)
+		i = set_one_group_b(ps, i, ord);
+	else if (ord == 1)
+	{
+		fill_to_b(ps, i, layer - 1, 1);
+		fill_to_b(ps, i, layer - 1, 1);
+		fill_to_b(ps, i, layer - 1, -1);
+		fill_to_b(ps, i, layer - 1, -1);
+		fill_to_b(ps, i, layer - 1, -1);
+	}
+	else if (ord == 1)
+	{
+		fill_to_b(ps, i, layer - 1, 1);
+		fill_to_b(ps, i, layer - 1, 1);
+		fill_to_b(ps, i, layer - 1, 1);
+		fill_to_b(ps, i, layer - 1, -1);
+		fill_to_b(ps, i, layer - 1, -1);
+	}
+	return (i);
+}
+
+static void		update_index(t_ps *ps, int a_to_b, int end_b)
+{
+	int		i;
+	int		pt;
+	int		mid;
+
+	mid = ps->n_parts / 2 + (ps->n_parts % 2);
+	i = (end_b) ? (ps->len - 1) : 0;
+	pt = 0;
+	while (pt < mid)
+	{		
+		if (end_b)
+		{
+			i = fill_to_b(ps, i, ps->layer , 1);
 		}
 		else
 		{
-			cur_i = cur->len - 1 - cur->index;
-			cur_pt = cur_i / (ps->sym_p_pt * ps->max_symbols);
-			if ((cur_pt / ps->max_symbols) <= (ps->n_parts + 1) / 2)
-			{
-				//rrroo (rroo)
-				cur->group = (cur_i / ps->sym_p_pt) % ps->max_symbols;
-			}
+			if (a_to_b)
+				i = fill_to_a(ps, i, ps->layer, -1);
 			else
-			{
-				//oorrr (oorr)
-				cur->group = (ps->max_symbols - 1) - ((cur_i / ps->sym_p_pt) % ps->max_symbols);	
-			}
+				i = fill_to_a(ps, i, ps->layer, 1);
 		}
-		cur = cur->next;
-	}	
+		pt++;
+	}
+	while (pt < ps->n_parts)
+	{		
+		if (end_b)
+		{
+			i = fill_to_b(ps, i, ps->layer, -1);
+		}
+		else
+		{
+			if (a_to_b)
+				i = fill_to_a(ps, i, ps->layer, 1);
+			else
+				i = fill_to_a(ps, i, ps->layer, -1);
+		}
+		pt++;
+	}
 }
-
 
 static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 {
@@ -169,7 +206,7 @@ static void		radix_sort(t_ps *ps)
 
 	num_iter = log_m_ceil(ps->len, ps->max_symbols);
 	out_iter = 1;
-	
+	ps->layer = num_iter - 2;
 	//////
 	// print_stack("Orig", 0, ps->a, ps->b);
 	//////
@@ -186,7 +223,7 @@ static void		radix_sort(t_ps *ps)
 		// 		update_rev_index(ps, (out_iter % 2));
 		// }
 			
-		update_index_ad(ps, (out_iter % 2));
+		update_index(ps, (out_iter % 2), (num_iter % 2));
 		// top = (ps->max_symbols - 1) / 2 - ((ps->max_symbols % 2) && (out_iter % 2) && (num_iter % 2));
 		top = (ps->max_symbols - 1) / 2;
 		bot = top + 1;

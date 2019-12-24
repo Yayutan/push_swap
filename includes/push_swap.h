@@ -23,15 +23,16 @@ typedef struct	s_ps
 {
 	t_stack		*a;
 	t_stack		*b;
+	t_int_node	**sorted;
 	int			len;
 	int			n_parts;
 	int			sym_p_pt;
-	int			n_symbols;
+	int			layer;
 	int			max_symbols;
 
 }				t_ps;
 
-void			selection_sort(t_stack *a);
+int			selection_sort(t_ps *ps);
 void			calc_m_and_sort(t_ps *ps);
 
 #endif

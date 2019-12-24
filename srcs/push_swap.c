@@ -16,6 +16,8 @@ static void			clean_up_structs(t_ps *ps)
 {
 	free_stack(ps->a);
 	free_stack(ps->b);
+	if (ps->sorted)
+		free(ps->sorted);
 	free(ps);
 }
 
@@ -82,9 +84,10 @@ static t_ps			*setup_structs(void)
 		free(to_ret);
 		ft_err_exit("Failed to alllocate stack B");
 	}
+	to_ret->sorted = NULL;
 	to_ret->n_parts = 0;
 	to_ret->sym_p_pt = 0;
-	to_ret->n_symbols = 0;
+	to_ret->layer = 0;
 	to_ret->len = 0;
 	to_ret->max_symbols = 0;
 	return (to_ret);
@@ -102,7 +105,11 @@ int					main(int ac, char **av)
 	}
 	if (ps->a->size > 0)
 	{
-		selection_sort(ps->a);
+		if (!selection_sort(ps))
+		{
+			clean_up_structs(ps);
+			ft_err_exit("Error");
+		}
 		calc_m_and_sort(ps);
 	}
 	clean_up_structs(ps);
