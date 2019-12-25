@@ -12,7 +12,22 @@
 
 #include "push_swap.h"
 
-static int		log_m_ceil(int n, int m)
+int		exponential(int b, int p)
+{
+	int		i;
+	int		res;
+
+	i = 0;
+	res = 1;
+	while (i < p)
+	{
+		res *= b;
+		i++;
+	}
+	return (res);
+}
+
+int		log_m_ceil(int n, int m)
 {
 	int		log;
 	int		cur;
@@ -27,91 +42,7 @@ static int		log_m_ceil(int n, int m)
 	return (log);
 }
 
-static int		set_one_group_a(t_ps *ps, int i, int ord)
-{
-	int		gp;
-	int		sym_put;
 
-	gp = 0;
-	while (gp < ps->max_symbols)
-	{
-		sym_put = 0;
-		while (sym_put < ps->sym_p_pt && i >= 0 && i < ps->len)
-		{
-			ps->sorted[i]->group = (ord == 1) ? gp : (ps->max_symbols - 1 - gp);
-			sym_put++;
-			i++;
-		}
-		gp++;
-	}
-	return (i);
-}
-
-static int		fill_to_a(t_ps *ps, int i, int layer, int ord)
-{
-	if (layer <= 1)
-		i = set_one_group_a(ps, i, ord);
-	else if (ord == 1)
-	{
-		fill_to_a(ps, i, layer - 1, -1);
-		fill_to_a(ps, i, layer - 1, -1);
-		fill_to_a(ps, i, layer - 1, -1);
-		fill_to_a(ps, i, layer - 1, 1);
-		fill_to_a(ps, i, layer - 1, 1);
-	}
-	else if (ord == -1)
-	{
-		fill_to_a(ps, i, layer - 1, -1);
-		fill_to_a(ps, i, layer - 1, -1);
-		fill_to_a(ps, i, layer - 1, 1);
-		fill_to_a(ps, i, layer - 1, 1);
-		fill_to_a(ps, i, layer - 1, 1);
-	}
-	return (i);
-}
-
-static int		set_one_group_b(t_ps *ps, int i, int ord)
-{
-	int		gp;
-	int		sym_put;
-
-	gp = 0;
-	while (gp < ps->max_symbols)
-	{
-		sym_put = 0;
-		while (sym_put < ps->sym_p_pt && i >= 0 && i < ps->len)
-		{
-			ps->sorted[i]->group = (ord == 1) ? gp : (ps->max_symbols - 1 - gp);
-			sym_put++;
-			i--;
-		}
-		gp++;
-	}
-	return (i);
-}
-
-static int		fill_to_b(t_ps *ps, int i, int layer, int ord)
-{
-	if (layer <= 1)
-		i = set_one_group_b(ps, i, ord);
-	else if (ord == 1)
-	{
-		fill_to_b(ps, i, layer - 1, 1);
-		fill_to_b(ps, i, layer - 1, 1);
-		fill_to_b(ps, i, layer - 1, -1);
-		fill_to_b(ps, i, layer - 1, -1);
-		fill_to_b(ps, i, layer - 1, -1);
-	}
-	else if (ord == -1)
-	{
-		fill_to_b(ps, i, layer - 1, 1);
-		fill_to_b(ps, i, layer - 1, 1);
-		fill_to_b(ps, i, layer - 1, 1);
-		fill_to_b(ps, i, layer - 1, -1);
-		fill_to_b(ps, i, layer - 1, -1);
-	}
-	return (i);
-}
 
 static void		update_index(t_ps *ps, int end_b)
 {
@@ -125,25 +56,17 @@ static void		update_index(t_ps *ps, int end_b)
 	while (pt < mid)
 	{		
 		if (end_b)
-		{
 			i = fill_to_b(ps, i, ps->layer , 1);
-		}
 		else
-		{
 			i = fill_to_a(ps, i, ps->layer, -1);
-		}
 		pt++;
 	}
 	while (pt < ps->n_parts)
 	{		
 		if (end_b)
-		{
 			i = fill_to_b(ps, i, ps->layer, -1);
-		}
 		else
-		{
 			i = fill_to_a(ps, i, ps->layer, 1);
-		}
 		pt++;
 	}
 }
@@ -201,30 +124,23 @@ static void		radix_sort(t_ps *ps)
 	num_iter = log_m_ceil(ps->len, ps->max_symbols);
 	out_iter = 1;
 	ps->layer = num_iter - 2;
-	//////
-	// print_stack("Orig", 0, ps->a, ps->b);
-	//////
 
 	while (out_iter <= num_iter)
 	{
-		// if (num_iter % 2)
-		// 	update_index(ps, (out_iter % 2));
-		// else
-		// {
-		// 	if (out_iter % 2)
-		// 		update_index(ps, (out_iter % 2));
-		// 	else
-		// 		update_rev_index(ps, (out_iter % 2));
-		// }
-			
-		update_index(ps, (num_iter % 2));
-		// top = (ps->max_symbols - 1) / 2 - ((ps->max_symbols % 2) && (out_iter % 2) && (num_iter % 2));
+		if (out_iter < num_iter)
+			update_index(ps, (num_iter % 2));
+		else
+		{
+			if (num_iter % 2)
+				final_ord_rev(ps);
+			else
+				final_ord(ps);
+		}		
 		top = (ps->max_symbols - 1) / 2;
 		bot = top + 1;
 		in_iter = (ps->max_symbols + 1) / 2;
 		while (in_iter > 0)
 		{
-			// ft_printf("Putting %d, %d\n", top, bot);
 			put_two_groups(ps, (out_iter % 2), top, bot);
 			top--;
 			bot++;
@@ -246,9 +162,6 @@ static void		radix_sort(t_ps *ps)
 			num_iter--;
 		}
 	}
-	//////
-	// print_stack("After sort", 0, ps->a, ps->b);
-	//////
 }
 
 
@@ -271,10 +184,14 @@ void			calc_m_and_sort(t_ps *ps)
 	// /////
 	// ps->max_symbols = 4;
 	ps->max_symbols = 5;
-
-	ps->n_parts = ps->len / ps->max_symbols + (ps->len % ps->max_symbols != 0);
-	// ft_printf("Group Size = %d\n", ps->max_symbols);
-	////
-
+	//////
+	n = exponential(ps->max_symbols, log_m_ceil(ps->len, ps->max_symbols));
+	if (ps->len == n)
+		ps->n_parts = ps->max_symbols;
+	else
+	{
+		n /= ps->max_symbols;
+		ps->n_parts = ps->len / n + (ps->len % n != 0);
+	}
 	radix_sort(ps);
 }

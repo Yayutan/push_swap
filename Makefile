@@ -35,6 +35,8 @@ CKR_OBJ = $(CKR_SRC_NAME:.c=.o)
 
 PS_SRC_NAME =	push_swap.c\
 				ps_util.c\
+				ordering.c\
+				final_step.c\
 				selection_sort.c\
 				general_util.c\
 				instructions.c\
