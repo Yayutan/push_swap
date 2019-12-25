@@ -77,7 +77,7 @@ void			do_instruction(t_stack *a, t_stack *b, char *ins)
 
 	i = find_index(ins);
 	f = dispatch_table();
-	// ft_printf("%s\n", ins);
+	ft_printf("%s\n", ins);
 	f[i](a, b);
 	free(f);
 }

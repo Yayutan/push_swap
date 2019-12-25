@@ -123,7 +123,7 @@ static void		radix_sort(t_ps *ps)
 
 	num_iter = log_m_ceil(ps->len, ps->max_symbols);
 	out_iter = 1;
-	ps->layer = num_iter - 2;
+	ps->layer = num_iter - 1;
 
 	while (out_iter <= num_iter)
 	{
@@ -150,7 +150,7 @@ static void		radix_sort(t_ps *ps)
 		ps->sym_p_pt *= ps->max_symbols;
 
 		//////
-		print_stack("After outer loop", 0, ps->a, ps->b);
+		// print_stack("After outer loop", 0, ps->a, ps->b);
 		//////
 	}
 	if (ps->a->size == 0)
@@ -183,7 +183,7 @@ void			calc_m_and_sort(t_ps *ps)
 
 	// /////
 	// ps->max_symbols = 4;
-	ps->max_symbols = 5;
+	// ps->max_symbols = 5;
 	//////
 	n = exponential(ps->max_symbols, log_m_ceil(ps->len, ps->max_symbols));
 	if (ps->len == n)

@@ -59,44 +59,44 @@ int						*valid_int(char *str)
 	return (to_ret);
 }
 
-// static void				print_helper(t_int_node *a, t_int_node *b, int c)
-// {
-// 	char	*sa;
-// 	char	*sb;
-// 	int		wa;
-// 	int		wb;
-
-// 	sa = (a) ? ft_itoa(a->data) : ft_strnew(0);
-// 	sb = (b) ? ft_itoa(b->data) : ft_strnew(0);
-// 	wa = (11 - ft_strlen(sa)) / 2;
-// 	wb = (14 - wa - ft_strlen(sa)) + ((11 - ft_strlen(sb)) / 2);
-// 	if (c && a && a->red)
-// 		ft_printf("%*s{RED}%s{CLEAR}", wa, "", sa);
-// 	else
-// 		ft_printf("%*s%s", wa, "", sa);
-// 	if (c && b && b->red)
-// 		ft_printf("%*s{RED}%s{CLEAR}\n", wb, "", sb);
-// 	else
-// 		ft_printf("%*s%s\n", wb, "", sb);
-// 	if (a)
-// 		a->red = 0;
-// 	if (b)
-// 		b->red = 0;
-// 	free(sa);
-// 	free(sb);
-// }
-
-static void				debug_print_helper(t_int_node *a, t_int_node *b)
+static void				print_helper(t_int_node *a, t_int_node *b, int c)
 {
+	char	*sa;
+	char	*sb;
+	int		wa;
+	int		wb;
+
+	sa = (a) ? ft_itoa(a->data) : ft_strnew(0);
+	sb = (b) ? ft_itoa(b->data) : ft_strnew(0);
+	wa = (11 - ft_strlen(sa)) / 2;
+	wb = (14 - wa - ft_strlen(sa)) + ((11 - ft_strlen(sb)) / 2);
+	if (c && a && a->red)
+		ft_printf("%*s{RED}%s{CLEAR}", wa, "", sa);
+	else
+		ft_printf("%*s%s", wa, "", sa);
+	if (c && b && b->red)
+		ft_printf("%*s{RED}%s{CLEAR}\n", wb, "", sb);
+	else
+		ft_printf("%*s%s\n", wb, "", sb);
 	if (a)
-		ft_printf("%d(%d)     ", a->data, a->group);
-	else
-		ft_printf("     ");
+		a->red = 0;
 	if (b)
-		ft_printf("%d(%d)\n", b->data, b->group);
-	else
-		ft_printf("\n");
+		b->red = 0;
+	free(sa);
+	free(sb);
 }
+
+// static void				debug_print_helper(t_int_node *a, t_int_node *b)
+// {
+// 	if (a)
+// 		ft_printf("%d(%d)     ", a->data, a->group);
+// 	else
+// 		ft_printf("     ");
+// 	if (b)
+// 		ft_printf("%d(%d)\n", b->data, b->group);
+// 	else
+// 		ft_printf("\n");
+// }
 
 
 void					print_stack(char *ins, int c, t_stack *a, t_stack *b)
@@ -110,16 +110,16 @@ void					print_stack(char *ins, int c, t_stack *a, t_stack *b)
 	while (cur_a || cur_b)
 	{
 		///
-		debug_print_helper(cur_a, cur_b);
-		c = 0;
+		// debug_print_helper(cur_a, cur_b);
+		// c = 0;
 		///
 
-		// print_helper(cur_a, cur_b, c);
+		print_helper(cur_a, cur_b, c);
 		cur_a = (cur_a) ? cur_a->next : cur_a;
 		cur_b = (cur_b) ? cur_b->next : cur_b;
 	}
-	// ft_printf("-----------   -----------\n%6s%14s\n\n", "a", "b");
-	ft_printf("--- ---\n %s   %s\n\n", "a", "b");
+	ft_printf("-----------   -----------\n%6s%14s\n\n", "a", "b");
+	// ft_printf("--- ---\n %s   %s\n\n", "a", "b");
 }
 
 void					clean_str_arr(char **a)
