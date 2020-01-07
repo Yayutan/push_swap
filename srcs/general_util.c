@@ -86,19 +86,6 @@ static void				print_helper(t_int_node *a, t_int_node *b, int c)
 	free(sb);
 }
 
-// static void				debug_print_helper(t_int_node *a, t_int_node *b)
-// {
-// 	if (a)
-// 		ft_printf("%d(%d)     ", a->data, a->group);
-// 	else
-// 		ft_printf("     ");
-// 	if (b)
-// 		ft_printf("%d(%d)\n", b->data, b->group);
-// 	else
-// 		ft_printf("\n");
-// }
-
-
 void					print_stack(char *ins, int c, t_stack *a, t_stack *b)
 {
 	t_int_node	*cur_a;
@@ -109,17 +96,11 @@ void					print_stack(char *ins, int c, t_stack *a, t_stack *b)
 	cur_b = (b) ? b->head : NULL;
 	while (cur_a || cur_b)
 	{
-		///
-		// debug_print_helper(cur_a, cur_b);
-		// c = 0;
-		///
-
 		print_helper(cur_a, cur_b, c);
 		cur_a = (cur_a) ? cur_a->next : cur_a;
 		cur_b = (cur_b) ? cur_b->next : cur_b;
 	}
 	ft_printf("-----------   -----------\n%6s%14s\n\n", "a", "b");
-	// ft_printf("--- ---\n %s   %s\n\n", "a", "b");
 }
 
 void					clean_str_arr(char **a)

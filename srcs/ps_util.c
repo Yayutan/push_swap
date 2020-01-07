@@ -85,29 +85,29 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 		if (from->head->group == top_layer)
 		{
 			if (a_to_b)
-				do_instruction(ps->a, ps->b, "pb");
+				pt_instruction(ps->a, ps->b, "pb");
 			else
-				do_instruction(ps->a, ps->b, "pa");
+				pt_instruction(ps->a, ps->b, "pa");
 		}
 		else if (from->head->group == bot_layer)
 		{
 			if (a_to_b)
 			{
-				do_instruction(ps->a, ps->b, "pb");
-				do_instruction(ps->a, ps->b, "rb");
+				pt_instruction(ps->a, ps->b, "pb");
+				pt_instruction(ps->a, ps->b, "rb");
 			}
 			else
 			{
-				do_instruction(ps->a, ps->b, "pa");
-				do_instruction(ps->a, ps->b, "ra");
+				pt_instruction(ps->a, ps->b, "pa");
+				pt_instruction(ps->a, ps->b, "ra");
 			}
 		}
 		else
 		{
 			if (a_to_b)
-				do_instruction(ps->a, ps->b, "ra");
+				pt_instruction(ps->a, ps->b, "ra");
 			else
-				do_instruction(ps->a, ps->b, "rb");
+				pt_instruction(ps->a, ps->b, "rb");
 		}
 		i++;
 	}
@@ -148,17 +148,13 @@ static void		radix_sort(t_ps *ps)
 		}
 		out_iter++;
 		ps->sym_p_pt *= ps->max_symbols;
-
-		//////
-		// print_stack("After outer loop", 0, ps->a, ps->b);
-		//////
 	}
 	if (ps->a->size == 0)
 	{
 		num_iter = ps->b->size;
 		while (num_iter > 0)
 		{
-			do_instruction(ps->a, ps->b, "pa");
+			pt_instruction(ps->a, ps->b, "pa");
 			num_iter--;
 		}
 	}
@@ -180,11 +176,6 @@ void			calc_m_and_sort(t_ps *ps)
 	else
 		ps->max_symbols = 5;
 	ps->sym_p_pt = 1;
-
-	// /////
-	// ps->max_symbols = 4;
-	// ps->max_symbols = 5;
-	//////
 	n = exponential(ps->max_symbols, log_m_ceil(ps->len, ps->max_symbols));
 	if (ps->len == n)
 		ps->n_parts = ps->max_symbols;

@@ -32,13 +32,13 @@ typedef struct	s_ps
 
 }				t_ps;
 
-int			selection_sort(t_ps *ps);
+int				selection_sort(t_ps *ps);
 void			calc_m_and_sort(t_ps *ps);
-int		log_m_ceil(int n, int m);
-int		exponential(int b, int p);
-int		fill_to_b(t_ps *ps, int i, int layer, int ord);
-int		fill_to_a(t_ps *ps, int i, int layer, int ord);
-void	final_ord_rev(t_ps *ps);
-void	final_ord(t_ps *ps);
+int				log_m_ceil(int n, int m);
+int				exponential(int b, int p);
+int				fill_to_b(t_ps *ps, int i, int layer, int ord);
+int				fill_to_a(t_ps *ps, int i, int layer, int ord);
+void			final_ord_rev(t_ps *ps);
+void			final_ord(t_ps *ps);
 
 #endif

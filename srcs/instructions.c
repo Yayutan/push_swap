@@ -70,7 +70,7 @@ static int		find_index(char *ins)
 	return (-1);
 }
 
-void			do_instruction(t_stack *a, t_stack *b, char *ins)
+void			pt_instruction(t_stack *a, t_stack *b, char *ins)
 {
 	int		i;
 	t_ins_f	**f;
