@@ -20,7 +20,7 @@ static int		set_one_group_a(t_ps *ps, int i, int ord)
 	return (i);
 }
 
-int		fill_to_a(t_ps *ps, int i, int layer, int ord)
+static int		fill_to_a(t_ps *ps, int i, int layer, int ord)
 {
 	if (layer <= log_m_ceil(ps->sym_p_pt, ps->max_symbols))
 		i = set_one_group_a(ps, i, ord);
@@ -65,7 +65,7 @@ static int		set_one_group_b(t_ps *ps, int i, int ord)
 	return (i);
 }
 
-int		fill_to_b(t_ps *ps, int i, int layer, int ord)
+static int		fill_to_b(t_ps *ps, int i, int layer, int ord)
 {
 	if (layer <= log_m_ceil(ps->sym_p_pt, ps->max_symbols))
 		i = set_one_group_b(ps, i, ord);
@@ -88,4 +88,31 @@ int		fill_to_b(t_ps *ps, int i, int layer, int ord)
 		i = fill_to_b(ps, i, layer - 1, -1);
 	}
 	return (i);
+}
+
+void		update_index(t_ps *ps, int end_b)
+{
+	int		i;
+	int		pt;
+	int		mid;
+
+	mid = ps->n_parts / 2 + (ps->n_parts % 2);
+	i = (end_b) ? (ps->len - 1) : 0;
+	pt = 0;
+	while (pt < mid)
+	{		
+		if (end_b)
+			i = fill_to_b(ps, i, ps->layer , 1);
+		else
+			i = fill_to_a(ps, i, ps->layer, -1);
+		pt++;
+	}
+	while (pt < ps->n_parts)
+	{		
+		if (end_b)
+			i = fill_to_b(ps, i, ps->layer, -1);
+		else
+			i = fill_to_a(ps, i, ps->layer, 1);
+		pt++;
+	}
 }

@@ -22,14 +22,15 @@ int					main(int ac, char **av)
 		clean_up_structs(ps);
 		ft_err_exit("Error");
 	}
-	if (ps->a->size > 0)
+	ps->len = ps->a->size;
+	if (ps->len > 1 && !check_sorted(ps->a))
 	{
 		if (!selection_sort(ps))
 		{
 			clean_up_structs(ps);
 			ft_err_exit("Error");
 		}
-		sort(ps);
+		(ps->len <= 5) ? sort_small(ps) : radix_sort(ps);
 	}
 	clean_up_structs(ps);
 	return (0);

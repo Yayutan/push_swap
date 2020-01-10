@@ -38,6 +38,7 @@ PS_SRC_NAME =	push_swap.c\
 				ordering.c\
 				final_step.c\
 				selection_sort.c\
+				sort_small.c\
 				radix_sort.c\
 				general_util.c\
 				instructions.c\

@@ -31,7 +31,7 @@ t_ps			*setup_structs(void)
 	}
 	to_ret->sorted = NULL;
 	to_ret->n_parts = 0;
-	to_ret->sym_p_pt = 0;
+	to_ret->sym_p_pt = 1;
 	to_ret->layer = 0;
 	to_ret->len = 0;
 	to_ret->max_symbols = 0;
@@ -91,4 +91,18 @@ t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
 		i--;
 	}
 	return (ps->a);
+}
+
+int		check_sorted(t_stack *st)
+{
+	t_int_node	*cur;
+
+	cur = st->head;
+	while (cur->next)
+	{
+		if (cur->data > cur->next->data)
+			return (0);
+		cur = cur->next;
+	}
+	return (1);
 }
