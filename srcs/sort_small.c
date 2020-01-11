@@ -12,20 +12,51 @@
 
 #include "push_swap.h"
 
-static void	sort_three(t_ps *ps)
+static int	find_by_index(t_ps *ps, int i)
 {
 	t_int_node	*cur;
+	int			ret;
 
+	ret = 0;
 	cur = ps->a->head;
-	while (cur && cur->data != ps->sorted[0]->data)
+	while (cur)
 	{
-		pt_instruction(ps->a, ps->b, "ra");
+		if (cur->data == ps->sorted[i]->data)
+			break;
+		ret++;
 		cur = cur->next;
 	}
-	pt_instruction(ps->a, ps->b, "pb");
-	if (ps->a->head->data > ps->a->head->next->data)
+	return (ret);
+}
+
+static void	sort_three(t_ps *ps, int st)
+{
+	int			i;
+
+	i = find_by_index(ps, st);
+	if (i == 0)
+	{
+		pt_instruction(ps->a, ps->b, "pb");
 		pt_instruction(ps->a, ps->b, "sa");
-	pt_instruction(ps->a, ps->b, "pa");
+		pt_instruction(ps->a, ps->b, "pa");
+	}
+	else if (i == 1)
+	{
+		if (ps->a->head->data == ps->sorted[st + 1]->data)
+		{
+			pt_instruction(ps->a, ps->b, "rra");
+			pt_instruction(ps->a, ps->b, "sa");
+			pt_instruction(ps->a, ps->b, "rra");
+		}
+		else
+			pt_instruction(ps->a, ps->b, "ra");
+	}
+	else
+	{
+		if (ps->a->head->data > ps->a->head->next->data)
+			pt_instruction(ps->a, ps->b, "sa");
+		pt_instruction(ps->a, ps->b, "rra");
+	}
 }
 
 static void	sort_four(t_ps *ps)
@@ -57,26 +88,6 @@ static void	sort_four(t_ps *ps)
 	pt_instruction(ps->a, ps->b, "pa");
 }
 
-static void	sort_five_helper(t_ps *ps)
-{
-	int			i;
-
-	i = 0;
-	while (i < 1)
-	{
-		if (ps->a->head->data == ps->sorted[2]->data)
-		{
-			pt_instruction(ps->a, ps->b, "pb");
-			i++;
-		}
-		else
-			pt_instruction(ps->a, ps->b, "ra");
-	}
-	if (ps->a->head->data > ps->a->head->next->data)
-		pt_instruction(ps->a, ps->b, "sa");
-	pt_instruction(ps->a, ps->b, "pa");
-}
-
 static void	sort_five(t_ps *ps)
 {
 	int			i;
@@ -96,7 +107,8 @@ static void	sort_five(t_ps *ps)
 	sb = ps->b->head->data < ps->b->head->next->data;
 	if (sb)
 		pt_instruction(ps->a, ps->b, "sb");
-	sort_five_helper(ps);
+	if (!check_sorted(ps->a))
+		sort_three(ps, 2);
 	pt_instruction(ps->a, ps->b, "pa");
 	pt_instruction(ps->a, ps->b, "pa");
 }
@@ -106,7 +118,7 @@ void		sort_small(t_ps *ps)
 	if (ps->len == 2)
 		pt_instruction(ps->a, ps->b, "sa");
 	else if (ps->len == 3)
-		sort_three(ps);
+		sort_three(ps, 0);
 	else if (ps->len == 4)
 		sort_four(ps);
 	else if (ps->len == 5)
