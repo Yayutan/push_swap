@@ -48,15 +48,17 @@ static int			exe_ins(t_ckr *ckr)
 	return (1);
 }
 
-static t_queue		*get_ins(t_queue *ins)
+static t_ckr		*get_ins(t_ckr *ckr)
 {
 	char		*line;
 	int			ck;
 
+	if ((ckr->fd = read_file(ckr)) < 0)
+		return (NULL);
 	ck = 0;
-	while ((ck = get_next_line(0, &line)) > 0)
+	while ((ck = get_next_line(ckr->fd, &line)) > 0)
 	{
-		if (!enqueue(ins, line))
+		if (!enqueue(ckr->ins, line))
 		{
 			if (line)
 				free(line);
@@ -67,7 +69,7 @@ static t_queue		*get_ins(t_queue *ins)
 	}
 	if (ck < 0)
 		return (NULL);
-	return (ins);
+	return (ckr);
 }
 
 static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)
@@ -82,6 +84,8 @@ static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)
 			ckr->v = 1;
 		else if (!ft_strcmp("-c", n_v[i]))
 			ckr->c = 1;
+		else if (!ft_strcmp("-f", n_v[i]))
+			ckr->fd = -1;
 		else
 		{
 			n = ft_strsplit(n_v[i], ' ');
@@ -111,7 +115,7 @@ int					main(int ac, char **av)
 	}
 	if (ckr->a->size > 0)
 	{
-		if (!get_ins(ckr->ins) || !exe_ins(ckr))
+		if (!get_ins(ckr) || !exe_ins(ckr))
 		{
 			clean_ckr_structs(ckr);
 			ft_err_exit("Error");

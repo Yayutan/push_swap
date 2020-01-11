@@ -46,6 +46,7 @@ t_ckr		*set_ckr_structs(void)
 	}
 	to_ret->v = 0;
 	to_ret->c = 0;
+	to_ret->fd = 0;
 	return (to_ret);
 }
 
@@ -65,6 +66,8 @@ int			parse_input_arg(t_ckr *ckr, char **n)
 			ckr->v = 1;
 		else if (!ft_strcmp("-c", n[i]))
 			ckr->c = 1;
+		else if (!ft_strcmp("-f", n[i]))
+			ckr->fd = -1;
 		else if (!(nxt = valid_int(n[i])) || !(push(ckr->a, *nxt)))
 		{
 			if (nxt)
@@ -76,4 +79,20 @@ int			parse_input_arg(t_ckr *ckr, char **n)
 		i--;
 	}
 	return (1);
+}
+
+int			read_file(t_ckr *ckr)
+{
+	char	*file_name;
+
+	if (ckr->fd == 0)
+		return (0);
+	ft_printf("Enter file to read, followed by <Enter>\n");
+	if (get_next_line(0, &file_name) <= 0)
+	{
+		if (file_name)
+			free(file_name);
+		return (-1);
+	}
+	return (open(file_name, O_RDONLY));
 }
