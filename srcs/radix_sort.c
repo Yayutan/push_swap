@@ -1,37 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   radix_sort.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchuang <mchuang@student.42.us.org>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/11 03:32:06 by mchuang           #+#    #+#             */
+/*   Updated: 2020/01/11 03:32:10 by mchuang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
 
-int		exponential(int b, int p)
-{
-	int		i;
-	int		res;
-
-	i = 0;
-	res = 1;
-	while (i < p)
-	{
-		res *= b;
-		i++;
-	}
-	return (res);
-}
-
-int		log_m_ceil(int n, int m)
-{
-	int		log;
-	int		cur;
-
-	log = 0;
-	cur = 1;
-	while (cur < n)
-	{
-		cur *= m;
-		log++;
-	}
-	return (log);
-}
-
-static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
+static void		put_two_groups(t_ps *ps, int a_to_b, int top, int bot)
 {
 	t_stack		*from;
 	char		ins[3];
@@ -41,7 +22,7 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 	i = from->size;
 	while (--i >= 0)
 	{
-		if (from->head->group == bot_layer)
+		if (from->head->group == bot)
 		{
 			(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
 			pt_instruction(ps->a, ps->b, ins);
@@ -50,7 +31,7 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 		}
 		else
 		{
-			if (from->head->group == top_layer)
+			if (from->head->group == top)
 				(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
 			else
 				(a_to_b) ? ft_strcpy(ins, "ra") : ft_strcpy(ins, "rb");
@@ -74,7 +55,7 @@ static void		put_by_index(t_ps *ps, int a_to_b)
 		top--;
 		bot++;
 		iter--;
-	}	
+	}
 }
 
 static void		sort(t_ps *ps)
@@ -104,13 +85,13 @@ static void		sort(t_ps *ps)
 
 void			radix_sort(t_ps *ps)
 {
-	double 	four_steps;
-	double 	five_steps;
-	int		n;
+	double		four_steps;
+	double		five_steps;
+	int			n;
 
 	n = ps->len;
-	four_steps = 2.0 * n * log_m_ceil(n, 4) +  n * (log_m_ceil(n, 4) % 2);
-	five_steps = 2.2 * n * log_m_ceil(n, 5) +  n * (log_m_ceil(n, 5) % 2);
+	four_steps = 2.0 * n * log_m_ceil(n, 4) + n * (log_m_ceil(n, 4) % 2);
+	five_steps = 2.2 * n * log_m_ceil(n, 5) + n * (log_m_ceil(n, 5) % 2);
 	ps->max_symbols = (four_steps < five_steps) ? 4 : 5;
 	n = exponential(ps->max_symbols, log_m_ceil(ps->len, ps->max_symbols));
 	if (ps->len == n)

@@ -22,7 +22,7 @@ static int	find_by_index(t_ps *ps, int i)
 	while (cur)
 	{
 		if (cur->data == ps->sorted[i]->data)
-			break;
+			break ;
 		ret++;
 		cur = cur->next;
 	}
@@ -62,13 +62,13 @@ static void	sort_three(t_ps *ps, int st)
 static void	sort_four(t_ps *ps)
 {
 	int			i;
-	int			sa;
-	int			sb;
+	int			s[2];
 
 	i = 0;
 	while (i < 2)
 	{
-		if (ps->a->head->data == ps->sorted[0]->data || ps->a->head->data == ps->sorted[1]->data)
+		if (ps->a->head->data == ps->sorted[0]->data ||
+			ps->a->head->data == ps->sorted[1]->data)
 		{
 			pt_instruction(ps->a, ps->b, "pb");
 			i++;
@@ -76,13 +76,13 @@ static void	sort_four(t_ps *ps)
 		else
 			pt_instruction(ps->a, ps->b, "ra");
 	}
-	sa = ps->a->head->data > ps->a->head->next->data;
-	sb = ps->b->head->data < ps->b->head->next->data;
-	if (sa && sb)
+	s[0] = ps->a->head->data > ps->a->head->next->data;
+	s[1] = ps->b->head->data < ps->b->head->next->data;
+	if (s[0] && s[1])
 		pt_instruction(ps->a, ps->b, "ss");
-	else if (sa)
+	else if (s[0])
 		pt_instruction(ps->a, ps->b, "sa");
-	else if (sb)
+	else if (s[1])
 		pt_instruction(ps->a, ps->b, "sb");
 	pt_instruction(ps->a, ps->b, "pa");
 	pt_instruction(ps->a, ps->b, "pa");
@@ -96,7 +96,8 @@ static void	sort_five(t_ps *ps)
 	i = 0;
 	while (i < 2)
 	{
-		if (ps->a->head->data == ps->sorted[0]->data || ps->a->head->data == ps->sorted[1]->data)
+		if (ps->a->head->data == ps->sorted[0]->data ||
+			ps->a->head->data == ps->sorted[1]->data)
 		{
 			pt_instruction(ps->a, ps->b, "pb");
 			i++;

@@ -48,13 +48,14 @@ static int			find_smallest(t_int_node **list, int unsorted, int size)
 	return (min_i);
 }
 
-int				selection_sort(t_ps *ps)
+int					selection_sort(t_ps *ps)
 {
 	t_int_node	*tmp;
 	int			nxt_sort;
 	int			smallest;
 
-	if (!(ps->sorted = (t_int_node**)ft_memalloc(sizeof(t_int_node*) * ps->a->size)))
+	ps->sorted = (t_int_node**)ft_memalloc(sizeof(t_int_node*) * ps->len);
+	if (!ps->sorted)
 		return (0);
 	copy_stack(ps);
 	nxt_sort = 0;

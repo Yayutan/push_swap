@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	final_ord(t_ps *ps)
+void		final_ord(t_ps *ps)
 {
 	int		pt;
 	int		gp;
@@ -38,9 +38,7 @@ void	final_ord(t_ps *ps)
 	}
 }
 
-
-
-void	final_ord_rev(t_ps *ps)
+void		final_ord_rev(t_ps *ps)
 {
 	int		pt;
 	int		gp;

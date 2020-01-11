@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ordering.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mchuang <mchuang@student.42.us.org>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/11 03:29:39 by mchuang           #+#    #+#             */
+/*   Updated: 2020/01/11 03:29:41 by mchuang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static int		set_one_group_a(t_ps *ps, int i, int ord)
@@ -34,7 +46,7 @@ static int		fill_to_a(t_ps *ps, int i, int layer, int ord)
 		i = fill_to_a(ps, i, layer - 1, 1);
 	}
 	else if (ord == -1)
-	{		
+	{
 		i = fill_to_a(ps, i, layer - 1, -1);
 		i = fill_to_a(ps, i, layer - 1, -1);
 		i = fill_to_a(ps, i, layer - 1, 1);
@@ -90,7 +102,7 @@ static int		fill_to_b(t_ps *ps, int i, int layer, int ord)
 	return (i);
 }
 
-void		update_index(t_ps *ps, int end_b)
+void			update_index(t_ps *ps, int end_b)
 {
 	int		i;
 	int		pt;
@@ -100,15 +112,15 @@ void		update_index(t_ps *ps, int end_b)
 	i = (end_b) ? (ps->len - 1) : 0;
 	pt = 0;
 	while (pt < mid)
-	{		
+	{
 		if (end_b)
-			i = fill_to_b(ps, i, ps->layer , 1);
+			i = fill_to_b(ps, i, ps->layer, 1);
 		else
 			i = fill_to_a(ps, i, ps->layer, -1);
 		pt++;
 	}
 	while (pt < ps->n_parts)
-	{		
+	{
 		if (end_b)
 			i = fill_to_b(ps, i, ps->layer, -1);
 		else

@@ -47,53 +47,7 @@ void			clean_up_structs(t_ps *ps)
 	free(ps);
 }
 
-static int			add_string_n(t_ps *ps, char **n)
-{
-	int		i;
-	int		*nxt;
-
-	i = 0;
-	while (n[i + 1])
-		i++;
-	while (i >= 0)
-	{
-		nxt = NULL;
-		if (!(nxt = valid_int(n[i])) || !(push(ps->a, *nxt)))
-		{
-			if (nxt)
-				free(nxt);
-			return (0);
-		}
-		if (nxt)
-			free(nxt);
-		i--;
-	}
-	return (1);
-}
-
-t_stack		*check_num(t_ps *ps, int n_c, char **n_v)
-{
-	int		i;
-	char	**n;
-
-	i = n_c - 1;
-	while (i >= 0)
-	{
-		n = ft_strsplit(n_v[i], ' ');
-		if (!n)
-			return (NULL);
-		if (!*n || !(add_string_n(ps, n)))
-		{
-			clean_str_arr(n);
-			return (NULL);
-		}
-		clean_str_arr(n);
-		i--;
-	}
-	return (ps->a);
-}
-
-int		check_sorted(t_stack *st)
+int				check_sorted(t_stack *st)
 {
 	t_int_node	*cur;
 
@@ -105,4 +59,34 @@ int		check_sorted(t_stack *st)
 		cur = cur->next;
 	}
 	return (1);
+}
+
+int				exponential(int b, int p)
+{
+	int		i;
+	int		res;
+
+	i = 0;
+	res = 1;
+	while (i < p)
+	{
+		res *= b;
+		i++;
+	}
+	return (res);
+}
+
+int				log_m_ceil(int n, int m)
+{
+	int		log;
+	int		cur;
+
+	log = 0;
+	cur = 1;
+	while (cur < n)
+	{
+		cur *= m;
+		log++;
+	}
+	return (log);
 }

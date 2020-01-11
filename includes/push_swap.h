@@ -34,7 +34,6 @@ typedef struct	s_ps
 
 t_ps			*setup_structs(void);
 void			clean_up_structs(t_ps *ps);
-t_stack			*check_num(t_ps *ps, int n_c, char **n_v);
 int				check_sorted(t_stack *st);
 int				selection_sort(t_ps *ps);
 void			radix_sort(t_ps *ps);
