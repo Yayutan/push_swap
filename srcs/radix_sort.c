@@ -26,7 +26,13 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top, int bot)
 		{
 			(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
 			pt_instruction(ps->a, ps->b, ins);
-			(a_to_b) ? ft_strcpy(ins, "rb") : ft_strcpy(ins, "ra");
+			if (from->head && from->head->group != bot && from->head->group != top)
+			{
+				ft_strcpy(ins, "rr");
+				i--;
+			}
+			else
+				(a_to_b) ? ft_strcpy(ins, "rb") : ft_strcpy(ins, "ra");
 			pt_instruction(ps->a, ps->b, ins);
 		}
 		else
