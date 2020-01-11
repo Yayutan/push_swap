@@ -74,21 +74,19 @@ static t_ckr		*get_ins(t_ckr *ckr)
 
 static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)
 {
-	int		i;
 	char	**n;
 
-	i = n_c - 1;
-	while (i >= 0)
+	while (n_c > 0)
 	{
-		if (!ft_strcmp("-v", n_v[i]))
+		if (!ft_strcmp("-v", n_v[n_c - 1]))
 			ckr->v = 1;
-		else if (!ft_strcmp("-c", n_v[i]))
+		else if (!ft_strcmp("-c", n_v[n_c - 1]))
 			ckr->c = 1;
-		else if (!ft_strcmp("-f", n_v[i]))
+		else if (!ft_strcmp("-f", n_v[n_c - 1]))
 			ckr->fd = -1;
 		else
 		{
-			n = ft_strsplit(n_v[i], ' ');
+			n = ft_strsplit(n_v[n_c - 1], ' ');
 			if (!n)
 				return (NULL);
 			if (!*n || !(parse_input_arg(ckr, n)))
@@ -98,7 +96,7 @@ static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)
 			}
 			clean_str_arr(n);
 		}
-		i--;
+		n_c--;
 	}
 	return (ckr->a);
 }

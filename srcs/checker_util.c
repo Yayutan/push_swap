@@ -26,23 +26,19 @@ t_ckr		*set_ckr_structs(void)
 
 	if (!(to_ret = ft_memalloc(sizeof(t_ckr))))
 		ft_err_exit("Failed to alllocate checker struct");
-	if (!(to_ret->a = st_init()))
+	to_ret->a = st_init();
+	to_ret->b = st_init();
+	to_ret->ins = q_init();
+	if (!to_ret->a || !to_ret->b || !to_ret->ins)
 	{
+		if (to_ret->a)
+			free_stack(to_ret->a);
+		if (to_ret->b)
+			free_stack(to_ret->b);
+		if (to_ret->ins)
+			free_queue(to_ret->ins);
 		free(to_ret);
-		ft_err_exit("Failed to alllocate stack A");
-	}
-	if (!(to_ret->b = st_init()))
-	{
-		free_stack(to_ret->a);
-		free(to_ret);
-		ft_err_exit("Failed to alllocate stack B");
-	}
-	if (!(to_ret->ins = q_init()))
-	{
-		free_stack(to_ret->a);
-		free_stack(to_ret->b);
-		free(to_ret);
-		ft_err_exit("Failed to alllocate instruction Q");
+		ft_err_exit("Failed to alllocate stack and Q");
 	}
 	to_ret->v = 0;
 	to_ret->c = 0;
@@ -58,8 +54,7 @@ int			parse_input_arg(t_ckr *ckr, char **n)
 	i = 0;
 	while (n[i])
 		i++;
-	i--;
-	while (i >= 0)
+	while (--i >= 0)
 	{
 		nxt = NULL;
 		if (!ft_strcmp("-v", n[i]))
@@ -68,7 +63,7 @@ int			parse_input_arg(t_ckr *ckr, char **n)
 			ckr->c = 1;
 		else if (!ft_strcmp("-f", n[i]))
 			ckr->fd = -1;
-		else if (!(nxt = valid_int(n[i])) || !(push(ckr->a, *nxt)))
+		else if ((!(nxt = valid_int(n[i])) || !(push(ckr->a, *nxt))))
 		{
 			if (nxt)
 				free(nxt);
@@ -76,7 +71,6 @@ int			parse_input_arg(t_ckr *ckr, char **n)
 		}
 		if (nxt)
 			free(nxt);
-		i--;
 	}
 	return (1);
 }
