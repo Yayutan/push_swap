@@ -40,9 +40,7 @@ static int			exe_ins(t_ckr *ckr)
 		print_stack("Init a and b", 0, ckr->a, ckr->b);
 	if (ckr->step_ani || ckr->auto_ani)
 	{
-		mlx = mlx_init();
-		win = mlx_new_window(mlx, 500, 500, "push_swap");
-		mlx_loop(mlx);
+		// set up list of images???
 	}
 	cur = ckr->ins->head;
 	while (cur)
@@ -77,6 +75,12 @@ static t_ckr		*get_ins(t_ckr *ckr)
 	}
 	if (ck < 0)
 		return (NULL);
+	if (ckr->step_ani || ckr->auto_ani)
+	{
+		mlx = mlx_init();
+		win = mlx_new_window(mlx, 500, 500, "push_swap");
+		mlx_loop(mlx);
+	}
 	return (ckr);
 }
 
