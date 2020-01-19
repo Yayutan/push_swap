@@ -12,6 +12,21 @@
 
 #include "push_swap.h"
 
+static void			eval_and_print_instructions(t_ps *ps)
+{
+	char	*ins;
+
+	while (ps->ins->head)
+	{ // add logic for optimization
+		ins = dequeue(ps->ins);
+		if (ins)
+		{
+			pt_instruction(ps->a, ps->b, ins);
+			free(ins);
+		}
+	}
+}
+
 static int			add_string_n(t_ps *ps, char **n)
 {
 	int		i;
@@ -77,6 +92,7 @@ int					main(int ac, char **av)
 			ft_err_exit("Error");
 		}
 		(ps->len <= 5) ? sort_small(ps) : radix_sort(ps);
+		eval_and_print_instructions(ps);
 	}
 	clean_up_structs(ps);
 	return (0);

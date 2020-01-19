@@ -17,17 +17,20 @@ t_ps			*setup_structs(void)
 	t_ps	*to_ret;
 
 	if (!(to_ret = ft_memalloc(sizeof(t_ps))))
-		ft_err_exit("Failed to alllocate checker struct");
-	if (!(to_ret->a = st_init()))
+		ft_err_exit("Failed to alllocate ps struct");
+	to_ret->a = st_init();
+	to_ret->b = st_init();
+	to_ret->ins = q_init();
+	if (!to_ret->a || !to_ret->b || !to_ret->ins)
 	{
+		if (to_ret->a)
+			free_stack(to_ret->a);
+		if (to_ret->b)
+			free_stack(to_ret->b);
+		if (to_ret->ins)
+			free_queue(to_ret->ins);
 		free(to_ret);
-		ft_err_exit("Failed to alllocate stack A");
-	}
-	if (!(to_ret->b = st_init()))
-	{
-		free_stack(to_ret->a);
-		free(to_ret);
-		ft_err_exit("Failed to alllocate stack B");
+		ft_err_exit("Failed to alllocate stack and Q");
 	}
 	to_ret->sorted = NULL;
 	to_ret->n_parts = 0;
@@ -42,6 +45,7 @@ void			clean_up_structs(t_ps *ps)
 {
 	free_stack(ps->a);
 	free_stack(ps->b);
+	free_queue(ps->ins);
 	if (ps->sorted)
 		free(ps->sorted);
 	free(ps);

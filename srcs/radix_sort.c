@@ -12,7 +12,13 @@
 
 #include "push_swap.h"
 
-static void		put_two_groups(t_ps *ps, int a_to_b, int top, int bot)
+void			ex_and_store_instructions(t_ps *ps, char *ins)
+{
+	ex_instruction(ps->a, ps->b, ins);
+	enqueue(ps->ins, ins);
+}
+
+static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 {
 	t_stack		*from;
 	char		ins[3];
@@ -22,28 +28,22 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top, int bot)
 	i = from->size;
 	while (--i >= 0)
 	{
-		if (from->head->group == bot)
+		if (from->head->group == bot_layer)
 		{
 			(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
-			ex_instruction(ps->a, ps->b, ins);
+			ex_and_store_instructions(ps, ins);
 			// pt_instruction(ps->a, ps->b, ins);
-			if (from->head && from->head->group != bot && from->head->group != top)
-			{
-				ft_strcpy(ins, "rr");
-				i--;
-			}
-			else
-				(a_to_b) ? ft_strcpy(ins, "rb") : ft_strcpy(ins, "ra");
-			ex_instruction(ps->a, ps->b, ins);
+			(a_to_b) ? ft_strcpy(ins, "rb") : ft_strcpy(ins, "ra");
+			ex_and_store_instructions(ps, ins);
 			// pt_instruction(ps->a, ps->b, ins);
 		}
 		else
 		{
-			if (from->head->group == top)
+			if (from->head->group == top_layer)
 				(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
 			else
 				(a_to_b) ? ft_strcpy(ins, "ra") : ft_strcpy(ins, "rb");
-			ex_instruction(ps->a, ps->b, ins);
+			ex_and_store_instructions(ps, ins);
 			// pt_instruction(ps->a, ps->b, ins);
 		}
 	}
@@ -84,13 +84,11 @@ static void		sort(t_ps *ps)
 		put_by_index(ps, (out_iter % 2));
 		out_iter++;
 		ps->sym_p_pt *= ps->max_symbols;
-		// print_stack("One step", 0, ps->a, ps->b);
 	}	
 	if (ps->b->size != 0)
 	{
 		while (ps->b->head)
-			ex_instruction(ps->a, ps->b, "pa");
-			// pt_instruction(ps->a, ps->b, "pa");
+			ex_and_store_instructions(ps, "pa");
 	}
 }
 

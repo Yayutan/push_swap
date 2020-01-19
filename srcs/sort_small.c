@@ -36,26 +36,26 @@ static void	sort_three(t_ps *ps, int st)
 	i = find_by_index(ps, st);
 	if (i == 0)
 	{
-		pt_instruction(ps->a, ps->b, "pb");
-		pt_instruction(ps->a, ps->b, "sa");
-		pt_instruction(ps->a, ps->b, "pa");
+		ex_and_store_instructions(ps, "pb");
+		ex_and_store_instructions(ps, "sa");
+		ex_and_store_instructions(ps, "pa");
 	}
 	else if (i == 1)
 	{
 		if (ps->a->head->data == ps->sorted[st + 1]->data)
 		{
-			pt_instruction(ps->a, ps->b, "rra");
-			pt_instruction(ps->a, ps->b, "sa");
-			pt_instruction(ps->a, ps->b, "rra");
+			ex_and_store_instructions(ps, "rra");
+			ex_and_store_instructions(ps, "sa");
+			ex_and_store_instructions(ps, "rra");
 		}
 		else
-			pt_instruction(ps->a, ps->b, "ra");
+			ex_and_store_instructions(ps, "ra");
 	}
 	else
 	{
 		if (ps->a->head->data > ps->a->head->next->data)
-			pt_instruction(ps->a, ps->b, "sa");
-		pt_instruction(ps->a, ps->b, "rra");
+			ex_and_store_instructions(ps, "sa");
+		ex_and_store_instructions(ps, "rra");
 	}
 }
 
@@ -70,22 +70,22 @@ static void	sort_four(t_ps *ps)
 		if (ps->a->head->data == ps->sorted[0]->data ||
 			ps->a->head->data == ps->sorted[1]->data)
 		{
-			pt_instruction(ps->a, ps->b, "pb");
+			ex_and_store_instructions(ps, "pb");
 			i++;
 		}
 		else
-			pt_instruction(ps->a, ps->b, "ra");
+			ex_and_store_instructions(ps, "ra");
 	}
 	s[0] = ps->a->head->data > ps->a->head->next->data;
 	s[1] = ps->b->head->data < ps->b->head->next->data;
-	if (s[0] && s[1])
-		pt_instruction(ps->a, ps->b, "ss");
+	if (s[0] && s[1]) // remove optimization
+		ex_and_store_instructions(ps, "ss");
 	else if (s[0])
-		pt_instruction(ps->a, ps->b, "sa");
+		ex_and_store_instructions(ps, "sa");
 	else if (s[1])
-		pt_instruction(ps->a, ps->b, "sb");
-	pt_instruction(ps->a, ps->b, "pa");
-	pt_instruction(ps->a, ps->b, "pa");
+		ex_and_store_instructions(ps, "sb");
+	ex_and_store_instructions(ps, "pa");
+	ex_and_store_instructions(ps, "pa");
 }
 
 static void	sort_five(t_ps *ps)
@@ -99,25 +99,25 @@ static void	sort_five(t_ps *ps)
 		if (ps->a->head->data == ps->sorted[0]->data ||
 			ps->a->head->data == ps->sorted[1]->data)
 		{
-			pt_instruction(ps->a, ps->b, "pb");
+			ex_and_store_instructions(ps, "pb");
 			i++;
 		}
 		else
-			pt_instruction(ps->a, ps->b, "ra");
+			ex_and_store_instructions(ps, "ra");
 	}
 	sb = ps->b->head->data < ps->b->head->next->data;
 	if (sb)
-		pt_instruction(ps->a, ps->b, "sb");
+		ex_and_store_instructions(ps, "sb");
 	if (!check_sorted(ps->a))
 		sort_three(ps, 2);
-	pt_instruction(ps->a, ps->b, "pa");
-	pt_instruction(ps->a, ps->b, "pa");
+	ex_and_store_instructions(ps, "pa");
+	ex_and_store_instructions(ps, "pa");
 }
 
 void		sort_small(t_ps *ps)
 {
 	if (ps->len == 2)
-		pt_instruction(ps->a, ps->b, "sa");
+		ex_and_store_instructions(ps, "sa");
 	else if (ps->len == 3)
 		sort_three(ps, 0);
 	else if (ps->len == 4)

@@ -55,16 +55,20 @@ char				*dequeue(t_queue *q)
 
 	if (!q || !(q->head))
 		return ("-42");
-	to_ret = q->head->data;
 	hd = q->head;
+	to_ret = NULL;
 	if (q->size == 1)
 	{
 		q->head = NULL;
 		q->tail = NULL;
 	}
-	q->head = q->head->next;
+	else
+		q->head = q->head->next;
 	if (hd->data)
+	{
+		to_ret = ft_strdup(hd->data);
 		free(hd->data);
+	}
 	free(hd);
 	(q->size)--;
 	return (to_ret);

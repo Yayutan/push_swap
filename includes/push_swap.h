@@ -23,6 +23,7 @@ typedef struct	s_ps
 {
 	t_stack		*a;
 	t_stack		*b;
+	t_queue		*ins;
 	t_int_node	**sorted;
 	int			len;
 	int			n_parts;
@@ -37,6 +38,7 @@ void			clean_up_structs(t_ps *ps);
 int				check_sorted(t_stack *st);
 int				selection_sort(t_ps *ps);
 void			radix_sort(t_ps *ps);
+void			ex_and_store_instructions(t_ps *ps, char *ins);
 void			sort_small(t_ps *ps);
 int				log_m_ceil(int n, int m);
 int				exponential(int b, int p);
