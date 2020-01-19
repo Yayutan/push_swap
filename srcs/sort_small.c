@@ -78,11 +78,9 @@ static void	sort_four(t_ps *ps)
 	}
 	s[0] = ps->a->head->data > ps->a->head->next->data;
 	s[1] = ps->b->head->data < ps->b->head->next->data;
-	if (s[0] && s[1]) // remove optimization
-		ex_and_store_instructions(ps, "ss");
-	else if (s[0])
+	if (s[0])
 		ex_and_store_instructions(ps, "sa");
-	else if (s[1])
+	if (s[1])
 		ex_and_store_instructions(ps, "sb");
 	ex_and_store_instructions(ps, "pa");
 	ex_and_store_instructions(ps, "pa");

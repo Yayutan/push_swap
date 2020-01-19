@@ -32,10 +32,8 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 		{
 			(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
 			ex_and_store_instructions(ps, ins);
-			// pt_instruction(ps->a, ps->b, ins);
 			(a_to_b) ? ft_strcpy(ins, "rb") : ft_strcpy(ins, "ra");
 			ex_and_store_instructions(ps, ins);
-			// pt_instruction(ps->a, ps->b, ins);
 		}
 		else
 		{
@@ -44,7 +42,6 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 			else
 				(a_to_b) ? ft_strcpy(ins, "ra") : ft_strcpy(ins, "rb");
 			ex_and_store_instructions(ps, ins);
-			// pt_instruction(ps->a, ps->b, ins);
 		}
 	}
 }

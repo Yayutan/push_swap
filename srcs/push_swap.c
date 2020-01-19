@@ -12,17 +12,43 @@
 
 #include "push_swap.h"
 
+static char			*examine_sp_case(char *s1, char *s2)
+{
+	if ((!ft_strcmp(s1, "sa") && !ft_strcmp(s2, "sb")) || (!ft_strcmp(s1, "sb") && !ft_strcmp(s2, "sa")))
+		return ("ss");
+	else if ((!ft_strcmp(s1, "ra") && !ft_strcmp(s2, "rb")) || (!ft_strcmp(s1, "rb") && !ft_strcmp(s2, "ra")))
+		return ("rr");
+	else if ((!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "rrb")) || (!ft_strcmp(s1, "rrb") && !ft_strcmp(s2, "rra")))
+		return ("rrr");
+	else
+		return ("");
+}
+
 static void			eval_and_print_instructions(t_ps *ps)
 {
-	char	*ins;
+	char	*cur;
+	char	ins[4];
 
 	while (ps->ins->head)
-	{ // add logic for optimization
-		ins = dequeue(ps->ins);
-		if (ins)
+	{
+		cur = dequeue(ps->ins);
+		if (cur && front(ps->ins))
 		{
-			pt_instruction(ps->a, ps->b, ins);
-			free(ins);
+			ft_strcpy(ins, examine_sp_case(cur, front(ps->ins)));
+			if (!*ins)
+				ft_printf("%s\n", cur);
+			else
+			{
+				ft_printf("%s\n", ins);
+				free(dequeue(ps->ins));
+			}
+			free(cur);
+			cur = NULL;
+		}
+		if (cur)
+		{
+			ft_printf("%s\n", cur);
+			free(cur);
 		}
 	}
 }
