@@ -25,7 +25,8 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top, int bot)
 		if (from->head->group == bot)
 		{
 			(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
-			pt_instruction(ps->a, ps->b, ins);
+			ex_instruction(ps->a, ps->b, ins);
+			// pt_instruction(ps->a, ps->b, ins);
 			if (from->head && from->head->group != bot && from->head->group != top)
 			{
 				ft_strcpy(ins, "rr");
@@ -33,7 +34,8 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top, int bot)
 			}
 			else
 				(a_to_b) ? ft_strcpy(ins, "rb") : ft_strcpy(ins, "ra");
-			pt_instruction(ps->a, ps->b, ins);
+			ex_instruction(ps->a, ps->b, ins);
+			// pt_instruction(ps->a, ps->b, ins);
 		}
 		else
 		{
@@ -41,7 +43,8 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top, int bot)
 				(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
 			else
 				(a_to_b) ? ft_strcpy(ins, "ra") : ft_strcpy(ins, "rb");
-			pt_instruction(ps->a, ps->b, ins);
+			ex_instruction(ps->a, ps->b, ins);
+			// pt_instruction(ps->a, ps->b, ins);
 		}
 	}
 }
@@ -81,11 +84,13 @@ static void		sort(t_ps *ps)
 		put_by_index(ps, (out_iter % 2));
 		out_iter++;
 		ps->sym_p_pt *= ps->max_symbols;
-	}
+		// print_stack("One step", 0, ps->a, ps->b);
+	}	
 	if (ps->b->size != 0)
 	{
 		while (ps->b->head)
-			pt_instruction(ps->a, ps->b, "pa");
+			ex_instruction(ps->a, ps->b, "pa");
+			// pt_instruction(ps->a, ps->b, "pa");
 	}
 }
 
