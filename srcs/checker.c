@@ -33,9 +33,17 @@ static int			check_final_result(t_stack *a, t_stack *b)
 static int			exe_ins(t_ckr *ckr)
 {
 	t_str_node	*cur;
+	void		*mlx;
+	void		*win;
 
 	if (ckr->v)
 		print_stack("Init a and b", 0, ckr->a, ckr->b);
+	if (ckr->step_ani || ckr->auto_ani)
+	{
+		mlx = mlx_init();
+		win = mlx_new_window(mlx, 500, 500, "push_swap");
+		mlx_loop(mlx);
+	}
 	cur = ckr->ins->head;
 	while (cur)
 	{

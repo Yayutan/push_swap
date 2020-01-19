@@ -12,10 +12,11 @@
 
 #ifndef CHECKER_H
 # define CHECKER_H
-# include "libft.h"
-# include "get_next_line.h"
-# include "stack.h"
-# include "queue.h"
+# include "../libft/libft.h"
+# include "../libft/get_next_line.h"
+# include "../libft/stack.h"
+# include "../libft/queue.h"
+# include "../minilibx_macos/mlx.h"
 # include "instructions.h"
 # include "general_util.h"
 # include <limits.h>

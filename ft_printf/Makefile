@@ -1,9 +1,8 @@
 NAME = libftprintf.a
-F_NAME = ../libftprintf.a
 SRC_PATH = ./srcs/
 OBJ_PATH = ./objs/
-LFT_SRC_PATH = ../
-LFT_OBJ_PATH = ../lft_objs/
+LFT_SRC_PATH = ../libft/
+LFT_OBJ_PATH = ../libft/lft_objs/
 INC_PATH = ./includes/
 FLAGS = -Wall -Werror -Wextra
 
@@ -16,21 +15,21 @@ CYAN = "\033[0;36m"
 CLEAR = "\033[0m"
 
 SRC_NAME = ft_buf.c\
-		ft_printf.c\
-		parse_param.c\
-		dis_proc_fin.c\
-		printcs.c\
-		printdiouxb.c\
-		printfeg.c\
-		printk.c\
-		printp.c\
-		printf_f.c\
-		printf_helper.c\
-		printe.c\
-		arg_list.c\
-		arg_lst_util.c\
-		spec_util.c\
-		get_param.c\
+	ft_printf.c\
+	parse_param.c\
+	dis_proc_fin.c\
+	printcs.c\
+	printdiouxb.c\
+	printfeg.c\
+	printk.c\
+	printp.c\
+	printf_f.c\
+	printf_helper.c\
+	printe.c\
+	arg_list.c\
+	arg_lst_util.c\
+	spec_util.c\
+	get_param.c\
         arb_add_sub.c\
         arb_mult_div.c
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -38,7 +37,7 @@ SRC = $(addprefix $(SRC_PATH), $(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 
 LFT_SRC_NAME = ft_atoi.c\
-		ft_err_exit.c\
+	ft_err_exit.c\
         ft_isascii.c\
         ft_memchr.c\
         ft_memset.c\
@@ -96,27 +95,27 @@ LFT_SRC_NAME = ft_atoi.c\
         ft_lstiter.c\
         ft_lstmap.c\
         ft_lstnew.c\
-		ft_lstadd_bk.c\
-		ft_lstinsert.c\
-		ft_lstdelat.c\
-		ft_lstlen.c\
-		ft_lstat.c\
-		ft_ulltoa_base.c\
-		ft_lltoa_base.c\
-		ft_strup.c\
+	ft_lstadd_bk.c\
+	ft_lstinsert.c\
+	ft_lstdelat.c\
+	ft_lstlen.c\
+	ft_lstat.c\
+	ft_ulltoa_base.c\
+	ft_lltoa_base.c\
+	ft_strup.c\
         ft_stradd.c\
-		ft_strtrimc.c
+	ft_strtrimc.c
 LFT_OBJ_NAME = $(LFT_SRC_NAME:.c=.o)
 LFT_SRC = $(addprefix $(LFT_SRC_PATH), $(LFT_SRC_NAME))
 LFT_OBJ = $(addprefix $(LFT_OBJ_PATH), $(LFT_OBJ_NAME))
 
 .PHONY = all clean fclean re
 
-all: $(F_NAME)
+all: $(NAME)
 
-$(F_NAME): $(OBJ)
-	@ar rc $(F_NAME) $(OBJ) $(LFT_OBJ)
-	@ranlib $(F_NAME)
+$(NAME): $(OBJ)
+	@ar rc $(NAME) $(OBJ) $(LFT_OBJ)
+	@ranlib $(NAME)
 	@echo $(GREEN)"ft_printf.a created"$(CLEAR)
 
 $(LFT_OBJ_PATH)%.o: $(LFT_SRC_PATH)%.c
@@ -131,7 +130,7 @@ clean:
 	@echo $(RED)"Removed ft_printf object files"$(CLEAR)
 
 fclean:
-	@/bin/rm -f $(F_NAME)
+	@/bin/rm -f $(NAME)
 	@echo $(RED)"Removed ft_printf.a"$(CLEAR)
 
 re: clean fclean all

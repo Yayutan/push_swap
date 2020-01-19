@@ -12,9 +12,9 @@
 
 #ifndef INSTRUCTIONS_H
 # define INSTRUCTIONS_H
-# include "ft_printf.h"
-# include "stack.h"
-# include "queue.h"
+# include "../ft_printf/includes/ft_printf.h"
+# include "../libft/stack.h"
+# include "../libft/queue.h"
 
 typedef void	(t_ins_f)(t_stack *st1, t_stack *st2);
 
