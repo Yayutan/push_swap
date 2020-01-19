@@ -63,6 +63,10 @@ int			parse_input_arg(t_ckr *ckr, char **n)
 			ckr->c = 1;
 		else if (!ft_strcmp("-f", n[i]))
 			ckr->fd = -1;
+		else if (!ft_strcmp("-s", n[i]))
+			ckr->step_ani = 1;
+		else if (!ft_strcmp("-a", n[i]))
+			ckr->auto_ani = -1;
 		else if ((!(nxt = valid_int(n[i])) || !(push(ckr->a, *nxt))))
 		{
 			if (nxt)
@@ -89,4 +93,38 @@ int			read_file(t_ckr *ckr)
 		return (-1);
 	}
 	return (open(file_name, O_RDONLY));
+}
+
+
+char		*concat_arguments(int argc, char **arg)
+{
+	int		i;
+	int		str_len;
+	char	*to_ret;
+	char	*one_arg;
+
+	i = -1;
+	str_len = argc - 1;
+	while (++i < argc)
+	{
+		one_arg = ft_strtrim(arg[i]);
+		str_len += ft_strlen(one_arg);
+		if (one_arg)
+			free(one_arg);
+	}
+	to_ret = ft_strnew(str_len + 1);
+	i = -1;
+	str_len = 0;
+	while (++i < argc)
+	{
+		one_arg = ft_strtrim(arg[i]);
+		if (one_arg)
+		{
+			ft_strncpy(to_ret + str_len, one_arg, ft_strlen(one_arg));
+			str_len += ft_strlen(one_arg);
+			to_ret[str_len++] = ' ';
+			free(one_arg);
+		}
+	}
+	return (to_ret);
 }
