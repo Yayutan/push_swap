@@ -17,6 +17,9 @@
 # include "../libft/queue.h"
 # include "../libft/libft.h"
 # include <limits.h>
+# include <pthread.h>
+
+pthread_mutex_t g_lock;
 
 typedef struct s_draw_util
 {
@@ -27,6 +30,7 @@ typedef struct s_draw_util
 	int			size_x;
 	int			size_y;
 	int			time_int;
+	int			lock;
 }				t_draw_util;
 
 typedef struct	s_ani

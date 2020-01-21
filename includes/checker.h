@@ -21,6 +21,7 @@
 # include "animation.h"
 # include <limits.h>
 # include <fcntl.h>
+# include <pthread.h>
 
 typedef struct	s_ckr
 {

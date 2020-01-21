@@ -15,74 +15,6 @@
 # include <time.h>
 # include <stdio.h>
 
-// void	test_image(void *mlx, void *win)
-// {
-// 	char	*xpm[] = {
-// 	/* <Values> */
-// 	/* <width/columns> <height/rows> <colors> <chars per pixel>*/
-// 	"48 16 3 1",
-// 	/* <Colors> */
-// 	"a c #ffffff",
-// 	"b c #ff0000",
-// 	"d c #00ff00",
-// 	/* <Pixels> */
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd"
-// 	};
-// 	int		x = 48;
-// 	int		y = 16;
-// 	void	*image = mlx_xpm_to_image(mlx, xpm, &x, &y);
-// 	mlx_put_image_to_window(mlx, win, image, 10, 10);
-// }
-
-// void	test_image_2(void *mlx, void *win)
-// {
-// 	char	*xpm[] = {
-// 	/* <Values> */
-// 	/* <width/columns> <height/rows> <colors> <chars per pixel>*/
-// 	"48 16 3 1",
-// 	/* <Colors> */
-// 	"a c #ffffff",
-// 	"b c #ff0000",
-// 	"d c #00ff00",
-// 	/* <Pixels> */
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd",
-// 	"dddddddddddddddddddddddddddddddddddddddddddddddd"
-// 	};
-// 	int		x = 48;
-// 	int		y = 16;
-// 	void	*image = mlx_xpm_to_image(mlx, xpm, &x, &y);
-// 	mlx_put_image_to_window(mlx, win, image, 100, 100);
-// }
-
 int			key_handler(int k, t_draw_util *util)
 {
 	if (k == 53)
@@ -91,6 +23,21 @@ int			key_handler(int k, t_draw_util *util)
 		util->time_int -= (util->time_int > 1) ? 1 : 0;
 	else if (k == 121)
 		util->time_int += (util->time_int < 10) ? 1 : 0;
+	else if (k == 49)
+	{		
+		if (util->lock)
+		{
+			printf("Unlocked\n");
+			util->lock = 0;
+			pthread_mutex_unlock(&g_lock);	
+		}
+		else
+		{
+			printf("Locked\n");
+			util->lock = 1;
+			pthread_mutex_lock(&g_lock);
+		}
+	}
 	// printf("%d\n", k);
 	return (0);
 }
@@ -118,41 +65,41 @@ static int		find_max(t_stack a, t_stack b)
 	return (max);
 }
 
-static int		find_min(t_stack a, t_stack b)
-{
-	int			min;
-	t_int_node	*cur;
+// static int		find_min(t_stack a, t_stack b)
+// {
+// 	int			min;
+// 	t_int_node	*cur;
 
-	cur = a.head;
-	min = INT_MAX;
-	while (cur)
-	{
-		if (cur->data < min)
-			min = cur->data;
-		cur = cur->next;
-	}
-	cur = b.head;
-	while (cur)
-	{
-		if (cur->data < min)
-			min = cur->data;
-		cur = cur->next;
-	}
-	return (min);
-}
+// 	cur = a.head;
+// 	min = INT_MAX;
+// 	while (cur)
+// 	{
+// 		if (cur->data < min)
+// 			min = cur->data;
+// 		cur = cur->next;
+// 	}
+// 	cur = b.head;
+// 	while (cur)
+// 	{
+// 		if (cur->data < min)
+// 			min = cur->data;
+// 		cur = cur->next;
+// 	}
+// 	return (min);
+// }
 
-static void			clear_xpm(char **xpm)
+static void			clear_rest_xpm(t_draw_util *util, int i)
 {
 	int		r;
 	int		c;
 
-	r = 3;
+	r = 3 + (i - 1) * util->scale[1];
 	while (r < 443)
 	{
 		c = 0;
 		while (c < 440)
 		{
-			xpm[r][c] = '0';
+			util->xpm[r][c] = '0';			
 			c++;
 		}
 		r++;
@@ -175,13 +122,14 @@ static t_draw_util	*setup_draw(t_stack a, t_stack b) // err chk , del func
 		to_ret->xpm[i] = ft_strnew(440);
 		i++;
 	}
-	to_ret->time_int = 4;
+	to_ret->time_int = 2;
 	to_ret->max = find_max(a, b);
-	to_ret->min = find_min(a, b);
+	to_ret->min = 0; /*find_min(a, b); neg num??*/
 	to_ret->size_x = 440;
 	to_ret->size_y = 440;
 	to_ret->scale[0] = 220 / (to_ret->max - to_ret->min);
 	to_ret->scale[1] = 440 / (a.size + b.size);
+	to_ret->lock = 0;
 	return (to_ret);
 }
 
@@ -201,23 +149,21 @@ static void		paint(t_int_node **node, t_draw_util *util, int index)
 			(util->xpm)[3 + (index - 1) * util->scale[1]][c] = '0';
 		c++;
 	}
-	r = 0;
+	r = 1;
 	while (r < util->scale[1])
 	{
 		ft_strcpy((util->xpm)[3 + (index - 1) * util->scale[1] + r],
 			(util->xpm)[3 + (index - 1) * util->scale[1]]);
 		r++;
 	}
-	
 }
 
 void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
-{ // put image in exe, faster?
+{
 	t_int_node			*cur[2];
 	int					i;
 	void				*img; // put outside to free?
 
-	clear_xpm(ani->util->xpm);
 	cur[0] = a.head;
 	cur[1] = b.head;
 	i = 1;
@@ -227,12 +173,11 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 		cur[0] = (cur[0]) ? cur[0]->next : NULL;
 		cur[1] = (cur[1]) ? cur[1]->next : NULL;	
 		i++;
-	}	
+	}
+	clear_rest_xpm(ani->util, i);	
 	img = mlx_xpm_to_image(ani->mlx, (char**)ani->util->xpm, &(ani->util->size_y), &(ani->util->size_x));
 	mlx_put_image_to_window(ani->mlx, ani->win, img, 20, 20);
 }
-
-
 
 t_ani	*animation(t_stack a, t_stack b)
 {
@@ -246,15 +191,3 @@ t_ani	*animation(t_stack a, t_stack b)
 	mlx_key_hook(ani->win, key_handler, ani->util);
 	return (ani);
 }
-
-
-
-// void	*child_thread(void *args)
-// {
-// 	t_ani *ani = (t_ani*)args;
-// 	test_image(ani->mlx, ani->win);
-// 	sleep(5); ///// key hook to change time interval (set restrictions)
-// 	////// mutex to pause/resume
-// 	test_image_2(ani->mlx, ani->win);
-// 	return (NULL);
-// }

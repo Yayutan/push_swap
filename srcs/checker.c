@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "checker.h"
-#include <pthread.h>
 
 static int			check_final_result(t_stack *a, t_stack *b)
 {
@@ -31,10 +30,10 @@ static int			check_final_result(t_stack *a, t_stack *b)
 	return (1);
 }
 
-
 static int			exe_ins(t_ckr *ckr)
 {
 	t_str_node	*cur;
+	int			lock;
 
 	if (ckr->v)
 		print_stack("Init a and b", 0, ckr->a, ckr->b);
@@ -46,14 +45,19 @@ static int			exe_ins(t_ckr *ckr)
 	cur = ckr->ins->head;
 	while (cur)
 	{
+		pthread_mutex_lock(&g_lock);
+		lock = (ckr->ani) ? ckr->ani->util->lock : 0;
+		pthread_mutex_unlock(&g_lock);
+		if (lock)
+			continue ;
 		ex_instruction(ckr->a, ckr->b, cur->data);
 		if (ckr->v)
 			print_stack(cur->data, ckr->c, ckr->a, ckr->b);
 		if (ckr->step_ani || ckr->auto_ani)
 		{
 			draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-			sleep(ckr->ani->util->time_int);
-		}
+			sleep(ckr->ani->util->time_int);			
+		}		
 		cur = cur->next;
 	}
 	return (1);
@@ -116,7 +120,6 @@ static void			*checker(void *args)
 	clean_ckr_structs(ckr);
 	return (NULL);
 }
-
 
 int					main(int ac, char **av)
 {
