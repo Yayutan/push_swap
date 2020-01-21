@@ -50,7 +50,7 @@ static t_ins_f	**dispatch_table(void)
 	return (f);
 }
 
-static int		find_index(char *ins)
+int			find_index(char *ins)
 {
 	char	**ins_table;
 	int		i;
@@ -82,16 +82,16 @@ void			pt_instruction(t_stack *a, t_stack *b, char *ins)
 	free(f);
 }
 
-int				ex_instruction(t_stack *a, t_stack *b, char *ins)
+void			ex_instruction(t_stack *a, t_stack *b, char *ins)
 {
 	int		i;
 	t_ins_f	**f;
 
 	i = find_index(ins);
-	if (i < 0)
-		return (-1);
+	// if (i < 0)
+		// return (-1);
 	f = dispatch_table();
 	f[i](a, b);
 	free(f);
-	return (1);
+	// return (1);
 }

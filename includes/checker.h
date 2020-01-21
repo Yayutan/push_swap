@@ -16,9 +16,9 @@
 # include "../libft/get_next_line.h"
 # include "../libft/stack.h"
 # include "../libft/queue.h"
-# include "../minilibx_macos/mlx.h"
 # include "instructions.h"
 # include "general_util.h"
+# include "animation.h"
 # include <limits.h>
 # include <fcntl.h>
 
@@ -27,6 +27,7 @@ typedef struct	s_ckr
 	t_stack		*a;
 	t_stack		*b;
 	t_queue		*ins;
+	t_ani		*ani;
 	int			v;
 	int			c;
 	int			step_ani;

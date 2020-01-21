@@ -29,6 +29,7 @@ void		rr(t_stack *a, t_stack *b);
 void		rra(t_stack *a, t_stack *b);
 void		rrb(t_stack *a, t_stack *b);
 void		rrr(t_stack *a, t_stack *b);
+int			find_index(char *ins);
 void		pt_instruction(t_stack *a, t_stack *b, char *ins);
-int			ex_instruction(t_stack *a, t_stack *b, char *ins);
+void		ex_instruction(t_stack *a, t_stack *b, char *ins);
 #endif
