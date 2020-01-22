@@ -35,58 +35,6 @@ static int			exe_ins(t_ckr *ckr)
 	t_str_node	*cur;
 	int			lock;
 
-
-//////////////
-	void		*image;
-	int			alt_id;
-	int size_x = 48;
-	int size_y = 12;
-	char * id_0[] = {
-	/* <Values> */
-	/* <width/columns> <height/rows> <colors> <chars per pixel>*/
-	"48 12 2 1",
-	/* <Colors> */
-	"a c #ff0000",
-	"b c #ffffff",
-	/* <Pixels> */
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-	};
-	char * id_1[] = {
-	/* <Values> */
-	/* <width/columns> <height/rows> <colors> <chars per pixel>*/
-	"48 12 2 1",
-	/* <Colors> */
-	"a c #ffffff",
-	"b c #ff0000",
-	/* <Pixels> */
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-	"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-	};
-	alt_id = 0;
-//////////////
-
-
 	if (ckr->v)
 		print_stack("Init a and b", 0, ckr->a, ckr->b);
 	if (ckr->step_ani || ckr->auto_ani)
@@ -107,27 +55,8 @@ static int			exe_ins(t_ckr *ckr)
 			print_stack(cur->data, ckr->c, ckr->a, ckr->b);
 		if (ckr->step_ani || ckr->auto_ani)
 		{
-			// ckr->ani->util->finish = 0;
 			draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-			// finish = 0;
-			// while (!finish)
-			// {
-				// pthread_mutex_lock(&g_draw);
-				// finish = ckr->ani->util->finish;
-				// pthread_mutex_unlock(&g_draw);
-			// }
-
-
-			/////////////
-			if (alt_id % 2)
-				image = mlx_xpm_to_image(ckr->ani->mlx, (char**)id_0, &size_x, &size_y);
-			else
-				image = mlx_xpm_to_image(ckr->ani->mlx, (char**)id_1, &size_x, &size_y);
-			mlx_put_image_to_window(ckr->ani->mlx, ckr->ani->win, image, 50, 50);
-			alt_id++;
-			//////////////
-
-			sleep(ckr->ani->util->time_int);
+			// sleep(ckr->ani->util->time_int);
 			usleep(100000);
 		}
 		cur = cur->next;

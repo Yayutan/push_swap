@@ -28,15 +28,10 @@ int			key_handler(int k, t_ani *ani)
 		pthread_mutex_lock(&g_lock);	
 		if (ani->util->lock)
 		{
-			// printf("Unlocked\n");
-			// remove word
 			ani->util->lock = 0;
 		}
 		else
 		{
-			// printf("Locked\n");
-			// put word
-
 			ani->util->lock = 1;
 			mlx_string_put (ani->mlx, ani->win, 20, 20, 0xff0000, "PAUSED");
 		}
@@ -126,7 +121,7 @@ static t_draw_util	*setup_draw(t_stack a, t_stack b) // err chk , del func
 		to_ret->xpm[i] = ft_strnew(440);
 		i++;
 	}
-	to_ret->time_int = 0;
+	to_ret->time_int = 1;
 	to_ret->max = find_max(a, b);
 	to_ret->min = 0; /*find_min(a, b); neg num??*/
 	to_ret->size_x = 440;
@@ -185,6 +180,7 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 	clear_rest_xpm(ani->util, i);	
 	ani->image = mlx_xpm_to_image(ani->mlx, (char**)ani->util->xpm, &(ani->util->size_y), &(ani->util->size_x));
 	mlx_put_image_to_window(ani->mlx, ani->win, ani->image, 20, 20);
+	mlx_do_sync(ani->mlx);
 	// printf("%s\n", "draw done");
 	// sleep(ani->util->time_int);
 	// ani->util->finish = 1;
