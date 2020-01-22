@@ -20,7 +20,7 @@
 # include <pthread.h>
 
 pthread_mutex_t g_lock;
-pthread_mutex_t g_draw;
+// pthread_mutex_t g_draw;
 
 typedef struct s_draw_util
 {
@@ -32,13 +32,14 @@ typedef struct s_draw_util
 	int			size_y;
 	int			time_int;
 	int			lock;
-	int			finish;
+	// int			finish;
 }				t_draw_util;
 
 typedef struct	s_ani
 {
 	void		*mlx;
 	void		*win;
+	void		*image;
 	t_draw_util	*util;	
 }				t_ani;
 

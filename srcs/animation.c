@@ -15,30 +15,34 @@
 # include <time.h>
 # include <stdio.h>
 
-int			key_handler(int k, t_draw_util *util)
+int			key_handler(int k, t_ani *ani)
 {
 	if (k == 53)
 		exit(0);
 	else if (k == 116)
-		util->time_int -= (util->time_int > 1) ? 1 : 0;
+		ani->util->time_int -= (ani->util->time_int > 1) ? 1 : 0;
 	else if (k == 121)
-		util->time_int += (util->time_int < 10) ? 1 : 0;
+		ani->util->time_int += (ani->util->time_int < 10) ? 1 : 0;
 	else if (k == 49)
 	{		
-		if (util->lock)
+		pthread_mutex_lock(&g_lock);	
+		if (ani->util->lock)
 		{
-			printf("Unlocked\n");
-			util->lock = 0;
-			pthread_mutex_unlock(&g_lock);	
+			// printf("Unlocked\n");
+			// remove word
+			ani->util->lock = 0;
 		}
 		else
 		{
-			printf("Locked\n");
-			util->lock = 1;
-			pthread_mutex_lock(&g_lock);
+			// printf("Locked\n");
+			// put word
+
+			ani->util->lock = 1;
+			mlx_string_put (ani->mlx, ani->win, 20, 20, 0xff0000, "PAUSED");
 		}
+		pthread_mutex_unlock(&g_lock);	
 	}
-	// printf("%d\n", k);
+	printf("%d\n", k);
 	return (0);
 }
 
@@ -122,7 +126,7 @@ static t_draw_util	*setup_draw(t_stack a, t_stack b) // err chk , del func
 		to_ret->xpm[i] = ft_strnew(440);
 		i++;
 	}
-	to_ret->time_int = 2;
+	to_ret->time_int = 0;
 	to_ret->max = find_max(a, b);
 	to_ret->min = 0; /*find_min(a, b); neg num??*/
 	to_ret->size_x = 440;
@@ -130,7 +134,7 @@ static t_draw_util	*setup_draw(t_stack a, t_stack b) // err chk , del func
 	to_ret->scale[0] = 220 / (to_ret->max - to_ret->min);
 	to_ret->scale[1] = 440 / (a.size + b.size);
 	to_ret->lock = 0;
-	to_ret->finish = 1;
+	// to_ret->finish = 1;
 	return (to_ret);
 }
 
@@ -163,9 +167,11 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 {
 	t_int_node			*cur[2];
 	int					i;
-	void				*img; // put outside to free?
 
-	pthread_mutex_lock(&g_draw);
+	// pthread_mutex_lock(&g_draw);
+	// printf("%s\n", "drawing");
+	if (ani->image)
+		mlx_destroy_image (ani->mlx, ani->image);
 	cur[0] = a.head;
 	cur[1] = b.head;
 	i = 1;
@@ -177,11 +183,12 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 		i++;
 	}
 	clear_rest_xpm(ani->util, i);	
-	img = mlx_xpm_to_image(ani->mlx, (char**)ani->util->xpm, &(ani->util->size_y), &(ani->util->size_x));
-	mlx_put_image_to_window(ani->mlx, ani->win, img, 20, 20);
-	sleep(ani->util->time_int);
-	ani->util->finish = 1;
-	pthread_mutex_unlock(&g_draw);
+	ani->image = mlx_xpm_to_image(ani->mlx, (char**)ani->util->xpm, &(ani->util->size_y), &(ani->util->size_x));
+	mlx_put_image_to_window(ani->mlx, ani->win, ani->image, 20, 20);
+	// printf("%s\n", "draw done");
+	// sleep(ani->util->time_int);
+	// ani->util->finish = 1;
+	// pthread_mutex_unlock(&g_draw);
 }
 
 t_ani	*animation(t_stack a, t_stack b)
@@ -193,6 +200,6 @@ t_ani	*animation(t_stack a, t_stack b)
 	ani->util = setup_draw(a, b);
 	ani->mlx = mlx_init();
 	ani->win = mlx_new_window(ani->mlx, 500, 500, "push_swap");
-	mlx_key_hook(ani->win, key_handler, ani->util);
+	mlx_key_hook(ani->win, key_handler, ani);
 	return (ani);
 }
