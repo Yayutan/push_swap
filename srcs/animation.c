@@ -130,6 +130,7 @@ static t_draw_util	*setup_draw(t_stack a, t_stack b) // err chk , del func
 	to_ret->scale[0] = 220 / (to_ret->max - to_ret->min);
 	to_ret->scale[1] = 440 / (a.size + b.size);
 	to_ret->lock = 0;
+	to_ret->finish = 1;
 	return (to_ret);
 }
 
@@ -164,6 +165,7 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 	int					i;
 	void				*img; // put outside to free?
 
+	pthread_mutex_lock(&g_draw);
 	cur[0] = a.head;
 	cur[1] = b.head;
 	i = 1;
@@ -177,6 +179,9 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 	clear_rest_xpm(ani->util, i);	
 	img = mlx_xpm_to_image(ani->mlx, (char**)ani->util->xpm, &(ani->util->size_y), &(ani->util->size_x));
 	mlx_put_image_to_window(ani->mlx, ani->win, img, 20, 20);
+	sleep(ani->util->time_int);
+	ani->util->finish = 1;
+	pthread_mutex_unlock(&g_draw);
 }
 
 t_ani	*animation(t_stack a, t_stack b)

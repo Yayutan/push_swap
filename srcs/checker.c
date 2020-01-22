@@ -34,6 +34,7 @@ static int			exe_ins(t_ckr *ckr)
 {
 	t_str_node	*cur;
 	int			lock;
+	int			finish;
 
 	if (ckr->v)
 		print_stack("Init a and b", 0, ckr->a, ckr->b);
@@ -55,8 +56,15 @@ static int			exe_ins(t_ckr *ckr)
 			print_stack(cur->data, ckr->c, ckr->a, ckr->b);
 		if (ckr->step_ani || ckr->auto_ani)
 		{
+			ckr->ani->util->finish = 0;
 			draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-			sleep(ckr->ani->util->time_int);			
+			finish = 0;
+			while (!finish)
+			{
+				pthread_mutex_lock(&g_draw);
+				finish = ckr->ani->util->finish;
+				pthread_mutex_unlock(&g_draw);
+			}
 		}		
 		cur = cur->next;
 	}
