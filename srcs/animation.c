@@ -27,9 +27,7 @@ int			key_handler(int k, t_ani *ani)
 	{		
 		pthread_mutex_lock(&g_lock);	
 		if (ani->util->lock)
-		{
 			ani->util->lock = 0;
-		}
 		else
 		{
 			ani->util->lock = 1;
@@ -37,7 +35,12 @@ int			key_handler(int k, t_ani *ani)
 		}
 		pthread_mutex_unlock(&g_lock);	
 	}
-	printf("%d\n", k);
+	else if (k == 1)
+	{		
+		pthread_mutex_lock(&g_steps);
+		ani->util->steps++;	
+		pthread_mutex_unlock(&g_steps);	
+	}
 	return (0);
 }
 
@@ -129,7 +132,7 @@ static t_draw_util	*setup_draw(t_stack a, t_stack b) // err chk , del func
 	to_ret->scale[0] = 220 / (to_ret->max - to_ret->min);
 	to_ret->scale[1] = 440 / (a.size + b.size);
 	to_ret->lock = 0;
-	// to_ret->finish = 1;
+	to_ret->steps = 0;
 	return (to_ret);
 }
 
@@ -163,8 +166,6 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 	t_int_node			*cur[2];
 	int					i;
 
-	// pthread_mutex_lock(&g_draw);
-	// printf("%s\n", "drawing");
 	if (ani->image)
 		mlx_destroy_image (ani->mlx, ani->image);
 	cur[0] = a.head;
@@ -181,10 +182,6 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 	ani->image = mlx_xpm_to_image(ani->mlx, (char**)ani->util->xpm, &(ani->util->size_y), &(ani->util->size_x));
 	mlx_put_image_to_window(ani->mlx, ani->win, ani->image, 20, 20);
 	mlx_do_sync(ani->mlx);
-	// printf("%s\n", "draw done");
-	// sleep(ani->util->time_int);
-	// ani->util->finish = 1;
-	// pthread_mutex_unlock(&g_draw);
 }
 
 t_ani	*animation(t_stack a, t_stack b)
