@@ -48,33 +48,31 @@ t_ckr		*set_ckr_structs(void)
 
 int			parse_input_arg(t_ckr *ckr, char **n)
 {
-	int		i;
+	int		i_v[2];
 	int		*nxt;
 
-	i = 0;
-	while (n[i])
-		i++;
-	while (--i >= 0)
+	i_v[0] = 0;
+	i_v[1] = 1;
+	while (n[i_v[0]])
+		i_v[0]++;
+	while (i_v[1] && --i_v[0] >= 0)
 	{
 		nxt = NULL;
-		if (!ft_strcmp("-v", n[i]))
+		if (!ft_strcmp("-v", n[i_v[0]]))
 			ckr->v = 1;
-		else if (!ft_strcmp("-c", n[i]))
+		else if (!ft_strcmp("-c", n[i_v[0]]))
 			ckr->c = 1;
-		else if (!ft_strcmp("-f", n[i]))
+		else if (!ft_strcmp("-f", n[i_v[0]]))
 			ckr->fd = -1;
-		else if (!ft_strcmp("-s", n[i]))
+		else if (!ft_strcmp("-s", n[i_v[0]]))
 			ckr->step_ani = 1;
-		else if (!ft_strcmp("-a", n[i]))
+		else if (!ft_strcmp("-a", n[i_v[0]]))
 			ckr->auto_ani = 1;
-		else if ((!(nxt = valid_int(n[i])) || !(push(ckr->a, *nxt))))
-		{
-			(nxt) ? free(nxt) : (nxt = NULL);
-			return (0);
-		}
+		else if ((!(nxt = valid_int(n[i_v[0]])) || !(push(ckr->a, *nxt))))
+			i_v[1] = 0;
 		(nxt) ? free(nxt) : (nxt = NULL);
 	}
-	return (1);
+	return (i_v[1]);
 }
 
 int			read_file(t_ckr *ckr)

@@ -23,7 +23,7 @@
 
 pthread_mutex_t g_lock;
 
-typedef struct s_draw_util
+typedef struct	s_draw_util
 {
 	char		**xpm;
 	int			max;
@@ -40,10 +40,11 @@ typedef struct	s_ani
 	void		*mlx;
 	void		*win;
 	void		*image;
-	t_draw_util	*util;	
+	t_draw_util	*util;
 }				t_ani;
 
 t_ani			*animation(t_stack a);
-void		draw_stacks(t_stack a, t_stack b, t_ani *ani);
-void		draw_final_stack(t_stack a, t_ani *ani);
+void			draw_stacks(t_stack a, t_stack b, t_ani *ani);
+void			draw_final_stack(t_stack a, t_ani *ani);
+
 #endif
