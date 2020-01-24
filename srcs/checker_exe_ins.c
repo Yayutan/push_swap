@@ -12,20 +12,22 @@
 
 #include "checker.h"
 
-int			auto_exe_ins(t_ckr *ckr)
+static void		draw_and_sleep(t_stack a, t_stack b, t_ani *ani, int size)
+{
+	draw_stacks(a, b, ani);
+	pthread_mutex_lock(&g_lock);
+	usleep((size <= 300) ? ani->util->time_int * 50000 : 250000);
+	pthread_mutex_unlock(&g_lock);
+}
+
+int				auto_exe_ins(t_ckr *ckr)
 {
 	t_str_node	*cur;
 	int			lock;
 
 	if (ckr->v)
 		print_stack("Init a and b", 0, ckr->a, ckr->b);
-	if (ckr->auto_ani)
-	{
-		draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-		pthread_mutex_lock(&g_lock);
-		(ckr->input_size <= 300) ? usleep(ckr->ani->util->time_int * 50000) : usleep(250000);
-		pthread_mutex_unlock(&g_lock);
-	}
+	draw_and_sleep(*(ckr->a), *(ckr->b), ckr->ani, ckr->size);
 	cur = ckr->ins->head;
 	while (cur)
 	{
@@ -37,19 +39,13 @@ int			auto_exe_ins(t_ckr *ckr)
 		ex_instruction(ckr->a, ckr->b, cur->data);
 		if (ckr->v)
 			print_stack(cur->data, ckr->c, ckr->a, ckr->b);
-		if (ckr->auto_ani)
-		{
-			draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-			pthread_mutex_lock(&g_lock);
-			(ckr->input_size <= 300) ? usleep(ckr->ani->util->time_int * 50000) : usleep(250000);
-			pthread_mutex_unlock(&g_lock);
-		}
+		draw_and_sleep(*(ckr->a), *(ckr->b), ckr->ani, ckr->size);
 		cur = cur->next;
 	}
 	return (1);
 }
 
-int			step_exe_ins(t_ckr *ckr)
+int				step_exe_ins(t_ckr *ckr)
 {
 	t_str_node	*cur;
 	int			steps;
@@ -58,10 +54,7 @@ int			step_exe_ins(t_ckr *ckr)
 	steps = 0;
 	if (ckr->v)
 		print_stack("Init a and b", 0, ckr->a, ckr->b);
-	draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-	pthread_mutex_lock(&g_lock);
-	(ckr->input_size <= 300) ? usleep(ckr->ani->util->time_int * 50000) : usleep(250000);
-	pthread_mutex_unlock(&g_lock);
+	draw_and_sleep(*(ckr->a), *(ckr->b), ckr->ani, ckr->size);
 	cur = ckr->ins->head;
 	while (cur)
 	{
@@ -69,23 +62,36 @@ int			step_exe_ins(t_ckr *ckr)
 		steps_to_do = ckr->ani->util->steps - steps;
 		pthread_mutex_unlock(&g_lock);
 		steps += steps_to_do;
-		while (steps_to_do > 0)
+		while (steps_to_do-- > 0)
 		{
 			ex_instruction(ckr->a, ckr->b, cur->data);
 			if (ckr->v)
 				print_stack(cur->data, ckr->c, ckr->a, ckr->b);
-			draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-			pthread_mutex_lock(&g_lock);
-			(ckr->input_size <= 300) ? usleep(ckr->ani->util->time_int * 50000) : usleep(250000);
-			pthread_mutex_unlock(&g_lock);
+			draw_and_sleep(*(ckr->a), *(ckr->b), ckr->ani, ckr->size);
 			cur = cur->next;
-			steps_to_do--;
 		}
 	}
 	return (1);
 }
 
-void		*get_ins(t_ckr *ckr)
+int				exe_ins(t_ckr *ckr)
+{
+	t_str_node	*cur;
+
+	if (ckr->v)
+		print_stack("Init a and b", 0, ckr->a, ckr->b);
+	cur = ckr->ins->head;
+	while (cur)
+	{
+		ex_instruction(ckr->a, ckr->b, cur->data);
+		if (ckr->v)
+			print_stack(cur->data, ckr->c, ckr->a, ckr->b);
+		cur = cur->next;
+	}
+	return (1);
+}
+
+void			*get_ins(t_ckr *ckr)
 {
 	char		*line;
 	int			ck;
@@ -95,7 +101,7 @@ void		*get_ins(t_ckr *ckr)
 	ck = 0;
 	while ((ck = get_next_line(ckr->fd, &line)) > 0)
 	{
-		if (find_index(line) < 0|| !enqueue(ckr->ins, line))
+		if (find_index(line) < 0 || !enqueue(ckr->ins, line))
 		{
 			if (line)
 				free(line);

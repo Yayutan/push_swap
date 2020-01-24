@@ -33,26 +33,28 @@ static int			check_final_result(t_stack *a, t_stack *b)
 static void			*checker(void *args)
 {
 	t_ckr	*ckr;
+	int		sucess;
 
 	ckr = (t_ckr*)args;
-	if ((!ckr->step_ani && !auto_exe_ins(ckr)))
+	sucess = 0;
+	if (!ckr->auto_ani && !ckr->step_ani)
+		sucess = exe_ins(ckr);
+	else if (ckr->auto_ani)
+		sucess = auto_exe_ins(ckr);
+	else if (ckr->step_ani)
+		sucess = step_exe_ins(ckr);
+	if (!sucess)
 	{
 		clean_ckr_structs(ckr);
 		ft_err_exit("Error");
 	}
-	else if ((ckr->step_ani && !step_exe_ins(ckr)))
-	{
-		clean_ckr_structs(ckr);
-		ft_err_exit("Error");
-	}
-	if (check_final_result(ckr->a, ckr->b))
+	sucess = check_final_result(ckr->a, ckr->b);
+	if (sucess)
 	{
 		if (ckr->step_ani || ckr->auto_ani)
 			draw_final_stack(*(ckr->a), ckr->ani);
-		ft_putendl("OK");
 	}
-	else
-		ft_putendl("KO");
+	ft_putendl((sucess) ? "OK" : "KO");
 	clean_ckr_structs(ckr);
 	return (NULL);
 }
@@ -87,7 +89,7 @@ static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)
 		return (NULL);
 	}
 	clean_str_arr(n);
-	ckr->input_size = ckr->a->size;
+	ckr->size = ckr->a->size;
 	return (ckr->a);
 }
 
@@ -101,7 +103,7 @@ int					main(int ac, char **av)
 		clean_ckr_structs(ckr);
 		ft_err_exit("Error");
 	}
-	if (ckr->input_size > 0)
+	if (ckr->size > 0)
 	{
 		if (!get_ins(ckr))
 		{
