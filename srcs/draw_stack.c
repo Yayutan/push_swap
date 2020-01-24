@@ -77,3 +77,26 @@ void		draw_stacks(t_stack a, t_stack b, t_ani *ani)
 	mlx_put_image_to_window(ani->mlx, ani->win, ani->image, 25, 20);
 	mlx_do_sync(ani->mlx);
 }
+
+void		draw_final_stack(t_stack a, t_ani *ani)
+{
+	t_int_node			*cur[2];
+	int					i;
+
+	if (ani->image)
+		mlx_destroy_image (ani->mlx, ani->image);	
+	cur[0] = a.head;
+	cur[1] = NULL;
+	ani->util->xpm[2] = ft_strdup("1 c #00ff00");
+	i = 1;
+	while (cur[0])
+	{
+		paint(cur, ani->util, i);
+		cur[0] = cur[0]->next;
+		i++;
+	}
+	clear_rest_xpm(ani->util, i);	
+	ani->image = mlx_xpm_to_image(ani->mlx, (char**)ani->util->xpm, &(ani->util->size_y), &(ani->util->size_x));
+	mlx_put_image_to_window(ani->mlx, ani->win, ani->image, 25, 20);
+	mlx_do_sync(ani->mlx);
+}

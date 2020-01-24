@@ -34,8 +34,8 @@ static t_draw_util	*setup_draw(t_stack a) // err chk , del func
 	int				i;
 
 	to_ret = (t_draw_util*)ft_memalloc(sizeof(t_draw_util));
-	to_ret->xpm = (char**)ft_memalloc(sizeof(char*) * 563); // (600 - 40) + 3 = 563
-	to_ret->xpm[0] = ft_strdup("700 560 2 1"); // 750 - 50 = 700
+	to_ret->xpm = (char**)ft_memalloc(sizeof(char*) * 563);
+	to_ret->xpm[0] = ft_strdup("700 560 2 1");
 	to_ret->xpm[1] = ft_strdup("0 c #000000");
 	to_ret->xpm[2] = ft_strdup("1 c #ffcc00");
 	i = 3;

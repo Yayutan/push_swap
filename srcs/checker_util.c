@@ -66,15 +66,13 @@ int			parse_input_arg(t_ckr *ckr, char **n)
 		else if (!ft_strcmp("-s", n[i]))
 			ckr->step_ani = 1;
 		else if (!ft_strcmp("-a", n[i]))
-			ckr->auto_ani = -1;
+			ckr->auto_ani = 1;
 		else if ((!(nxt = valid_int(n[i])) || !(push(ckr->a, *nxt))))
 		{
-			if (nxt)
-				free(nxt);
+			(nxt) ? free(nxt) : (nxt = NULL);
 			return (0);
 		}
-		if (nxt)
-			free(nxt);
+		(nxt) ? free(nxt) : (nxt = NULL);
 	}
 	return (1);
 }
@@ -88,43 +86,37 @@ int			read_file(t_ckr *ckr)
 	ft_printf("Enter file to read, followed by <Enter>\n");
 	if (get_next_line(0, &file_name) <= 0)
 	{
-		if (file_name)
-			free(file_name);
+		(file_name) ? free(file_name) : (file_name = NULL);
 		return (-1);
 	}
 	return (open(file_name, O_RDONLY));
 }
 
-
 char		*concat_arguments(int argc, char **arg)
 {
-	int		i;
-	int		str_len;
-	char	*to_ret;
-	char	*one_arg;
+	int		i_len[2];
+	char	*r_a[2];
 
-	i = -1;
-	str_len = argc - 1;
-	while (++i < argc)
+	i_len[0] = -1;
+	i_len[1] = argc - 1;
+	while (++i_len[0] < argc)
 	{
-		one_arg = ft_strtrim(arg[i]);
-		str_len += ft_strlen(one_arg);
-		if (one_arg)
-			free(one_arg);
+		r_a[1] = ft_strtrim(arg[i_len[0]]);
+		i_len[1] += ft_strlen(r_a[1]);
+		(r_a[1]) ? free(r_a[1]) : (r_a[1] = NULL);
 	}
-	to_ret = ft_strnew(str_len + 1);
-	i = -1;
-	str_len = 0;
-	while (++i < argc)
+	r_a[0] = ft_strnew(i_len[1] + 1);
+	i_len[1] = 0;
+	while (++i_len[0] < (2 * argc + 1))
 	{
-		one_arg = ft_strtrim(arg[i]);
-		if (one_arg)
+		r_a[1] = ft_strtrim(arg[i_len[0] - argc - 1]);
+		if (r_a[1])
 		{
-			ft_strncpy(to_ret + str_len, one_arg, ft_strlen(one_arg));
-			str_len += ft_strlen(one_arg);
-			to_ret[str_len++] = ' ';
-			free(one_arg);
+			ft_strncpy(r_a[0] + i_len[1], r_a[1], ft_strlen(r_a[1]));
+			i_len[1] += ft_strlen(r_a[1]);
+			r_a[0][i_len[1]++] = ' ';
+			free(r_a[1]);
 		}
 	}
-	return (to_ret);
+	return (r_a[0]);
 }

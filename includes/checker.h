@@ -39,8 +39,11 @@ typedef struct	s_ckr
 
 t_ckr			*set_ckr_structs(void);
 char			*concat_arguments(int argc, char **arg);
-void			clean_ckr_structs(t_ckr *ckr);
 int				parse_input_arg(t_ckr *ckr, char **n);
 int				read_file(t_ckr *ckr);
+void		*get_ins(t_ckr *ckr);
+int			auto_exe_ins(t_ckr *ckr);
+int			step_exe_ins(t_ckr *ckr);
+void			clean_ckr_structs(t_ckr *ckr);
 
 #endif

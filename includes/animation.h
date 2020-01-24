@@ -45,5 +45,5 @@ typedef struct	s_ani
 
 t_ani			*animation(t_stack a);
 void		draw_stacks(t_stack a, t_stack b, t_ani *ani);
-
+void		draw_final_stack(t_stack a, t_ani *ani);
 #endif
