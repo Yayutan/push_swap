@@ -29,6 +29,7 @@ typedef struct	s_ckr
 	t_stack		*b;
 	t_queue		*ins;
 	t_ani		*ani;
+	int			input_size;
 	int			v;
 	int			c;
 	int			step_ani;

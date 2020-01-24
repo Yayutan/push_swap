@@ -40,7 +40,9 @@ static int			auto_exe_ins(t_ckr *ckr)
 	if (ckr->auto_ani)
 	{
 		draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-		usleep(ckr->ani->util->time_int * 50000);
+		pthread_mutex_lock(&g_lock);
+		(ckr->input_size <= 300) ? usleep(ckr->ani->util->time_int * 50000) : usleep(250000);
+		pthread_mutex_unlock(&g_lock);
 	}
 	cur = ckr->ins->head;
 	while (cur)
@@ -56,7 +58,9 @@ static int			auto_exe_ins(t_ckr *ckr)
 		if (ckr->auto_ani)
 		{
 			draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-			usleep(ckr->ani->util->time_int * 50000);
+			pthread_mutex_lock(&g_lock);
+			(ckr->input_size <= 300) ? usleep(ckr->ani->util->time_int * 50000) : usleep(250000);
+			pthread_mutex_unlock(&g_lock);
 		}
 		cur = cur->next;
 	}
@@ -73,13 +77,15 @@ static int			step_exe_ins(t_ckr *ckr)
 	if (ckr->v)
 		print_stack("Init a and b", 0, ckr->a, ckr->b);
 	draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-	usleep(ckr->ani->util->time_int * 50000);
+	pthread_mutex_lock(&g_lock);
+	(ckr->input_size <= 300) ? usleep(ckr->ani->util->time_int * 50000) : usleep(250000);
+	pthread_mutex_unlock(&g_lock);
 	cur = ckr->ins->head;
 	while (cur)
 	{
-		pthread_mutex_lock(&g_steps);
+		pthread_mutex_lock(&g_lock);
 		steps_to_do = ckr->ani->util->steps - steps;
-		pthread_mutex_unlock(&g_steps);
+		pthread_mutex_unlock(&g_lock);
 		steps += steps_to_do;
 		while (steps_to_do > 0)
 		{
@@ -87,7 +93,9 @@ static int			step_exe_ins(t_ckr *ckr)
 			if (ckr->v)
 				print_stack(cur->data, ckr->c, ckr->a, ckr->b);
 			draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
-			usleep(ckr->ani->util->time_int * 50000);
+			pthread_mutex_lock(&g_lock);
+			(ckr->input_size <= 300) ? usleep(ckr->ani->util->time_int * 50000) : usleep(250000);
+			pthread_mutex_unlock(&g_lock);
 			cur = cur->next;
 			steps_to_do--;
 		}
@@ -134,6 +142,7 @@ static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)
 		return (NULL);
 	}
 	clean_str_arr(n);
+	ckr->input_size = ckr->a->size;
 	return (ckr->a);
 }
 
@@ -170,7 +179,7 @@ int					main(int ac, char **av)
 		clean_ckr_structs(ckr);
 		ft_err_exit("Error");
 	}
-	if (ckr->a->size > 0)
+	if (ckr->input_size > 0)
 	{
 		if (!get_ins(ckr))
 		{
@@ -180,7 +189,10 @@ int					main(int ac, char **av)
 		if (ckr->step_ani || ckr->auto_ani)
 		{
 			if (!(ckr->ani = animation(*(ckr->a), *(ckr->b))))
-			ft_err_exit("Failed to setup mlx");
+			{
+				clean_ckr_structs(ckr);
+				ft_err_exit("Failed to setup mlx");
+			}			
 			pthread_attr_init(&attr);
 			pthread_create(&tid, &attr, &checker, ckr);
 			mlx_loop(ckr->ani->mlx);

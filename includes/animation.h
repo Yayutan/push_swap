@@ -20,14 +20,13 @@
 # include <pthread.h>
 
 pthread_mutex_t g_lock;
-pthread_mutex_t g_steps;
+// pthread_mutex_t g_steps;
 
 typedef struct s_draw_util
 {
 	char		**xpm;
 	int			max;
-	int			min;
-	int			scale[2];
+	double		scale[2];
 	int			size_x;
 	int			size_y;
 	int			time_int;

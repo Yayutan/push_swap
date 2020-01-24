@@ -17,6 +17,7 @@
 
 int			key_handler(int k, t_ani *ani)
 {
+	pthread_mutex_lock(&g_lock);
 	if (k == 53)
 		exit(0);
 	else if (k == 116)
@@ -25,22 +26,18 @@ int			key_handler(int k, t_ani *ani)
 		ani->util->time_int += (ani->util->time_int < 10) ? 1 : 0;
 	else if (k == 49)
 	{		
-		pthread_mutex_lock(&g_lock);	
+	
 		if (ani->util->lock)
 			ani->util->lock = 0;
 		else
 		{
 			ani->util->lock = 1;
 			mlx_string_put (ani->mlx, ani->win, 20, 20, 0xff0000, "PAUSED");
-		}
-		pthread_mutex_unlock(&g_lock);	
+		}		
 	}
 	else if (k == 1)
-	{		
-		pthread_mutex_lock(&g_steps);
 		ani->util->steps++;	
-		pthread_mutex_unlock(&g_steps);	
-	}
+	pthread_mutex_unlock(&g_lock);
 	return (0);
 }
 
@@ -67,35 +64,12 @@ static int		find_max(t_stack a, t_stack b)
 	return (max);
 }
 
-// static int		find_min(t_stack a, t_stack b)
-// {
-// 	int			min;
-// 	t_int_node	*cur;
-
-// 	cur = a.head;
-// 	min = INT_MAX;
-// 	while (cur)
-// 	{
-// 		if (cur->data < min)
-// 			min = cur->data;
-// 		cur = cur->next;
-// 	}
-// 	cur = b.head;
-// 	while (cur)
-// 	{
-// 		if (cur->data < min)
-// 			min = cur->data;
-// 		cur = cur->next;
-// 	}
-// 	return (min);
-// }
-
 static void			clear_rest_xpm(t_draw_util *util, int i)
 {
 	int		r;
 	int		c;
 
-	r = 3 + (i - 1) * util->scale[1];
+	r = 3 + (int)((i - 1) * util->scale[1]);
 	while (r < 443)
 	{
 		c = 0;
@@ -124,13 +98,12 @@ static t_draw_util	*setup_draw(t_stack a, t_stack b) // err chk , del func
 		to_ret->xpm[i] = ft_strnew(440);
 		i++;
 	}
-	to_ret->time_int = 1;
+	to_ret->time_int = 3;
 	to_ret->max = find_max(a, b);
-	to_ret->min = 0; /*find_min(a, b); neg num??*/
 	to_ret->size_x = 440;
 	to_ret->size_y = 440;
-	to_ret->scale[0] = 220 / (to_ret->max - to_ret->min);
-	to_ret->scale[1] = 440 / (a.size + b.size);
+	to_ret->scale[0] = 220.0 / to_ret->max;
+	to_ret->scale[1] = 440.0 / (a.size + b.size);
 	to_ret->lock = 0;
 	to_ret->steps = 0;
 	return (to_ret);
@@ -145,18 +118,18 @@ static void		paint(t_int_node **node, t_draw_util *util, int index)
 	while (c < 440)
 	{
 		if (node[0] && (c < 220) & (c < node[0]->data * util->scale[0]))
-			(util->xpm)[3 + (index - 1) * util->scale[1]][c] = '1';
+			(util->xpm)[3 + (int)((index - 1) * util->scale[1])][c] = '1';
 		else if(node[1] && (c >= 220) && (c < 220 + node[1]->data * util->scale[0]))
-			(util->xpm)[3 + (index - 1) * util->scale[1]][c] = '1';
+			(util->xpm)[3 + (int)((index - 1) * util->scale[1])][c] = '1';
 		else
-			(util->xpm)[3 + (index - 1) * util->scale[1]][c] = '0';
+			(util->xpm)[3 + (int)((index - 1) * util->scale[1])][c] = '0';
 		c++;
 	}
 	r = 1;
 	while (r < util->scale[1])
 	{
-		ft_strcpy((util->xpm)[3 + (index - 1) * util->scale[1] + r],
-			(util->xpm)[3 + (index - 1) * util->scale[1]]);
+		ft_strcpy((util->xpm)[3 + (int)((index - 1) * util->scale[1]) + r],
+			(util->xpm)[3 + (int)((index - 1) * util->scale[1])]);
 		r++;
 	}
 }
@@ -193,6 +166,6 @@ t_ani	*animation(t_stack a, t_stack b)
 	ani->util = setup_draw(a, b);
 	ani->mlx = mlx_init();
 	ani->win = mlx_new_window(ani->mlx, 500, 500, "push_swap");
-	mlx_key_hook(ani->win, key_handler, ani);
+	mlx_key_hook(ani->win, key_handler, ani); // another hook to stop crashing when hidden??
 	return (ani);
 }
