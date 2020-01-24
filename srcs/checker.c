@@ -63,6 +63,7 @@ static void			multi_thread_animaiton(t_ckr *ckr)
 {
 	pthread_t		tid;
 	pthread_attr_t	attr;
+	void			*mlx;
 
 	if (!(ckr->ani = animation(*(ckr->a))))
 	{
@@ -71,7 +72,8 @@ static void			multi_thread_animaiton(t_ckr *ckr)
 	}
 	pthread_attr_init(&attr);
 	pthread_create(&tid, &attr, &checker, ckr);
-	mlx_loop(ckr->ani->mlx);
+	mlx = ckr->ani->mlx;
+	mlx_loop(mlx);
 }
 
 static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)

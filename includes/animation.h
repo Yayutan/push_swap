@@ -27,9 +27,9 @@ typedef struct	s_draw_util
 {
 	char		**xpm;
 	int			max;
-	double		scale[2];
-	int			size_x;
-	int			size_y;
+	double		sc[2];
+	int			x;
+	int			y;
 	int			time_int;
 	int			lock;
 	int			steps;
@@ -46,5 +46,6 @@ typedef struct	s_ani
 t_ani			*animation(t_stack a);
 void			draw_stacks(t_stack a, t_stack b, t_ani *ani);
 void			draw_final_stack(t_stack a, t_ani *ani);
+void			free_ani(t_ani *ani);
 
 #endif

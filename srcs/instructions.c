@@ -14,7 +14,7 @@
 
 static char		**instruction_table(void)
 {
-	char	**ins_table;
+	char		**ins_table;
 
 	ins_table = ft_memalloc(sizeof(*ins_table) * 11);
 	ins_table[0] = "sa";
@@ -33,7 +33,7 @@ static char		**instruction_table(void)
 
 static t_ins_f	**dispatch_table(void)
 {
-	t_ins_f	**f;
+	t_ins_f		**f;
 
 	f = ft_memalloc(sizeof(*f) * 11);
 	f[0] = &sa;
@@ -50,10 +50,10 @@ static t_ins_f	**dispatch_table(void)
 	return (f);
 }
 
-int			find_index(char *ins)
+int				find_index(char *ins)
 {
-	char	**ins_table;
-	int		i;
+	char		**ins_table;
+	int			i;
 
 	ins_table = instruction_table();
 	i = 0;
@@ -72,8 +72,8 @@ int			find_index(char *ins)
 
 void			pt_instruction(t_stack *a, t_stack *b, char *ins)
 {
-	int		i;
-	t_ins_f	**f;
+	int			i;
+	t_ins_f		**f;
 
 	i = find_index(ins);
 	f = dispatch_table();
@@ -84,14 +84,11 @@ void			pt_instruction(t_stack *a, t_stack *b, char *ins)
 
 void			ex_instruction(t_stack *a, t_stack *b, char *ins)
 {
-	int		i;
-	t_ins_f	**f;
+	int			i;
+	t_ins_f		**f;
 
 	i = find_index(ins);
-	// if (i < 0)
-		// return (-1);
 	f = dispatch_table();
 	f[i](a, b);
 	free(f);
-	// return (1);
 }

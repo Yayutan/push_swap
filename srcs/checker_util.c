@@ -14,9 +14,14 @@
 
 void		clean_ckr_structs(t_ckr *ckr)
 {
-	free_stack(ckr->a);
-	free_stack(ckr->b);
-	free_queue(ckr->ins);
+	if (ckr->a)
+		free_stack(ckr->a);
+	if (ckr->b)
+		free_stack(ckr->b);
+	if (ckr->ins)
+		free_queue(ckr->ins);
+	if (ckr->ani)
+		free_ani(ckr->ani);
 	free(ckr);
 }
 
