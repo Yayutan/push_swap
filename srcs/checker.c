@@ -162,7 +162,17 @@ static void			*checker(void *args)
 		clean_ckr_structs(ckr);
 		ft_err_exit("Error");
 	}	
-	(check_final_result(ckr->a, ckr->b)) ? ft_putendl("OK") : ft_putendl("KO");
+	if (check_final_result(ckr->a, ckr->b))
+	{
+		if (ckr->step_ani || ckr->auto_ani)
+		{
+			ckr->ani->util->xpm[2] = ft_strdup("1 c #00ff00");
+			draw_stacks(*(ckr->a), *(ckr->b), ckr->ani);
+		}
+		ft_putendl("OK");
+	}
+	else
+		ft_putendl("KO");
 	clean_ckr_structs(ckr);
 	return (NULL);
 }
@@ -188,7 +198,7 @@ int					main(int ac, char **av)
 		}
 		if (ckr->step_ani || ckr->auto_ani)
 		{
-			if (!(ckr->ani = animation(*(ckr->a), *(ckr->b))))
+			if (!(ckr->ani = animation(*(ckr->a))))
 			{
 				clean_ckr_structs(ckr);
 				ft_err_exit("Failed to setup mlx");
