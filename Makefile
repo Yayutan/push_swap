@@ -32,6 +32,7 @@ CLEAR = "\033[0m"
 CKR_SRC_NAME =	checker.c\
 				checker_util.c\
 				animation.c\
+				draw_stack.c\
 				general_util.c\
 				instructions.c\
 				swap_instructions.c\

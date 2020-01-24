@@ -16,11 +16,12 @@
 # include "../libft/stack.h"
 # include "../libft/queue.h"
 # include "../libft/libft.h"
+# include <time.h>
+# include <stdio.h>
 # include <limits.h>
 # include <pthread.h>
 
 pthread_mutex_t g_lock;
-// pthread_mutex_t g_steps;
 
 typedef struct s_draw_util
 {
