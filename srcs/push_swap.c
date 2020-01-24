@@ -14,11 +14,14 @@
 
 static char			*examine_sp_case(char *s1, char *s2)
 {
-	if ((!ft_strcmp(s1, "sa") && !ft_strcmp(s2, "sb")) || (!ft_strcmp(s1, "sb") && !ft_strcmp(s2, "sa")))
+	if ((!ft_strcmp(s1, "sa") && !ft_strcmp(s2, "sb")) ||
+		(!ft_strcmp(s1, "sb") && !ft_strcmp(s2, "sa")))
 		return ("ss");
-	else if ((!ft_strcmp(s1, "ra") && !ft_strcmp(s2, "rb")) || (!ft_strcmp(s1, "rb") && !ft_strcmp(s2, "ra")))
+	else if ((!ft_strcmp(s1, "ra") && !ft_strcmp(s2, "rb")) ||
+		(!ft_strcmp(s1, "rb") && !ft_strcmp(s2, "ra")))
 		return ("rr");
-	else if ((!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "rrb")) || (!ft_strcmp(s1, "rrb") && !ft_strcmp(s2, "rra")))
+	else if ((!ft_strcmp(s1, "rra") && !ft_strcmp(s2, "rrb")) ||
+		(!ft_strcmp(s1, "rrb") && !ft_strcmp(s2, "rra")))
 		return ("rrr");
 	else
 		return ("");

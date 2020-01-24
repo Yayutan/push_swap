@@ -12,10 +12,10 @@
 
 #include "animation.h"
 
-static int		find_max(t_stack a)
+static int			find_max(t_stack a)
 {
-	int			max;
-	t_int_node	*cur;
+	int				max;
+	t_int_node		*cur;
 
 	cur = a.head;
 	max = INT_MIN;
@@ -53,7 +53,7 @@ void				free_ani(t_ani *ani)
 	}
 }
 
-static t_draw_util	*setup_draw(t_stack a) // err chk , del func
+static t_draw_util	*setup_draw(t_stack a)
 {
 	t_draw_util		*to_ret;
 	int				i;
@@ -67,8 +67,8 @@ static t_draw_util	*setup_draw(t_stack a) // err chk , del func
 	to_ret->xpm[2] = ft_strdup("1 c #ffcc00");
 	i = 2;
 	while (++i < 563)
-	{		
-		if((to_ret->xpm[i] = ft_strnew(700)) == NULL)
+	{
+		if (!(to_ret->xpm[i] = ft_strnew(700)))
 			return (NULL);
 	}
 	to_ret->time_int = 3;
@@ -94,15 +94,14 @@ static int			key_handler(int k, t_ani *ani)
 		else if (k == 121)
 			ani->util->time_int += (ani->util->time_int < 10) ? 1 : 0;
 		else if (k == 49)
-		{		
-		
+		{
 			if (ani->util->lock)
 				ani->util->lock = 0;
 			else
 			{
 				ani->util->lock = 1;
-				mlx_string_put (ani->mlx, ani->win, 20, 20, 0xff0000, "PAUSED");
-			}		
+				mlx_string_put(ani->mlx, ani->win, 20, 20, 0xff0000, "PAUSED");
+			}
 		}
 		else if (k == 1)
 			ani->util->steps++;
@@ -111,10 +110,10 @@ static int			key_handler(int k, t_ani *ani)
 	return (0);
 }
 
-t_ani	*animation(t_stack a)
+t_ani				*animation(t_stack a)
 {
-	t_ani	*ani;
-	void	*win;
+	t_ani			*ani;
+	void			*win;
 
 	if (!(ani = (t_ani*)ft_memalloc(sizeof(t_ani))))
 		return (NULL);

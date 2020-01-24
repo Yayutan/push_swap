@@ -18,7 +18,7 @@ void			ex_and_store_instructions(t_ps *ps, char *ins)
 	enqueue(ps->ins, ins);
 }
 
-static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
+static void		put_two_groups(t_ps *ps, int a_to_b, int top, int bot)
 {
 	t_stack		*from;
 	char		ins[3];
@@ -28,7 +28,7 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 	i = from->size;
 	while (--i >= 0)
 	{
-		if (from->head->group == bot_layer)
+		if (from->head->group == bot)
 		{
 			(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
 			ex_and_store_instructions(ps, ins);
@@ -37,7 +37,7 @@ static void		put_two_groups(t_ps *ps, int a_to_b, int top_layer, int bot_layer)
 		}
 		else
 		{
-			if (from->head->group == top_layer)
+			if (from->head->group == top)
 				(a_to_b) ? ft_strcpy(ins, "pb") : ft_strcpy(ins, "pa");
 			else
 				(a_to_b) ? ft_strcpy(ins, "ra") : ft_strcpy(ins, "rb");
@@ -81,7 +81,7 @@ static void		sort(t_ps *ps)
 		put_by_index(ps, (out_iter % 2));
 		out_iter++;
 		ps->sym_p_pt *= ps->max_symbols;
-	}	
+	}
 	if (ps->b->size != 0)
 	{
 		while (ps->b->head)

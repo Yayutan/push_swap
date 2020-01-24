@@ -31,16 +31,13 @@ static int	find_by_index(t_ps *ps, int i)
 
 static void	sort_three(t_ps *ps, int st)
 {
-	int			i;
-
-	i = find_by_index(ps, st);
-	if (i == 0)
+	if (find_by_index(ps, st) == 0)
 	{
 		ex_and_store_instructions(ps, "pb");
 		ex_and_store_instructions(ps, "sa");
 		ex_and_store_instructions(ps, "pa");
 	}
-	else if (i == 1)
+	else if (find_by_index(ps, st) == 1)
 	{
 		if (ps->a->head->data == ps->sorted[st + 1]->data)
 		{
