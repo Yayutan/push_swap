@@ -48,6 +48,7 @@ t_ckr		*set_ckr_structs(void)
 	to_ret->v = 0;
 	to_ret->c = 0;
 	to_ret->fd = 0;
+	to_ret->size = 0;
 	return (to_ret);
 }
 
