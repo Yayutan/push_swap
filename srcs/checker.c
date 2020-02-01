@@ -100,7 +100,7 @@ int					main(int ac, char **av)
 	t_ckr			*ckr;
 
 	ckr = set_ckr_structs();
-	if (ac > 2 && !setup_init_st(ckr, ac, av))
+	if (ac > 1 && !setup_init_st(ckr, ac, av))
 	{
 		clean_ckr_structs(ckr);
 		ft_err_exit("Error");
