@@ -100,7 +100,7 @@ static int			key_handler(int k, t_ani *ani)
 			else
 			{
 				ani->util->lock = 1;
-				mlx_string_put(ani->mlx, ani->win, 20, 20, 0xff0000, "PAUSED");
+				mlx_string_put(ani->mlx, ani->win, 25, 20, 0xff0000, "PAUSED");
 			}
 		}
 		else if (k == 1)
