@@ -48,14 +48,14 @@ static void			*checker(void *args)
 		clean_ckr_structs(ckr);
 		ft_err_exit("Error");
 	}
-	sucess = check_final_result(ckr->a, ckr->b);
-	if (sucess)
+	if ((sucess = check_final_result(ckr->a, ckr->b)))
 	{
 		if (ckr->step_ani || ckr->auto_ani)
 			draw_final_stack(*(ckr->a), ckr->ani);
 	}
 	ft_putendl((sucess) ? "OK" : "KO");
-	clean_ckr_structs(ckr);
+	if (!ckr->auto_ani && !ckr->step_ani)
+		clean_ckr_structs(ckr);
 	return (NULL);
 }
 
@@ -83,6 +83,8 @@ static t_stack		*setup_init_st(t_ckr *ckr, int n_c, char **n_v)
 
 	arg = concat_arguments((n_c - 1), (n_v + 1));
 	n = ft_strsplit(arg, ' ');
+	if (arg)
+		free(arg);
 	if (!n)
 		return (NULL);
 	if (!*n || !(parse_input_arg(ckr, n)))
