@@ -21,7 +21,7 @@ static int	find_by_index(t_ps *ps, int i)
 	cur = ps->a->head;
 	while (cur)
 	{
-		if (cur->data == ps->sorted[i]->data)
+		if (cur->index == i)
 			break ;
 		ret++;
 		cur = cur->next;
@@ -39,7 +39,7 @@ static void	sort_three(t_ps *ps, int st)
 	}
 	else if (find_by_index(ps, st) == 1)
 	{
-		if (ps->a->head->data == ps->sorted[st + 1]->data)
+		if (ps->a->head->index == st + 1)
 		{
 			ex_and_store_instructions(ps, "rra");
 			ex_and_store_instructions(ps, "sa");
@@ -64,8 +64,8 @@ static void	sort_four(t_ps *ps)
 	i = 0;
 	while (i < 2)
 	{
-		if (ps->a->head->data == ps->sorted[0]->data ||
-			ps->a->head->data == ps->sorted[1]->data)
+		if (ps->a->head->index == 0 ||
+			ps->a->head->index == 1)
 		{
 			ex_and_store_instructions(ps, "pb");
 			i++;
@@ -73,8 +73,8 @@ static void	sort_four(t_ps *ps)
 		else
 			ex_and_store_instructions(ps, "ra");
 	}
-	s[0] = ps->a->head->data > ps->a->head->next->data;
-	s[1] = ps->b->head->data < ps->b->head->next->data;
+	s[0] = ps->a->head->index > ps->a->head->next->index;
+	s[1] = ps->b->head->index < ps->b->head->next->index;
 	if (s[0])
 		ex_and_store_instructions(ps, "sa");
 	if (s[1])
@@ -91,8 +91,8 @@ static void	sort_five(t_ps *ps)
 	i = 0;
 	while (i < 2)
 	{
-		if (ps->a->head->data == ps->sorted[0]->data ||
-			ps->a->head->data == ps->sorted[1]->data)
+		if (ps->a->head->index == 0 ||
+			ps->a->head->index == 1)
 		{
 			ex_and_store_instructions(ps, "pb");
 			i++;
@@ -100,7 +100,7 @@ static void	sort_five(t_ps *ps)
 		else
 			ex_and_store_instructions(ps, "ra");
 	}
-	sb = ps->b->head->data < ps->b->head->next->data;
+	sb = ps->b->head->index < ps->b->head->next->index;
 	if (sb)
 		ex_and_store_instructions(ps, "sb");
 	if (!check_sorted(ps->a))

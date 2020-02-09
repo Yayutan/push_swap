@@ -63,6 +63,18 @@ static void		put_by_index(t_ps *ps, int a_to_b)
 		iter--;
 	}
 }
+//////////
+// # include <stdio.h>
+// static void		print_order(t_int_node **sorted, int size)
+// {
+// 	printf("Index, Group\n");
+// 	for (int i = 0; i < size; i++)
+// 	{
+// 		printf("%d: %d\n", sorted[i]->data, sorted[i]->group);
+// 	}
+// }
+//////////
+
 
 static void		sort(t_ps *ps)
 {
@@ -70,18 +82,31 @@ static void		sort(t_ps *ps)
 	int		out_iter;
 
 	num_iter = log_m_ceil(ps->len, ps->max_symbols);
-	out_iter = 1;
 	ps->layer = num_iter - 1;
+	ps->order = (char**)ft_memalloc(num_iter * sizeof(char*));
+	
+	///////// Still writing this part
+	set_order_5(ps->order, num_iter, ps->max_symbols);
+	// print_order_tree(ps->order, num_iter, ps->max_symbols);
+	////////
+
+	out_iter = 1;
 	while (out_iter <= num_iter)
 	{
-		if (out_iter < num_iter)
-			update_index(ps, (num_iter % 2));
-		else
-			(num_iter % 2) ? final_ord_rev(ps) : final_ord(ps);
+	// 	if (out_iter < num_iter)
+	// 		update_index(ps, (num_iter % 2));
+	// 	else
+	// 		(num_iter % 2) ? final_ord_rev(ps) : final_ord(ps);
+	// 	print_order(ps->sorted, ps->len);
+		// set order for whole stack
+		// final order???
+		set_gp_stack(ps, (num_iter % 2), out_iter - 1, (out_iter == num_iter));
+		// print_order(ps->sorted, ps->len);
 		put_by_index(ps, (out_iter % 2));
 		out_iter++;
 		ps->sym_p_pt *= ps->max_symbols;
 	}
+	// print_stack("After loop", 0, ps->a, ps->b);
 	if (ps->b->size != 0)
 	{
 		while (ps->b->head)
@@ -89,6 +114,8 @@ static void		sort(t_ps *ps)
 	}
 }
 
+
+/// make sym_p_pt the size of group?
 void			radix_sort(t_ps *ps)
 {
 	double		four_steps;
@@ -98,7 +125,10 @@ void			radix_sort(t_ps *ps)
 	n = ps->len;
 	four_steps = 2.0 * n * log_m_ceil(n, 4) + n * (log_m_ceil(n, 4) % 2);
 	five_steps = 2.2 * n * log_m_ceil(n, 5) + n * (log_m_ceil(n, 5) % 2);
-	ps->max_symbols = (four_steps < five_steps) ? 4 : 5;
+	// ps->max_symbols = (four_steps < five_steps) ? 4 : 5;
+	//////
+	ps->max_symbols = 5;
+	/////
 	n = exponential(ps->max_symbols, log_m_ceil(ps->len, ps->max_symbols));
 	if (ps->len == n)
 		ps->n_parts = ps->max_symbols;

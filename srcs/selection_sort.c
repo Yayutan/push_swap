@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-static void			copy_stack(t_ps *ps)
+static void			copy_stack(t_ps *ps, t_int_node **sorted)
 {
 	int			i;
 	t_int_node	*tmp;
@@ -21,7 +21,7 @@ static void			copy_stack(t_ps *ps)
 	tmp = ps->a->head;
 	while (i < ps->a->size)
 	{
-		ps->sorted[i] = tmp;
+		sorted[i] = tmp;
 		tmp = tmp->next;
 		i++;
 	}
@@ -51,21 +51,22 @@ static int			find_smallest(t_int_node **list, int unsorted, int size)
 int					selection_sort(t_ps *ps)
 {
 	t_int_node	*tmp;
+	t_int_node	**sorted;
 	int			nxt_sort;
 	int			smallest;
 
-	ps->sorted = (t_int_node**)ft_memalloc(sizeof(t_int_node*) * ps->len);
-	if (!ps->sorted)
+	sorted = (t_int_node**)ft_memalloc(sizeof(t_int_node*) * ps->len);
+	if (!sorted)
 		return (0);
-	copy_stack(ps);
+	copy_stack(ps, sorted);
 	nxt_sort = 0;
 	while (nxt_sort < ps->a->size)
 	{
-		smallest = find_smallest(ps->sorted, nxt_sort, ps->a->size);
-		tmp = ps->sorted[smallest];
-		ps->sorted[smallest] = ps->sorted[nxt_sort];
-		ps->sorted[nxt_sort] = tmp;
-		ps->sorted[nxt_sort]->index = nxt_sort;
+		smallest = find_smallest(sorted, nxt_sort, ps->a->size);
+		tmp = sorted[smallest];
+		sorted[smallest] = sorted[nxt_sort];
+		sorted[nxt_sort] = tmp;
+		sorted[nxt_sort]->index = nxt_sort;
 		nxt_sort++;
 	}
 	return (1);

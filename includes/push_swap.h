@@ -24,7 +24,7 @@ typedef struct	s_ps
 	t_stack		*a;
 	t_stack		*b;
 	t_queue		*ins;
-	t_int_node	**sorted;
+	char		**order;
 	int			len;
 	int			n_parts;
 	int			sym_p_pt;
@@ -45,5 +45,9 @@ int				exponential(int b, int p);
 void			update_index(t_ps *ps, int end_b);
 void			final_ord_rev(t_ps *ps);
 void			final_ord(t_ps *ps);
+
+// void	print_order_tree(char **order, int layers, int max_sym);
+void	set_order_5(char **order, int layers, int max_sym);
+void	set_gp_stack(t_ps *ps, int to_b, int ly, int last);
 
 #endif
