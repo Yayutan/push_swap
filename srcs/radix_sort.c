@@ -82,13 +82,10 @@ static void		sort(t_ps *ps)
 	int		out_iter;
 
 	num_iter = log_m_ceil(ps->len, ps->max_symbols);
-	ps->layer = num_iter - 1;
-	ps->order = (char**)ft_memalloc(num_iter * sizeof(char*));
-	
-	///////// Still writing this part
+	// ps->layer = num_iter - 1;
+	ps->order = (char**)ft_memalloc((num_iter + 1) * sizeof(char*)); // error check
+	ps->order[num_iter] = NULL;
 	set_order_5(ps->order, num_iter, ps->max_symbols);
-	// print_order_tree(ps->order, num_iter, ps->max_symbols);
-	////////
 
 	out_iter = 1;
 	while (out_iter <= num_iter)
@@ -97,10 +94,8 @@ static void		sort(t_ps *ps)
 	// 		update_index(ps, (num_iter % 2));
 	// 	else
 	// 		(num_iter % 2) ? final_ord_rev(ps) : final_ord(ps);
-	// 	print_order(ps->sorted, ps->len);
-		// set order for whole stack
-		// final order???
-		set_gp_stack(ps, (num_iter % 2), out_iter - 1, (out_iter == num_iter));
+
+		set_gp_stack(ps, (num_iter % 2), (out_iter == num_iter));
 		// print_order(ps->sorted, ps->len);
 		put_by_index(ps, (out_iter % 2));
 		out_iter++;
@@ -130,12 +125,12 @@ void			radix_sort(t_ps *ps)
 	ps->max_symbols = 5;
 	/////
 	n = exponential(ps->max_symbols, log_m_ceil(ps->len, ps->max_symbols));
-	if (ps->len == n)
-		ps->n_parts = ps->max_symbols;
-	else
-	{
-		n /= ps->max_symbols;
-		ps->n_parts = ps->len / n + (ps->len % n != 0);
-	}
+	// if (ps->len == n)
+		// ps->n_parts = ps->max_symbols;
+	// else
+	// {
+		// n /= ps->max_symbols;
+		// ps->n_parts = ps->len / n + (ps->len % n != 0);
+	// }
 	sort(ps);
 }

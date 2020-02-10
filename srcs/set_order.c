@@ -27,7 +27,7 @@ static int		get_gp_5(char *layer, int gp_size, int last, int index)
 	return (gp);
 }
 
-void	set_gp_stack(t_ps *ps, int to_b, int ly, int last)
+void	set_gp_stack(t_ps *ps, int to_b, int last)
 {
 	t_int_node *cur;
 	int			index;
@@ -38,8 +38,7 @@ void	set_gp_stack(t_ps *ps, int to_b, int ly, int last)
 		// if (last)
 		// 	index = cur->index;
 		// else
-			index = (to_b) ? ps->len - 1 - cur->index : cur->index;
-		(void)ly;		
+		index = (to_b) ? ps->len - 1 - cur->index : cur->index;
 		// index = cur->index;
 		if (ps->max_symbols == 5)
 			cur->group = get_gp_5(ps->order[0], ps->sym_p_pt * 5, last, index);

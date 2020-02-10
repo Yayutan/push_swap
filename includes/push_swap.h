@@ -26,9 +26,9 @@ typedef struct	s_ps
 	t_queue		*ins;
 	char		**order;
 	int			len;
-	int			n_parts;
+	// int			n_parts;
 	int			sym_p_pt;
-	int			layer;
+	// int			layer;
 	int			max_symbols;
 
 }				t_ps;
@@ -48,6 +48,6 @@ void			final_ord(t_ps *ps);
 
 // void	print_order_tree(char **order, int layers, int max_sym);
 void	set_order_5(char **order, int layers, int max_sym);
-void	set_gp_stack(t_ps *ps, int to_b, int ly, int last);
+void	set_gp_stack(t_ps *ps, int to_b, int last);
 
 #endif
