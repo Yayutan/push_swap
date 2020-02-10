@@ -32,9 +32,7 @@ t_ps			*setup_structs(void)
 		free(to_ret);
 		ft_err_exit("Failed to alllocate stack and Q");
 	}
-	// to_ret->n_parts = 0;
 	to_ret->sym_p_pt = 1;
-	// to_ret->layer = 0;
 	to_ret->len = 0;
 	to_ret->max_symbols = 0;
 	to_ret->order = NULL;
@@ -48,7 +46,7 @@ void			clean_up_structs(t_ps *ps)
 	free_stack(ps->a);
 	free_stack(ps->b);
 	free_queue(ps->ins);
-	if(ps->order)
+	if (ps->order)
 	{
 		i = 0;
 		while (ps->order[i])
