@@ -48,6 +48,7 @@ void			final_ord(t_ps *ps);
 
 // void	print_order_tree(char **order, int layers, int max_sym);
 void	set_order_5(char **order, int layers, int max_sym);
-void	set_gp_stack(t_ps *ps, int to_b, int last);
+void	set_order_4(char **order, int layers, int max_sym);
+void	set_gp_stack(t_ps *ps, int to_b, int layer, int last);
 
 #endif

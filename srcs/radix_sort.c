@@ -85,17 +85,21 @@ static void		sort(t_ps *ps)
 	// ps->layer = num_iter - 1;
 	ps->order = (char**)ft_memalloc((num_iter + 1) * sizeof(char*)); // error check
 	ps->order[num_iter] = NULL;
-	set_order_5(ps->order, num_iter, ps->max_symbols);
-
+	if (ps->max_symbols == 4)
+		set_order_4(ps->order, num_iter, ps->max_symbols);
+	else
+		set_order_5(ps->order, num_iter, ps->max_symbols);
+	// set_order_5(ps->order, num_iter, ps->max_symbols);
+	// print_order_tree(ps->order, num_iter, ps->max_symbols);
 	out_iter = 1;
 	while (out_iter <= num_iter)
 	{
-	// 	if (out_iter < num_iter)
-	// 		update_index(ps, (num_iter % 2));
-	// 	else
-	// 		(num_iter % 2) ? final_ord_rev(ps) : final_ord(ps);
+		// if (out_iter < num_iter)
+		// 	update_index(ps, (num_iter % 2));
+		// else
+		// 	(num_iter % 2) ? final_ord_rev(ps) : final_ord(ps);
 
-		set_gp_stack(ps, (num_iter % 2), (out_iter == num_iter));
+		set_gp_stack(ps, (num_iter % 2), num_iter, (out_iter == num_iter));
 		// print_order(ps->sorted, ps->len);
 		put_by_index(ps, (out_iter % 2));
 		out_iter++;
@@ -120,17 +124,12 @@ void			radix_sort(t_ps *ps)
 	n = ps->len;
 	four_steps = 2.0 * n * log_m_ceil(n, 4) + n * (log_m_ceil(n, 4) % 2);
 	five_steps = 2.2 * n * log_m_ceil(n, 5) + n * (log_m_ceil(n, 5) % 2);
-	// ps->max_symbols = (four_steps < five_steps) ? 4 : 5;
+	ps->max_symbols = (four_steps < five_steps) ? 4 : 5;
+	// printf("");
 	//////
-	ps->max_symbols = 5;
+	// ps->max_symbols = 4;
+	// ps->max_symbols = 5;
 	/////
 	n = exponential(ps->max_symbols, log_m_ceil(ps->len, ps->max_symbols));
-	// if (ps->len == n)
-		// ps->n_parts = ps->max_symbols;
-	// else
-	// {
-		// n /= ps->max_symbols;
-		// ps->n_parts = ps->len / n + (ps->len % n != 0);
-	// }
 	sort(ps);
 }
