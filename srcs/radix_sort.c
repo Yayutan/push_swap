@@ -101,6 +101,5 @@ void			radix_sort(t_ps *ps)
 	four_steps = 2.0 * n * log_m_ceil(n, 4) + n * (log_m_ceil(n, 4) % 2);
 	five_steps = 2.2 * n * log_m_ceil(n, 5) + n * (log_m_ceil(n, 5) % 2);
 	ps->max_symbols = (four_steps < five_steps) ? 4 : 5;
-	n = exponential(ps->max_symbols, log_m_ceil(ps->len, ps->max_symbols));
 	sort(ps);
 }
