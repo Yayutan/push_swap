@@ -88,6 +88,7 @@ int			read_file(t_ckr *ckr)
 	if (ckr->fd == 0)
 		return (0);
 	ft_printf("Enter file to read, followed by <Enter>\n");
+	file_name = NULL;
 	if (get_next_line(0, &file_name) <= 0)
 	{
 		(file_name) ? free(file_name) : (file_name = NULL);
