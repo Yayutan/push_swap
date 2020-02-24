@@ -69,5 +69,6 @@ int					selection_sort(t_ps *ps)
 		sorted[nxt_sort]->index = nxt_sort;
 		nxt_sort++;
 	}
+	free(sorted);
 	return (1);
 }

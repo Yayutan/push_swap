@@ -54,7 +54,7 @@ char				*dequeue(t_queue *q)
 	t_str_node	*hd;
 
 	if (!q || !(q->head))
-		return ("-42");
+		return (NULL);
 	hd = q->head;
 	to_ret = NULL;
 	if (q->size == 1)
