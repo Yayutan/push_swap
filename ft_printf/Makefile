@@ -127,6 +127,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 clean:
 	@/bin/rm -rf $(OBJ_PATH)
+	@/bin/rm -rf $(NAME)
 	@echo $(RED)"Removed ft_printf object files"$(CLEAR)
 
 fclean:

@@ -15,9 +15,9 @@
 static void		draw_and_sleep(t_stack a, t_stack b, t_ani *ani, int size)
 {
 	draw_stacks(a, b, ani);
-	pthread_mutex_lock(&g_lock);
+	pthread_mutex_lock(&ani->mutex);
 	usleep((size <= 300) ? ani->util->time_int * 50000 : 250000);
-	pthread_mutex_unlock(&g_lock);
+	pthread_mutex_unlock(&ani->mutex);
 }
 
 int				auto_exe_ins(t_ckr *ckr)
@@ -31,9 +31,9 @@ int				auto_exe_ins(t_ckr *ckr)
 	cur = ckr->ins->head;
 	while (cur)
 	{
-		pthread_mutex_lock(&g_lock);
+		pthread_mutex_lock(&ckr->ani->mutex);
 		lock = (ckr->ani) ? ckr->ani->util->lock : 0;
-		pthread_mutex_unlock(&g_lock);
+		pthread_mutex_unlock(&ckr->ani->mutex);
 		if (lock)
 			continue ;
 		ex_instruction(ckr->a, ckr->b, cur->data);
@@ -58,9 +58,9 @@ int				step_exe_ins(t_ckr *ckr)
 	cur = ckr->ins->head;
 	while (cur)
 	{
-		pthread_mutex_lock(&g_lock);
+		pthread_mutex_lock(&ckr->ani->mutex);
 		steps_to_do = ckr->ani->util->steps - steps;
-		pthread_mutex_unlock(&g_lock);
+		pthread_mutex_unlock(&ckr->ani->mutex);
 		steps += steps_to_do;
 		while (steps_to_do-- > 0)
 		{

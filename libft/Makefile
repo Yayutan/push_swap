@@ -100,6 +100,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 
 clean:
 	@/bin/rm -rf $(OBJ_PATH)
+	@/bin/rm -rf $(NAME)
 	@echo $(RED)"Removed libft object files"$(CLEAR)
 
 fclean:

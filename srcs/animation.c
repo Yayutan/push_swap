@@ -49,6 +49,7 @@ void				free_ani(t_ani *ani)
 			}
 			free(ani->util);
 		}
+		pthread_mutex_destroy(&ani->mutex);
 		free(ani);
 	}
 }
@@ -84,7 +85,7 @@ static t_draw_util	*setup_draw(t_stack a)
 
 static int			key_handler(int k, t_ani *ani)
 {
-	pthread_mutex_lock(&g_lock);
+	pthread_mutex_lock(&ani->mutex);
 	if (ani)
 	{
 		if (k == 53)
@@ -106,7 +107,7 @@ static int			key_handler(int k, t_ani *ani)
 		else if (k == 1)
 			ani->util->steps++;
 	}
-	pthread_mutex_unlock(&g_lock);
+	pthread_mutex_unlock(&ani->mutex);
 	return (0);
 }
 
@@ -120,6 +121,8 @@ t_ani				*animation(t_stack a)
 	if (!(ani->util = setup_draw(a)))
 		return (NULL);
 	if (!(ani->mlx = mlx_init()))
+		return (NULL);
+	if (pthread_mutex_init(&ani->mutex, NULL))
 		return (NULL);
 	if (!(ani->win = mlx_new_window(ani->mlx, 750, 600, "checker")))
 		return (NULL);
